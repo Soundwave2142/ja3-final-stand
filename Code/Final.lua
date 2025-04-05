@@ -1,16 +1,24 @@
+--- ===================================================================================================================
+--- Responsible for all ending related functionality.
+---
+--- @author Soundwave2142
+--- ===================================================================================================================
+
 function OnMsg.SatelliteTick()
     if not IsFinalStand() then
         return
     end
 
-    if Game.FinalStand.currentWave >= Game.FinalStand.maxWaves then
+    if GetFinalStandCurrentWave() >= GetFinalStandMaxWaves() then
+        -- TODO: test or remove.
         --- FinalStandFinale:StartEnding()
     end
 end
 
 DefineClass.FinalStandFinale = {
     outroMsg = Untranslated(
-        "You survived your Final Stand, Congratulations! The locations is secured for now and you can rest, for now..."
+        [[You survived your Final Stand, Congratulations!
+        The locations is secured for now and you can rest, for now...]]
     ),
 }
 

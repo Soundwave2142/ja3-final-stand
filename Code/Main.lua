@@ -1,3 +1,9 @@
+--- ===================================================================================================================
+--- Responsible for all main game functionality.
+---
+--- @author Soundwave2142
+--- ===================================================================================================================
+
 -- TODO: OPTIONAL fix map icons on save load
 function OnMsg.PreLoadSessionData()
     if not IsFinalStand() then
@@ -23,20 +29,20 @@ function OnMsg.ConflictEnd()
     Game.FinalStand.currentWaveStarted = false
     Msg("FinalStandWaveEnded")
 
-    if Game.FinalStand.currentWave >= Game.FinalStand.maxWaves then
+    if GetFinalStandCurrentWave() >= GetFinalStandMaxWaves() then
         FinalStandFinale:StartEnding()
     else
-        FinalStandSquadScheduler:__exec()
+        FinalStandSquadScheduler:Schedule()
         FinalStandRewardProvider:GiveRewards()
     end
 end
 
---- ====================================================================================================
---- Spawner Definitions:
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandSquadSpawner
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandSquadSpawner = {}
 
+--- @return boolean
 function FinalStandSquadSpawner:isTimeToSpawn()
     if not Game['FinalStand'] then
         return false
@@ -65,7 +71,7 @@ end
 
 --- @return table
 function FinalStandSquadSpawner:PickSquads()
-    local currentWave = Game.FinalStand.currentWave
+    local currentWave = GetFinalStandCurrentWave()
     local EnemyFaction = GetFinalStandEnemyFaction()
 
     local squads = {}
@@ -83,10 +89,9 @@ function FinalStandSquadSpawner:PickSquads()
     return squads
 end
 
---- ====================================================================================================
---- Reward Provider Definitions:
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandRewardProvider
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandRewardProvider = {}
 
 function FinalStandRewardProvider:GiveRewards()
@@ -96,8 +101,16 @@ function FinalStandRewardProvider:GiveRewards()
 end
 
 function FinalStandRewardProvider:GiveMoney()
-    local modifiers = { faction = GetFinalStandEnemyFactionValue('moneyModifier') --[[TODO:GetFinalStandWaveValue]] }
-    local baseValue = { default = GetFinalStandConfigValue('baseMoney') }
+    local baseValue = {
+        default = GetFinalStandConfigValue('baseMoney')
+    }
+
+    local modifiers = {
+        faction = GetFinalStandFriendlyFactionValue('moneyModifier'),
+        enemyFaction = GetFinalStandEnemyFactionValue('moneyModifier')
+        -- TODO: add reward based on wave
+    }
+
     local flatBonuses = {}
 
     Msg('FinalStandRewardMoney', baseValue, modifiers, flatBonuses)
@@ -105,33 +118,46 @@ function FinalStandRewardProvider:GiveMoney()
 end
 
 function FinalStandRewardProvider:GiveXP()
-    local modifiers = { faction = GetFinalStandEnemyFactionValue('xpModifier') --[[TODO:GetFinalStandWaveValue]] }
-    local baseValue = { default = GetFinalStandConfigValue('baseXp') }
+    local baseValue = {
+        default = GetFinalStandConfigValue('baseXp')
+    }
+
+    local modifiers = {
+        faction = GetFinalStandFriendlyFactionValue('xpModifier'),
+        enemyFaction = GetFinalStandEnemyFactionValue('xpModifier')
+        -- TODO: add reward based on wave
+    }
+
     local flatBonuses = {}
 
     Msg('FinalStandRewardXP', baseValue, modifiers, flatBonuses)
     local xpReward = self:CalculateValue(baseValue, modifiers, flatBonuses)
 
     local units = GetAllPlayerUnitsOnMap()
-    for key, unit in ipairs(units) do
+    for _, unit in ipairs(units) do
         UnitGainXP(unit, xpReward)
     end
 end
 
 function FinalStandRewardProvider:CalculateValue(baseValue, modifiers, flatBonuses)
-    local finalReward = 0
-
-    for key, value in pairs(baseValue) do
-        finalReward = finalReward + value
+    -- first, add up all base reward values
+    local baseReward = 0
+    for _, value in pairs(baseValue) do
+        baseReward = baseReward + value
     end
 
-    for key, modifier in pairs(modifiers) do
+    -- second, take base reward and modify it for each of the modifiers and subract base reward from it
+    local finalReward = baseReward
+    for _, modifier in pairs(modifiers) do
         if modifier > 0 then
-            finalReward = MulDivRound(finalReward, 100 + modifier, 100)
+            finalReward = finalReward + (MulDivRound(baseReward, 100 + modifier, 100) - baseReward)
         end
     end
 
-    for key, flatBonus in pairs(flatBonuses) do
+    print("Calculating reward:", baseReward, modifiers, finalReward)
+
+    -- lastly, add any flat bonuses if present
+    for _, flatBonus in pairs(flatBonuses) do
         finalReward = finalReward + flatBonus
     end
 
@@ -139,18 +165,26 @@ function FinalStandRewardProvider:CalculateValue(baseValue, modifiers, flatBonus
 end
 
 function FinalStandRewardProvider:RestockBobby()
-    if not BobbyRayShopIsUnlocked() then
-        return
-    end
+    local unlockedTier = BobbyRayShopGetUnlockedTier()
 
     local bobbyRayValues = {
-        nextTear = BobbyRayShopGetUnlockedTier() + 1,
-        nextRestock = Game.FinalStand.scheduledStand
+        nextTier = (unlockedTier and unlockedTier or 0) + 1,
+        nextRestock = Game.FinalStand.scheduledStand,
+        modifierStandard = 100,
+        modifierUsed = 100
     }
 
     Msg('FinalStandBobbyRayRestock', bobbyRayValues)
+    print("Final Stand: Restocking Bobby -", bobbyRayValues)
 
     -- TODO: add tier per wave modifier
-    SetQuestVar(QuestGetState("BobbyRayQuest"), "UnlockedTier", bobbyRayValues.nextTear)
-    SetQuestVar(QuestGetState("BobbyRayQuest"), "RestockTimer", bobbyRayValues.nextRestock)
+    SetQuestVar(QuestGetState("BobbyRayQuest"), "UnlockedTier", bobbyRayValues.nextTier)
+
+    if bobbyRayValues.nextTier > 0 then
+        BobbyRayStoreRestock(bobbyRayValues.modifierStandard, bobbyRayValues.modifierUsed)
+    end
+
+    if Game.FinalStand.scheduledStand >= Game.CampaignTime then
+        SetQuestVar(QuestGetState("BobbyRayQuest"), "RestockTimer", bobbyRayValues.nextRestock)
+    end
 end

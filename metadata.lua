@@ -11,13 +11,13 @@ return PlaceObj('ModDef', {
 	'id', "bzoQECK",
 	'author', "Soundwave2142",
 	'version_minor', 50,
-	'version', 697,
+	'version', 815,
 	'lua_revision', 233360,
 	'saved_with_revision', 366685,
 	'code', {
 		"Code/Common.lua",
 		"Code/CampaignConfigDefs.lua",
-		"Code/CampaignEffectsDefs.lua",
+		"Code/CampaignEffectDefs.lua",
 		"Code/FactionDefs.lua",
 		"Code/AppearanceDefs.lua",
 		"Code/Appearance.lua",
@@ -32,8 +32,8 @@ return PlaceObj('ModDef', {
 	},
 	'default_options', {},
 	'has_data', true,
-	'saved', 1743244887,
-	'code_hash', 6449214677327764613,
+	'saved', 1743775348,
+	'code_hash', 8275633575255090762,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CampaignPreset",
@@ -56,43 +56,48 @@ return PlaceObj('ModDef', {
 			'ClassDisplayName', "Final Stand Friendly Faction",
 		}),
 		PlaceObj('ModResourcePreset', {
-			'Class', "FinalStandFriendlyFactionDef",
-			'Id', "Rebels",
-			'ClassDisplayName', "Final Stand Friendly Faction",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "FinalStandFriendlyFactionDef",
-			'Id', "Legion",
-			'ClassDisplayName', "Final Stand Friendly Faction",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "FinalStandFriendlyFactionDef",
-			'Id', "Adonis",
-			'ClassDisplayName', "Final Stand Friendly Faction",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "FinalStandFriendlyFactionDef",
-			'Id', "Army",
-			'ClassDisplayName', "Final Stand Friendly Faction",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "FinalStandFriendlyFactionDef",
-			'Id', "SuperSoldiers",
-			'ClassDisplayName', "Final Stand Friendly Faction",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "FinalStandAttirePoolDef",
-			'Id', "Rebels",
-			'ClassDisplayName', "Final Stand Attire Pool",
-		}),
-		PlaceObj('ModResourcePreset', {
 			'Class', "FinalStandAttirePoolDef",
 			'Id', "Militia",
 			'ClassDisplayName', "Final Stand Attire Pool",
 		}),
 		PlaceObj('ModResourcePreset', {
+			'Class', "FinalStandFriendlyFactionDef",
+			'Id', "Rebels",
+			'ClassDisplayName', "Final Stand Friendly Faction",
+		}),
+		PlaceObj('ModResourcePreset', {
 			'Class', "FinalStandAttirePoolDef",
-			'Id', "SuperSoldiers",
+			'Id', "Rebels",
+			'ClassDisplayName', "Final Stand Attire Pool",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "FinalStandAttirePoolDef",
+			'Id', "RebelsLeader",
+			'ClassDisplayName', "Final Stand Attire Pool",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "FinalStandAttirePoolDef",
+			'Id', "RebelsMechanic",
+			'ClassDisplayName', "Final Stand Attire Pool",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "FinalStandAttirePoolDef",
+			'Id', "RebelsDoctor",
+			'ClassDisplayName', "Final Stand Attire Pool",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "FinalStandAttirePoolDef",
+			'Id', "RebelsExplosive",
+			'ClassDisplayName', "Final Stand Attire Pool",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "FinalStandAttirePoolDef",
+			'Id', "RebelsMarksmen",
+			'ClassDisplayName', "Final Stand Attire Pool",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "FinalStandAttirePoolDef",
+			'Id', "RebelsAllRounder",
 			'ClassDisplayName', "Final Stand Attire Pool",
 		}),
 		PlaceObj('ModResourcePreset', {
@@ -117,7 +122,7 @@ return PlaceObj('ModDef', {
 		}),
 		PlaceObj('ModResourcePreset', {
 			'Class', "FinalStandAttirePoolDef",
-			'Id', "GeneralSniper",
+			'Id', "GeneralMarksmen",
 			'ClassDisplayName', "Final Stand Attire Pool",
 		}),
 		PlaceObj('ModResourcePreset', {
@@ -159,6 +164,76 @@ return PlaceObj('ModDef', {
 			'Class', "FinalStandLengthDef",
 			'Id', "SevenWaves",
 			'ClassDisplayName', "Final Stand Length",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "isFinalStand",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandSelected",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandBeforeUIInsert",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandUIInserted",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandUIRemoved",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandGameConfigured",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandWaveScheduled",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandAttackSquadSpawning",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandAppearanceOptionsLoaded",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandWaveEnded",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandRewardMoney",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandRewardXP",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandBobbyRayRestock",
+			'ClassDisplayName', "Message definition",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "MsgDef",
+			'Id', "FinalStandCampaignEnding",
+			'ClassDisplayName', "Message definition",
 		}),
 		PlaceObj('ModResourcePreset', {
 			'Class', "UnitDataCompositeDef",

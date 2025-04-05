@@ -69,7 +69,7 @@ function OnMsg.FinalStandWaveEnded()
         return
     end
 
-    if Game.FinalStand.currentWave >= Game.FinalStand.maxWaves then
+    if GetFinalStandCurrentWave() >= GetFinalStandMaxWaves() then
         print("Final Stand: Wave", Game.FinalStand.currentWave, "ended, playing finale.")
     else
         print("Final Stand: Wave", Game.FinalStand.currentWave, "ended, starting next one.")

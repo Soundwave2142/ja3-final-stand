@@ -13,14 +13,11 @@
 --- Extend CampaignPreset with additional FinalStand related parameters
 --- ===================================================================================================================
 
-CAMPAIGN_IS_FINAL_STAND = 'IsFinalStand'
-CAMPAIGN_FINAL_STAND_CONFIGS = 'FinalStandConfigs'
-
 AppendClass.CampaignPreset = {
     properties = {
         {
             category = "FinalStand",
-            id = CAMPAIGN_IS_FINAL_STAND,
+            id = 'IsFinalStand',
             name = "Is Final Stand",
             editor = "bool",
             default = false,
@@ -28,7 +25,7 @@ AppendClass.CampaignPreset = {
         },
         {
             category = "FinalStand",
-            id = CAMPAIGN_FINAL_STAND_CONFIGS,
+            id = 'FinalStandConfigs',
             name = "Configs",
             editor = "nested_list",
             default = false,

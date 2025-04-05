@@ -13,11 +13,7 @@ return {
 			DisclaimerOnStart = T(343258375424, --[[ModItemCampaignPreset FinalStand DisclaimerOnStart]] "Welcome to the Final Stand game mode. The premise is simple: survive the set amount of waves to win.\n\nEach time the enemy wave is coming, it is displayed on the game timeline. Each time you defeat the enemy wave, you will receive monetary compensation, and your mercs will gain an XP boost. \nIt's up to you to choose your roster, and BobbyRayShop is restocked every wave, but mercs and gear still take time to arrive, so plan accordingly.\n\nGood luck!"),
 			DisplayName = T(500039653974, --[[ModItemCampaignPreset FinalStand DisplayName]] "Final Stand"),
 			EffectsOnStart = {
-				PlaceObj('BobbyRaySetState', {
-					State = 1,
-				}),
-				PlaceObj('BobbyRayRestockShop', {}),
-				PlaceObj('FinalStandSquadScheduler', {}),
+				PlaceObj('FinalStandSquadScheduleAttack', {}),
 			},
 			FinalStandConfigs = {
 				PlaceObj('CampaignPresetFinalStandConfig', {
@@ -173,11 +169,11 @@ return {
 						'AttirePool', "GeneralMechanic",
 					}),
 					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "GeneralSniper",
+						'AttirePool', "GeneralMarksmen",
 					}),
 				},
 				NameColor = 4286226623,
-				comment = "Faster, cheaper sector operations and train other rebels.",
+				comment = "Faster and cheaper sector operations, ability to train other rebels",
 				display_name = T(315086321064, --[[ModItemFinalStandFriendlyFactionDef Militia display_name]] "Militia"),
 				display_name_caps = T(838090083518, --[[ModItemFinalStandFriendlyFactionDef Militia display_name_caps]] "MILITIA"),
 				group = "Default",
@@ -185,124 +181,6 @@ return {
 				moneyModifier = 5,
 				xpModifier = 5,
 			}),
-			PlaceObj('ModItemFinalStandFriendlyFactionDef', {
-				AttireHead = {},
-				AttirePools = {
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "Rebels",
-					}),
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "General",
-					}),
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "GeneralDoctor",
-					}),
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "GeneralExplosives",
-					}),
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "GeneralLeader",
-					}),
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "GeneralMechanic",
-					}),
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "GeneralSniper",
-					}),
-				},
-				NameColor = 4286226623,
-				SortKey = 2,
-				comment = "Faster BobbyRay and higher tier or start",
-				display_name = T(943600656612, --[[ModItemFinalStandFriendlyFactionDef Rebels display_name]] "Maquis Rebels"),
-				display_name_caps = T(960626436378, --[[ModItemFinalStandFriendlyFactionDef Rebels display_name_caps]] "MAQUIS REBELS"),
-				group = "Default",
-				id = "Rebels",
-				moneyModifier = -10,
-				xpModifier = -10,
-			}),
-			PlaceObj('ModItemFinalStandFriendlyFactionDef', {
-				NameColor = 4286226623,
-				comment = "(?) become inspired on turn start",
-				display_name = T(360918977847, --[[ModItemFinalStandFriendlyFactionDef Legion display_name]] "Legion"),
-				display_name_caps = T(895157514525, --[[ModItemFinalStandFriendlyFactionDef Legion display_name_caps]] "LEGION"),
-				group = "Default",
-				id = "Legion",
-				moneyModifier = 10,
-				xpModifier = 10,
-			}),
-			PlaceObj('ModItemFinalStandFriendlyFactionDef', {
-				NameColor = 4286226623,
-				display_name = T(504254309118, --[[ModItemFinalStandFriendlyFactionDef Adonis display_name]] "Adonis"),
-				group = "Default",
-				id = "Adonis",
-			}),
-			PlaceObj('ModItemFinalStandFriendlyFactionDef', {
-				NameColor = 4286226623,
-				display_name = T(260941891200, --[[ModItemFinalStandFriendlyFactionDef Army display_name]] "Grand Chien Army"),
-				display_name_caps = T(941933846956, --[[ModItemFinalStandFriendlyFactionDef Army display_name_caps]] "GRAND CHIEN ARMY"),
-				group = "Default",
-				id = "Army",
-			}),
-			PlaceObj('ModItemFinalStandFriendlyFactionDef', {
-				AttireHead = {},
-				AttirePools = {
-					PlaceObj('FinalStandFactionAttire', {
-						'AttirePool', "SuperSoldiers",
-					}),
-				},
-				NameColor = 4286226623,
-				SortKey = 4,
-				comment = "No BobbyRay, given loudout on start",
-				description = T(893207216152, --[[ModItemFinalStandFriendlyFactionDef SuperSoldiers description]] "ALSO KNOWN AS LALALAL"),
-				display_name = T(434246802930, --[[ModItemFinalStandFriendlyFactionDef SuperSoldiers display_name]] "Landsbach's SuperSoldiers"),
-				group = "Default",
-				id = "SuperSoldiers",
-				moneyModifier = 5,
-				xpModifier = 5,
-			}),
-			PlaceObj('ModItemFinalStandAttirePoolDef', {
-				Colors = {
-					PlaceObj('ColorizationPropSet', {
-						'EditableColor1', RGBA(57, 88, 27, 255),
-						'EditableRoughness1', 37,
-						'EditableColor2', RGBA(161, 126, 82, 255),
-						'EditableColor3', RGBA(161, 131, 94, 255),
-					}),
-					PlaceObj('ColorizationPropSet', {
-						'EditableColor1', RGBA(123, 58, 58, 255),
-						'EditableColor2', RGBA(68, 107, 29, 255),
-						'EditableColor3', RGBA(31, 43, 20, 255),
-					}),
-					PlaceObj('ColorizationPropSet', {
-						'EditableColor1', RGBA(46, 60, 39, 255),
-						'EditableColor2', RGBA(11, 11, 11, 255),
-						'EditableColor3', RGBA(14, 14, 14, 255),
-					}),
-				},
-				Hat = {
-					PlaceObj('FinalStandAttirePoolHat', {
-						'Gender', "Male",
-						'Hat', "MilitiaCostumeMale_Mask_01",
-						'HatSpot', "Origin",
-					}),
-					PlaceObj('FinalStandAttirePoolHat', {
-						'Hat', "FactionMale_Hat_07",
-					}),
-				},
-				NameColor = 4286226623,
-				Pants = {
-					PlaceObj('FinalStandAttirePoolPants', {
-						'Gender', "Male",
-						'Pants', "Faction_GrandChien_Bottom_03",
-					}),
-					PlaceObj('FinalStandAttirePoolPants', {
-						'Gender', "Female",
-						'Pants', "NPCCostumeFemale_Pants_05",
-					}),
-				},
-				group = "Default",
-				id = "Rebels",
-			}),
 			PlaceObj('ModItemFinalStandAttirePoolDef', {
 				Colors = {
 					PlaceObj('ColorizationPropSet', {
@@ -346,69 +224,816 @@ return {
 				group = "Default",
 				id = "Militia",
 			}),
-			PlaceObj('ModItemFinalStandAttirePoolDef', {
-				Body = {
-					PlaceObj('FinalStandAttirePoolBody', {
-						'Gender', "Male",
-						'Body', "Faction_GrandChien_Top_09",
-						'BodyColorKey', "EditableColor1",
-					}),
-					PlaceObj('FinalStandAttirePoolBody', {
-						'Gender', "Female",
-						'Body', "NPCCostumeFemale_Shirt_01",
-						'BodyColorKey', "EditableColor2",
-					}),
-				},
-				Colors = {
-					PlaceObj('ColorizationPropSet', {
-						'EditableColor1', RGBA(16, 6, 4, 255),
-						'EditableRoughness1', 37,
-						'EditableColor2', RGBA(16, 6, 4, 255),
-						'EditableColor3', RGBA(16, 6, 4, 255),
-					}),
-				},
-				Hat = {
-					PlaceObj('FinalStandAttirePoolHat', {
-						'Hat', "FactionMale_Hat_08",
-					}),
-				},
-				NameColor = 4286226623,
-				Pants = {
-					PlaceObj('FinalStandAttirePoolPants', {
-						'Gender', "Male",
-						'Pants', "Faction_GrandChien_Bottom_04",
-					}),
-					PlaceObj('FinalStandAttirePoolPants', {
-						'Gender', "Female",
-						'Pants', "NPCCostumeFemale_Pants_05",
-					}),
-				},
-				group = "Default",
-				id = "SuperSoldiers",
-			}),
+			PlaceObj('ModItemFolder', {
+				'name', "Rebels",
+			}, {
+				PlaceObj('ModItemFinalStandFriendlyFactionDef', {
+					AttireHead = {},
+					AttirePools = {
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "Rebels",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "RebelsAllRounder",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "RebelsExplosive",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "RebelsMarksmen",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "RebelsLeader",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "RebelsMechanic",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "RebelsDoctor",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "General",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "GeneralDoctor",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "GeneralExplosives",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "GeneralLeader",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "GeneralMechanic",
+						}),
+						PlaceObj('FinalStandFactionAttire', {
+							'AttirePool', "GeneralMarksmen",
+						}),
+					},
+					NameColor = 4286226623,
+					Parameters = {
+						PlaceObj('PresetParamNumber', {
+							'Name', "bobbyRayTierModifier",
+							'Value', 1,
+							'Tag', "<bobbyRayTierModifier>",
+						}),
+						PlaceObj('PresetParamPercent', {
+							'Name', "bobbyRaySpeedModifier",
+							'Value', -50,
+							'Tag', "<bobbyRaySpeedModifier>%",
+						}),
+					},
+					SortKey = 2,
+					comment = "Faster BobbyRay delivery and higher tier each restock start",
+					description = T(804842149252, --[[ModItemFinalStandFriendlyFactionDef Rebels description]] "<color 21 132 138> test </color> test"),
+					display_name = T(943600656612, --[[ModItemFinalStandFriendlyFactionDef Rebels display_name]] "Maquis Rebels"),
+					display_name_caps = T(960626436378, --[[ModItemFinalStandFriendlyFactionDef Rebels display_name_caps]] "MAQUIS REBELS"),
+					group = "Default",
+					id = "Rebels",
+					moneyModifier = -10,
+					msg_reactions = {
+						PlaceObj('MsgReaction', {
+							Event = "FinalStandBobbyRayRestock",
+							Handler = function (self, bobbyRayValues)
+								if not IsFinalStand() then return end
+								if not self.id == GetFinalStandFriendlyFaction(true) then return end
+								
+								bobbyRayValues.nextTier = bobbyRayValues.nextTier + self:ResolveValue("bobbyRayTierModifier")
+							end,
+							param_bindings = false,
+						}),
+						PlaceObj('MsgReaction', {
+							Event = "BobbyRayShopShipmentSent",
+							Handler = function (self, shipment_details)
+								if not IsFinalStand() then return end
+								if not self.id == GetFinalStandFriendlyFaction(true) then return end
+								
+								local original_time = shipment_details.due_time - Game.CampaignTime
+								local time_modified = (MulDivRound(original_time, 100 + self:ResolveValue("bobbyRaySpeedModifier"), 100) - original_time)
+								
+								local new_due_time = Game.CampaignTime + time_modified
+								shipment_details.due_time = new_due_time
+							end,
+							param_bindings = false,
+						}),
+					},
+					xpModifier = -10,
+				}),
+				PlaceObj('ModItemFinalStandAttirePoolDef', {
+					Hat = {
+						PlaceObj('FinalStandAttirePoolHat', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(44, 22, 13, 255),
+									'EditableColor2', RGBA(10, 4, 2, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+							},
+							'Hat', "FactionMale_Hat_07",
+							'HatAttachOffsetX', -4,
+							'HatAttachOffsetY', -2,
+						}),
+					},
+					NameColor = 4286226623,
+					group = "Default",
+					id = "Rebels",
+				}),
+				PlaceObj('ModItemFinalStandAttirePoolDef', {
+					Body = {
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(18, 8, 5, 255),
+									'EditableColor2', RGBA(43, 38, 32, 255),
+									'EditableColor3', RGBA(9, 7, 5, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Body', "Faction_Rebels_Top_Comander",
+							'BodyColorKey', "EditableColor1",
+						}),
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(18, 8, 5, 255),
+									'EditableColor2', RGBA(43, 38, 32, 255),
+									'EditableColor3', RGBA(9, 7, 5, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Body', "NPCCostumeFemale_Shirt_01",
+							'BodyColorKey', "EditableColor2",
+						}),
+					},
+					Hat = {
+						PlaceObj('FinalStandAttirePoolHat', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(25, 39, 24, 255),
+									'EditableColor2', RGBA(51, 85, 48, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+							},
+							'Gender', "Male",
+							'RollForHat2', false,
+							'Hat', "MilitiaCostumeMale_Mask_01",
+							'HatSpot', "Origin",
+						}),
+					},
+					NameColor = 4286226623,
+					Pants = {
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(29, 24, 24, 255),
+									'EditableColor2', RGBA(28, 24, 21, 255),
+									'EditableColor3', RGBA(10, 6, 4, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Pants', "Faction_GrandChien_Bottom_03",
+						}),
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(29, 24, 24, 255),
+									'EditableColor2', RGBA(28, 24, 21, 255),
+									'EditableColor3', RGBA(10, 6, 4, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Pants', "EquipmentFemale_Pants_03",
+						}),
+					},
+					Specialization = "Leader",
+					group = "Default",
+					id = "RebelsLeader",
+				}),
+				PlaceObj('ModItemFinalStandAttirePoolDef', {
+					Body = {
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(26, 11, 6, 255),
+									'EditableColor2', RGBA(61, 78, 28, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(41, 25, 13, 255),
+									'EditableColor2', RGBA(23, 38, 29, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(84, 42, 15, 255),
+									'EditableColor2', RGBA(46, 39, 21, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Body', "Faction_Rebels_Top_Artillery",
+							'BodyColorKey', "EditableColor1",
+						}),
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(26, 11, 6, 255),
+									'EditableColor2', RGBA(61, 78, 28, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(41, 25, 13, 255),
+									'EditableColor2', RGBA(23, 38, 29, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(84, 42, 15, 255),
+									'EditableColor2', RGBA(46, 39, 21, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Body', "NPCCostumeFemale_Shirt_01",
+							'BodyColorKey', "EditableColor2",
+						}),
+					},
+					Hat = {
+						PlaceObj('FinalStandAttirePoolHat', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(25, 39, 24, 255),
+									'EditableColor2', RGBA(51, 85, 48, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+							},
+							'Gender', "Male",
+							'RollForHat2', false,
+							'Hat', "MilitiaCostumeMale_Mask_01",
+							'HatSpot', "Origin",
+						}),
+					},
+					NameColor = 4286226623,
+					Pants = {
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(69, 58, 39, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(40, 56, 39, 255),
+									'EditableColor2', RGBA(192, 103, 55, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(32, 35, 25, 255),
+									'EditableColor2', RGBA(44, 38, 29, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Pants', "Faction_GrandChien_Bottom_01",
+						}),
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(69, 58, 39, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(40, 56, 39, 255),
+									'EditableColor2', RGBA(192, 103, 55, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(32, 35, 25, 255),
+									'EditableColor2', RGBA(44, 38, 29, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Pants', "EquipmentFemale_Pants_01",
+						}),
+					},
+					Specialization = "Mechanic",
+					group = "Default",
+					id = "RebelsMechanic",
+				}),
+				PlaceObj('ModItemFinalStandAttirePoolDef', {
+					Body = {
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(19, 9, 7, 255),
+									'EditableColor2', RGBA(151, 148, 140, 255),
+									'EditableColor3', RGBA(152, 16, 16, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(19, 9, 7, 255),
+									'EditableColor2', RGBA(72, 78, 57, 255),
+									'EditableColor3', RGBA(152, 16, 16, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(19, 9, 7, 255),
+									'EditableColor2', RGBA(80, 65, 50, 255),
+									'EditableColor3', RGBA(152, 16, 16, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Body', "Faction_Rebels_Top_Medic",
+							'BodyColorKey', "EditableColor1",
+						}),
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(19, 9, 7, 255),
+									'EditableColor2', RGBA(151, 148, 140, 255),
+									'EditableColor3', RGBA(152, 16, 16, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(19, 9, 7, 255),
+									'EditableColor2', RGBA(72, 78, 57, 255),
+									'EditableColor3', RGBA(152, 16, 16, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(19, 9, 7, 255),
+									'EditableColor2', RGBA(80, 65, 50, 255),
+									'EditableColor3', RGBA(152, 16, 16, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Body', "NPCCostumeFemale_Shirt_01",
+							'BodyColorKey', "EditableColor2",
+						}),
+					},
+					Hat = {
+						PlaceObj('FinalStandAttirePoolHat', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(255, 255, 255, 255),
+									'EditableColor2', RGBA(0, 0, 0, 255),
+									'EditableColor3', RGBA(9, 40, 7, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(190, 190, 190, 255),
+									'EditableColor2', RGBA(0, 0, 0, 255),
+									'EditableColor3', RGBA(9, 40, 7, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(166, 160, 141, 255),
+									'EditableColor2', RGBA(0, 0, 0, 255),
+									'EditableColor3', RGBA(9, 40, 7, 255),
+								}),
+							},
+							'RollForHat2', false,
+							'Hat', "FactionMale_Hat_08",
+						}),
+					},
+					NameColor = 4286226623,
+					Pants = {
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(26, 23, 23, 255),
+									'EditableColor3', RGBA(13, 11, 11, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(27, 37, 31, 255),
+									'EditableColor2', RGBA(26, 23, 23, 255),
+									'EditableColor3', RGBA(13, 11, 11, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(44, 46, 40, 255),
+									'EditableColor2', RGBA(166, 121, 77, 255),
+									'EditableColor3', RGBA(13, 11, 11, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Pants', "Faction_GrandChien_Bottom_03",
+						}),
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(26, 23, 23, 255),
+									'EditableColor3', RGBA(13, 11, 11, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(27, 37, 31, 255),
+									'EditableColor2', RGBA(26, 23, 23, 255),
+									'EditableColor3', RGBA(13, 11, 11, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(44, 46, 40, 255),
+									'EditableColor2', RGBA(166, 121, 77, 255),
+									'EditableColor3', RGBA(13, 11, 11, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Pants', "EquipmentFemale_Pants_02",
+						}),
+					},
+					Specialization = "Doctor",
+					group = "Default",
+					id = "RebelsDoctor",
+				}),
+				PlaceObj('ModItemFinalStandAttirePoolDef', {
+					Body = {
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(18, 8, 5, 255),
+									'EditableColor2', RGBA(43, 38, 32, 255),
+									'EditableColor3', RGBA(9, 7, 5, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Body', "Faction_Rebels_Top_Comander",
+							'BodyColorKey', "EditableColor1",
+						}),
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(18, 8, 5, 255),
+									'EditableColor2', RGBA(43, 38, 32, 255),
+									'EditableColor3', RGBA(9, 7, 5, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Body', "NPCCostumeFemale_Shirt_01",
+							'BodyColorKey', "EditableColor2",
+						}),
+					},
+					Hat = {
+						PlaceObj('FinalStandAttirePoolHat', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(62, 8, 8, 255),
+									'EditableColor2', RGBA(26, 23, 23, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(55, 30, 15, 255),
+									'EditableColor2', RGBA(26, 23, 23, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+							},
+							'Gender', "Male",
+							'RollForHat2', false,
+							'Hat', "MilitiaCostumeMale_Mask_01",
+							'HatSpot', "Origin",
+						}),
+					},
+					NameColor = 4286226623,
+					Pants = {
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(29, 24, 24, 255),
+									'EditableColor2', RGBA(28, 24, 21, 255),
+									'EditableColor3', RGBA(10, 6, 4, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Pants', "Faction_GrandChien_Bottom_03",
+						}),
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(29, 24, 24, 255),
+									'EditableColor2', RGBA(28, 24, 21, 255),
+									'EditableColor3', RGBA(10, 6, 4, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Pants', "EquipmentFemale_Pants_03",
+						}),
+					},
+					Specialization = "ExplosiveExpert",
+					group = "Default",
+					id = "RebelsExplosive",
+				}),
+				PlaceObj('ModItemFinalStandAttirePoolDef', {
+					Body = {
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(107, 46, 25, 255),
+									'EditableColor2', RGBA(90, 51, 17, 255),
+									'EditableColor3', RGBA(255, 255, 255, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Body', "Faction_Rebels_Top_Marksman",
+							'BodyColorKey', "EditableColor1",
+						}),
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(17, 6, 2, 255),
+									'EditableColor2', RGBA(34, 46, 27, 255),
+									'EditableColor3', RGBA(0, 66, 130, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(63, 33, 14, 255),
+									'EditableColor2', RGBA(44, 46, 27, 255),
+									'EditableColor3', RGBA(12, 46, 80, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(10, 4, 2, 255),
+									'EditableColor2', RGBA(10, 4, 2, 255),
+									'EditableColor3', RGBA(27, 64, 101, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Body', "Faction_Rebels_Top_Recon",
+							'BodyColorKey', "EditableColor1",
+						}),
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(26, 11, 6, 255),
+									'EditableColor2', RGBA(61, 78, 28, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(41, 25, 13, 255),
+									'EditableColor2', RGBA(23, 38, 29, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(84, 42, 15, 255),
+									'EditableColor2', RGBA(46, 39, 21, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Body', "NPCCostumeFemale_Shirt_01",
+							'BodyColorKey', "EditableColor2",
+						}),
+					},
+					Hat = {
+						PlaceObj('FinalStandAttirePoolHat', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(8, 33, 55, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(8, 18, 26, 255),
+								}),
+							},
+							'Gender', "Male",
+							'RollForHat2', false,
+							'Hat', "MilitiaCostumeMale_Mask_01",
+							'HatSpot', "Origin",
+						}),
+					},
+					NameColor = 4286226623,
+					Pants = {
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(25, 29, 24, 255),
+									'EditableColor2', RGBA(105, 105, 105, 255),
+									'EditableRoughness2', 89,
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(30, 37, 27, 255),
+									'EditableColor2', RGBA(25, 38, 18, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(25, 38, 18, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(32, 46, 38, 255),
+									'EditableColor2', RGBA(167, 104, 44, 255),
+									'EditableColor3', RGBA(13, 11, 11, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Pants', "Faction_GrandChien_Bottom_03",
+						}),
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(69, 58, 39, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(40, 56, 39, 255),
+									'EditableColor2', RGBA(192, 103, 55, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(32, 35, 25, 255),
+									'EditableColor2', RGBA(44, 38, 29, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Pants', "EquipmentFemale_Pants_01",
+						}),
+					},
+					Specialization = "Marksmen",
+					group = "Default",
+					id = "RebelsMarksmen",
+				}),
+				PlaceObj('ModItemFinalStandAttirePoolDef', {
+					Body = {
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(26, 11, 6, 255),
+									'EditableColor2', RGBA(61, 78, 28, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(41, 25, 13, 255),
+									'EditableColor2', RGBA(23, 38, 29, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(84, 42, 15, 255),
+									'EditableColor2', RGBA(46, 39, 21, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Body', "Faction_Rebels_Top_Artillery",
+							'BodyColorKey', "EditableColor1",
+						}),
+						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(26, 11, 6, 255),
+									'EditableColor2', RGBA(61, 78, 28, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(41, 25, 13, 255),
+									'EditableColor2', RGBA(23, 38, 29, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(84, 42, 15, 255),
+									'EditableColor2', RGBA(46, 39, 21, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Body', "NPCCostumeFemale_Shirt_01",
+							'BodyColorKey', "EditableColor2",
+						}),
+					},
+					Hat = {
+						PlaceObj('FinalStandAttirePoolHat', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(25, 39, 24, 255),
+									'EditableColor2', RGBA(51, 85, 48, 255),
+									'EditableColor3', RGBA(0, 0, 0, 255),
+								}),
+							},
+							'Gender', "Male",
+							'RollForHat2', false,
+							'Hat', "MilitiaCostumeMale_Mask_01",
+							'HatSpot', "Origin",
+						}),
+					},
+					NameColor = 4286226623,
+					Pants = {
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(69, 58, 39, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(40, 56, 39, 255),
+									'EditableColor2', RGBA(192, 103, 55, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(32, 35, 25, 255),
+									'EditableColor2', RGBA(44, 38, 29, 255),
+								}),
+							},
+							'Gender', "Male",
+							'Pants', "Faction_GrandChien_Bottom_01",
+						}),
+						PlaceObj('FinalStandAttirePoolPants', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(46, 60, 39, 255),
+									'EditableColor2', RGBA(69, 58, 39, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(40, 56, 39, 255),
+									'EditableColor2', RGBA(192, 103, 55, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(32, 35, 25, 255),
+									'EditableColor2', RGBA(44, 38, 29, 255),
+								}),
+							},
+							'Gender', "Female",
+							'Pants', "EquipmentFemale_Pants_01",
+						}),
+					},
+					Specialization = "AllRounder",
+					group = "Default",
+					id = "RebelsAllRounder",
+				}),
+				}),
 			PlaceObj('ModItemFinalStandAttirePoolDef', {
 				group = "Default",
 				id = "General",
 			}),
 			PlaceObj('ModItemFinalStandAttirePoolDef', {
+				Chest = {
+					PlaceObj('FinalStandAttirePoolChest', {
+						'Colors', {
+							PlaceObj('ColorizationPropSet', {
+								'EditableColor1', RGBA(0, 0, 0, 255),
+								'EditableColor2', RGBA(0, 0, 0, 255),
+								'EditableColor3', RGBA(0, 0, 0, 255),
+							}),
+						},
+						'Chest', "Faction_Acc_Medic_02",
+					}),
+				},
+				Hip = {
+					PlaceObj('FinalStandAttirePoolHip', {
+						'Colors', {
+							PlaceObj('ColorizationPropSet', {
+								'EditableColor1', RGBA(0, 0, 0, 255),
+								'EditableColor2', RGBA(0, 0, 0, 255),
+								'EditableColor3', RGBA(0, 0, 0, 255),
+							}),
+						},
+						'Hip', "Faction_Acc_Medic",
+					}),
+				},
 				Specialization = "Doctor",
 				group = "Default",
 				id = "GeneralDoctor",
 			}),
 			PlaceObj('ModItemFinalStandAttirePoolDef', {
-				Specialization = "ExplosiveExpert",
+				Chest = {
+					PlaceObj('FinalStandAttirePoolChest', {
+						'Colors', {
+							PlaceObj('ColorizationPropSet', {
+								'EditableColor1', RGBA(120, 85, 85, 255),
+								'EditableColor2', RGBA(0, 0, 0, 255),
+								'EditableColor3', RGBA(0, 0, 0, 255),
+							}),
+						},
+						'Chest', "Faction_Acc_Demolition_Legion_02",
+					}),
+				},
+				Specialization = "Mechanic",
 				group = "Default",
 				id = "GeneralExplosives",
 			}),
 			PlaceObj('ModItemFinalStandAttirePoolDef', {
+				Chest = {
+					PlaceObj('FinalStandAttirePoolChest', {
+						'Colors', {
+							PlaceObj('ColorizationPropSet', {
+								'EditableColor1', RGBA(11, 19, 8, 255),
+								'EditableColor2', RGBA(11, 19, 8, 255),
+								'EditableColor3', RGBA(11, 19, 8, 255),
+							}),
+						},
+						'Chest', "Faction_Binocular_01",
+					}),
+				},
+				Hip = {
+					PlaceObj('FinalStandAttirePoolHip', {
+						'Colors', {
+							PlaceObj('ColorizationPropSet', {
+								'EditableColor1', RGBA(0, 0, 0, 255),
+								'EditableColor2', RGBA(2, 2, 2, 255),
+								'EditableColor3', RGBA(2, 2, 2, 255),
+							}),
+						},
+						'Hip', "Faction_Acc_Artilery",
+					}),
+				},
 				Specialization = "Leader",
 				group = "Default",
 				id = "GeneralLeader",
 			}),
 			PlaceObj('ModItemFinalStandAttirePoolDef', {
+				Chest = {
+					PlaceObj('FinalStandAttirePoolChest', {
+						'Colors', {
+							PlaceObj('ColorizationPropSet', {
+								'EditableColor1', RGBA(9, 8, 8, 255),
+								'EditableColor2', RGBA(32, 26, 22, 255),
+								'EditableColor3', RGBA(22, 18, 15, 255),
+							}),
+						},
+						'Chest', "Faction_Acc_Recon_02",
+					}),
+				},
+				Hip = {
+					PlaceObj('FinalStandAttirePoolHip', {
+						'Colors', {
+							PlaceObj('ColorizationPropSet', {
+								'EditableColor1', RGBA(5, 4, 4, 255),
+								'EditableColor2', RGBA(22, 22, 22, 255),
+								'EditableColor3', RGBA(61, 61, 61, 255),
+							}),
+						},
+						'Hip', "Faction_Acc_Recon",
+					}),
+				},
 				Specialization = "Marksmen",
 				group = "Default",
-				id = "GeneralSniper",
+				id = "GeneralMarksmen",
 			}),
 			PlaceObj('ModItemFinalStandAttirePoolDef', {
 				Specialization = "Mechanic",
@@ -730,6 +1355,105 @@ return {
 				maxWaves = 7,
 			}),
 			}),
+		PlaceObj('ModItemFolder', {
+			'name', "Messages",
+		}, {
+			PlaceObj('ModItemMsgDef', {
+				Description = "Checks for reasons to be a Final Stand Campaign",
+				Params = "isFinalStandChecks",
+				comment = "Checks for reasons to be a Final Stand Campaign",
+				group = "Final Stand - Common",
+				id = "isFinalStand",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Final Stand Campaign is selected in the menu",
+				Params = "newGameObj",
+				comment = "Final Stand Campaign is selected in the menu",
+				group = "Final Stand - UI",
+				id = "FinalStandSelected",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Final Stand Menu elements are about to be inserted into menu",
+				Params = "templateId",
+				comment = "Final Stand Menu elements are about to be inserted into menu",
+				group = "Final Stand - UI",
+				id = "FinalStandBeforeUIInsert",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Final Stand Menu elements have been inserted into menu",
+				Params = "parent, templateId",
+				comment = "Final Stand Menu elements have been inserted into menu",
+				group = "Final Stand - UI",
+				id = "FinalStandUIInserted",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Final Stand Menu elements have been removed from the menu",
+				comment = "Final Stand Menu elements have been removed from the menu",
+				group = "Final Stand - UI",
+				id = "FinalStandUIRemoved",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Game has been started and Final Stand has been configured",
+				Params = "FinalStand",
+				comment = "Game has been started and Final Stand has been configured",
+				group = "Final Stand - Start",
+				id = "FinalStandGameConfigured",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "A wave has been scheduled, this is triggered before marker is created",
+				Params = "scheduledStand, currentWave",
+				comment = "A wave has been scheduled, this is triggered before marker is created",
+				group = "Final Stand - Start",
+				id = "FinalStandWaveScheduled",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "A set of enemy squads are about to spawn",
+				Params = "squads",
+				comment = "A set of enemy squads are about to spawn",
+				group = "Final Stand - Main",
+				id = "FinalStandAttackSquadSpawning",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Final Stand Appearance options loaded, allows to insert custom values into options.",
+				Params = "AppearanceHandler",
+				comment = "Checks for reasons to be a Final Stand Campaign",
+				group = "Final Stand - Start",
+				id = "FinalStandAppearanceOptionsLoaded",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "A wave has been ended",
+				comment = "A wave has been ended",
+				group = "Final Stand - Main",
+				id = "FinalStandWaveEnded",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Monetary reward is being dispatched",
+				Params = "baseValue, modifiers, flatBonuses",
+				comment = "Monetary reward is being dispatched",
+				group = "Final Stand - Main",
+				id = "FinalStandRewardMoney",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "XP reward is being dispatched",
+				Params = "baseValue, modifiers, flatBonuses",
+				comment = "XP reward is being dispatched",
+				group = "Final Stand - Main",
+				id = "FinalStandRewardXP",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "BobbyRay is being restocked and tier modified",
+				Params = "bobbyRayValues",
+				comment = "BobbyRay is being restocked and tier modified",
+				group = "Final Stand - Main",
+				id = "FinalStandBobbyRayRestock",
+			}),
+			PlaceObj('ModItemMsgDef', {
+				Description = "Final Stand Campaign is ending and about to play Outtro.",
+				comment = "Final Stand Campaign is ending and about to play Outtro.",
+				group = "Final Stand - Finale",
+				id = "FinalStandCampaignEnding",
+			}),
+			}),
 		}),
 	PlaceObj('ModItemFolder', {
 		'name', "Sectors",
@@ -790,10 +1514,10 @@ return {
 				'CodeFileName', "Code/CampaignConfigDefs.lua",
 			}),
 			PlaceObj('ModItemCode', {
-				'name', "CampaignEffectsDefs",
+				'name', "CampaignEffectDefs",
 				'comment', "Effects for the Final Stand campaign",
 				'NameColor', RGBA(255, 255, 255, 255),
-				'CodeFileName', "Code/CampaignEffectsDefs.lua",
+				'CodeFileName', "Code/CampaignEffectDefs.lua",
 			}),
 			PlaceObj('ModItemCode', {
 				'name', "FactionDefs",
@@ -1029,11 +1753,15 @@ return {
 	}),
 	PlaceObj('ModItemAppearancePreset', {
 		Armor = "EquipmentFemale_FlackVest",
-		Body = "NPCCostumeFemale_Shirt_01",
+		Body = "EquipmentLivewire_Top",
+		BodyColor = PlaceObj('ColorizationPropSet', {
+			'EditableColor1', RGBA(73, 8, 8, 255),
+			'EditableColor2', RGBA(187, 64, 35, 255),
+			'EditableColor3', RGBA(109, 83, 55, 255),
+		}),
 		Chest = "Faction_Acc_Heavy_02",
-		Hair = "EquipmentRaven_Hair",
 		Hat = "",
-		Head = "Head_Raven",
+		Head = "Head_Livewire",
 		Pants = "NPCCostumeFemale_Pants_01",
 		group = "Default",
 		id = "TestAppearanceF",
@@ -1222,8 +1950,14 @@ return {
 		'blocked_spots', set( "Weaponls", "Weaponrs" ),
 	}),
 	PlaceObj('ModItemAppearancePreset', {
+		Armor = "EquipmentFemale_FlackVest",
 		Body = "EquipmentBiff_Top",
-		Head = "Faction_GasMask_M_01",
+		BodyColor = PlaceObj('ColorizationPropSet', {
+			'EditableColor1', RGBA(154, 53, 30, 255),
+			'EditableColor2', RGBA(73, 8, 8, 255),
+			'EditableColor3', RGBA(109, 83, 55, 255),
+		}),
+		Head = "Head_Thor",
 		Hip = "Faction_Acc_Artilery",
 		Pants = "Faction_GrandChien_Bottom_01",
 		group = "Default",

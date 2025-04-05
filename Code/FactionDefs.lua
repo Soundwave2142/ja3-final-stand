@@ -1,11 +1,12 @@
---- ====================================================================================================
+--- ===================================================================================================================
 --- Holds all faction related definitions for the editor.
+---
 --- @author Soundwave2142
---- ====================================================================================================
+--- ===================================================================================================================
 
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandFactionDef
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandFactionDef = {
     __parents = { "MsgReactionsPreset", "DisplayPreset" },
     __generated_by_class = "PresetDef",
@@ -26,15 +27,7 @@ DefineClass.FinalStandFactionDef = {
             editor = "number",
             default = 0,
             scale = "%",
-        },
-        {
-            category = "Attire",
-            id = "AttirePools",
-            name = "Attire Pools",
-            editor = "nested_list",
-            default = false,
-            base_class = "FinalStandFactionAttire",
-        },
+        }
     },
 
     HasGroups = false,
@@ -48,10 +41,43 @@ DefineClass.FinalStandFactionDef = {
     Documentation = "Creates a friendly faction definition for Final Stand game-mode.",
 }
 
---- ====================================================================================================
---- @class FinalStandFactionAttire
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandFriendlyFactionDef
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandFriendlyFactionDef = {
+    __parents = { "FinalStandFactionDef" },
+    __generated_by_class = "PresetDef",
 
+    properties = {
+        {
+            category = "Attire",
+            id = "AttirePools",
+            name = "Attire Pools",
+            editor = "nested_list",
+            default = false,
+            base_class = "FinalStandFactionAttire",
+        }
+    },
+
+    HasGroups = false,
+    HasSortKey = true,
+    HasParameters = true,
+    GlobalMap = "FinalStandFriendlyFactions",
+    EditorNestedObjCategory = "Final Stand",
+    EditorMenubarName = "Final Stand Friendly Faction",
+    EditorIcon = "CommonAssets/UI/Icons/bullet list.png",
+    EditorMenubar = "Editors.Lists",
+    Documentation = "Creates a friendly faction definition for Final Stand game-mode.",
+}
+
+DefineModItemPreset(
+    "FinalStandFriendlyFactionDef",
+    { EditorName = "Final Stand Friendly Faction", EditorSubmenu = "Final Stand" }
+)
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandFactionAttire
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandFactionAttire = {
     __parents = { "PropertyObject" },
     __generated_by_class = "ClassDef",
@@ -77,32 +103,9 @@ function FinalStandFactionAttire:GetError()
     end
 end
 
---- ====================================================================================================
---- @class FinalStandFriendlyFactionDef
---- ====================================================================================================
-DefineClass.FinalStandFriendlyFactionDef = {
-    __parents = { "FinalStandFactionDef" },
-    __generated_by_class = "PresetDef",
-
-    HasGroups = false,
-    HasSortKey = true,
-    HasParameters = true,
-    GlobalMap = "FinalStandFriendlyFactions",
-    EditorNestedObjCategory = "Final Stand",
-    EditorMenubarName = "Final Stand Friendly Faction",
-    EditorIcon = "CommonAssets/UI/Icons/bullet list.png",
-    EditorMenubar = "Editors.Lists",
-    Documentation = "Creates a friendly faction definition for Final Stand game-mode.",
-}
-
-DefineModItemPreset(
-    "FinalStandFriendlyFactionDef",
-    { EditorName = "Final Stand Friendly Faction", EditorSubmenu = "Final Stand" }
-)
-
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandEnemyFactionDef
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandEnemyFactionDef = {
     __parents = { "FinalStandFactionDef" },
     __generated_by_class = "PresetDef",
@@ -160,8 +163,6 @@ function FinalStandEnemyFactionDef:GetPoolForWave(wave, isFromExtraPool)
         if isAllowed then
             table.insert(pool, squad.Squad)
         end
-
-        print('checking for squad ', squad.Squad, isAllowed)
     end
 
     return pool
@@ -172,9 +173,9 @@ DefineModItemPreset(
     { EditorName = "Final Stand Enemy Faction", EditorSubmenu = "Final Stand" }
 )
 
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandEnemyFactionSquad
---- ====================================================================================================
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandEnemyFactionSquad = {
     __parents = { "PropertyObject" },
     __generated_by_class = "ClassDef",
@@ -217,18 +218,11 @@ end
 --- @return table
 function FinalStandEnemyFactionSquad:GetAllowedWaves()
     local limit = {}
-    for _, wave in pairs(split(self.Waves, ',')) do
+    local waves = string.split(self.Waves, ',')
+
+    for _, wave in pairs(waves) do
         limit[tostring(wave)] = true
     end
 
     return limit
-end
-
-function split(inputstr, sep)
-    sep = sep or '%s'
-    local t = {}
-    for field, s in string.gmatch(inputstr, "([^" .. sep .. "]*)(" .. sep .. "?)") do
-        table.insert(t, field)
-        if s == "" then return t end
-    end
 end

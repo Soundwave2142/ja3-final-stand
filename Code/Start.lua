@@ -1,10 +1,13 @@
 --- ===================================================================================================================
+--- Responsible for start of the game and assignment of all correct values.
+---
 --- @author Soundwave2142
 --- ===================================================================================================================
 
+--- @param newGameObj table
 function OnMsg.FinalStandSelected(newGameObj)
     local campaign = CampaignPresets[newGameObj.campaignId]
-    FinalStandStarter:EnsureDefaultsAreAssigned(campaign, newGameObj)
+    FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
 end
 
 --- @param game table
@@ -15,30 +18,31 @@ function OnMsg.NewGame(game)
 
     if NewGameObj then
         local campaign = CampaignPresets[NewGameObj.campaignId]
-        FinalStandStarter:EnsureDefaultsAreAssigned(campaign, NewGameObj)
+        FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, NewGameObj)
     end
 
-    local config = NewGameObj and NewGameObj['finalStandConfig'] or 'Default'
-    local length = NewGameObj and NewGameObj['finalStandLength'] or 'ThreeWaves'
-    local faction = NewGameObj and NewGameObj['finalStandFriendlyFaction'] or 'Rebels'
-    local enemyFaction = NewGameObj and NewGameObj['finalStandEnemyFaction'] or 'Legion'
-
-    game["FinalStand"] = {
+    local FinalStand = {
         -- player made choices
-        config = config,
-        faction = faction,
-        enemyFaction = enemyFaction,
+        config = NewGameObj and NewGameObj['finalStandConfig'] or 'Default',
+        faction = NewGameObj and NewGameObj['finalStandFriendlyFaction'] or 'Rebels',
+        enemyFaction = NewGameObj and NewGameObj['finalStandEnemyFaction'] or 'Legion',
         -- TODO: Adjust
-        maxWaves = FinalStandLengths[length].maxWaves,
+        length = NewGameObj and NewGameObj['finalStandLength'] or 'ThreeWaves',
         -- variables for tracking progress
         currentWave = 0,
         currentWaveStarted = false,
         scheduledStand = false,
         appearancePresets = {}
     }
+
+    Msg("FinalStandGameConfigured", FinalStand)
+    game["FinalStand"] = FinalStand
 end
 
-DefineClass.FinalStandStarter = {
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandConfigurator
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandConfigurator = {
     DefaultValuesToEnsure = {
         {
             relationName = 'Lengths',
@@ -58,7 +62,9 @@ DefineClass.FinalStandStarter = {
     }
 }
 
-function FinalStandStarter:EnsureDefaultsAreAssigned(campaign, newGameObj)
+--- @param campaign CampaignPreset
+--- @param newGameObj table
+function FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
     local configCollection = GetRelationCollection(campaign, 'FinalStandConfigs', 'Config')
     local configFirstValue = GetFirstFromCollection(configCollection)
 
@@ -73,4 +79,51 @@ function FinalStandStarter:EnsureDefaultsAreAssigned(campaign, newGameObj)
             newGameObj[names.newGameObjKey] = firstValue
         end
     end
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandSquadScheduler
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandSquadScheduler = {}
+
+function FinalStandSquadScheduler:Schedule()
+    if GetFinalStandCurrentWave() >= GetFinalStandMaxWaves() then
+        FinalStandFinale:StartEnding()
+        return
+    end
+
+    Game.FinalStand.currentWave = Game.FinalStand.currentWave + 1
+    Game.FinalStand.scheduledStand = self:CalculateAttackTime()
+
+    Msg('FinalStandWaveScheduled', Game.FinalStand.scheduledStand, Game.FinalStand.currentWave)
+
+    self:ScheduleTimeLineMarker()
+end
+
+function FinalStandSquadScheduler:ScheduleTimeLineMarker()
+    local sector = CampaignPresets["FinalStand"].InitialSector;
+
+    local typ = "final-stand-squad-attack"
+    if GetFinalStandCurrentWave() == 1 then
+        typ = 'final-stand-squad-attack-first'
+    elseif GetFinalStandCurrentWave() == GetFinalStandMaxWaves() then
+        typ = 'final-stand-squad-attack-final'
+    end
+
+    AddTimelineEvent("final-stand-squad-attack", Game.FinalStand.scheduledStand, typ, sector)
+end
+
+--- @return string(?)
+function FinalStandSquadScheduler:CalculateAttackTime()
+    local attackInHours = math.random(
+        GetFinalStandConfigValue('attackTimeMin'),
+        GetFinalStandConfigValue('attackTimeMax')
+    )
+    local attackTime = Game.CampaignTime + (attackInHours * const.Scale.h)
+
+    if GetFinalStandConfigValue('attackTimeIncludeMercArrivalTime') then
+        attackTime = attackTime + const.Satellite.MercArrivalTime
+    end
+
+    return attackTime
 end
