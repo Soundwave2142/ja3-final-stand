@@ -131,8 +131,8 @@ DefineClass.FinalStandAttirePoolDef = {
         },
     },
 
-    HasGroups = false,
-    HasSortKey = true,
+    HasGroups = true,
+    HasSortKey = false,
     HasParameters = true,
     GlobalMap = "FinalStandAttirePools",
     EditorNestedObjCategory = "Final Stand",

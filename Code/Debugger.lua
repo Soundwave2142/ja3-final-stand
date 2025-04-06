@@ -25,7 +25,7 @@ function OnMsg.CampaignStarted()
         return
     end
 
-    print("Final Stand: Campaign Started in:", CampaignPresets["FinalStand"].InitialSector)
+    print("Final Stand: Campaign Started in:", GetFinalStandSector(true))
     print("Bobby Restock Time:", BobbyRayShopGetRestockTime())
 end
 

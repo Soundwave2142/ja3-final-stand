@@ -75,8 +75,6 @@ end
 --- Describe base Final Stand Config definition and it's children.
 --- ===================================================================================================================
 
-FINAL_STAND_CONFIG_LENGTHS = 'Lengths'
-
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandConfigDef
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -85,10 +83,18 @@ DefineClass.FinalStandConfigDef = {
     __generated_by_class = "PresetDef",
 
     properties = {
-        -- category - Length
+        -- category - Map and Length
         {
-            category = "Length",
-            id = FINAL_STAND_CONFIG_LENGTHS,
+            category = "Map and Length",
+            id = "Sectors",
+            name = "Sectors",
+            editor = "nested_list",
+            default = false,
+            base_class = "FinalStandConfigSector",
+        },
+        {
+            category = "Map and Length",
+            id = "Lengths",
             name = "Lengths",
             editor = "nested_list",
             default = false,
@@ -172,6 +178,10 @@ DefineClass.FinalStandConfigDef = {
 
 --- @return (string|void)
 function FinalStandConfigDef:GetError()
+    if #(self:ResolveValue('Sectors')) < 1 then
+        return "Specify at least one Sector"
+    end
+
     if #(self:ResolveValue('Lengths')) < 1 then
         return "Specify at least one Final Stand Length"
     end
@@ -190,6 +200,34 @@ function FinalStandConfigDef:GetError()
 end
 
 DefineModItemPreset("FinalStandConfigDef", { EditorName = "Final Stand Config", EditorSubmenu = "Final Stand" })
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandConfigSector
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandConfigSector = {
+    __parents = { "PropertyObject" },
+    __generated_by_class = "ClassDef",
+
+    properties = {
+        {
+            id = "Sector",
+            name = "Sector",
+            editor = "preset_id",
+            default = false,
+            template = true,
+            preset_class = "FinalStandSectorDef",
+        }
+    },
+
+    EditorView = Untranslated("<Sector>"),
+}
+
+--- @return (string|void)
+function FinalStandConfigSector:GetError()
+    if not self:ResolveValue('Sector') then
+        return "Specify Final Stand Sector"
+    end
+end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandConfigLength
@@ -275,6 +313,36 @@ function FinalStandConfigEnemyFaction:GetError()
         return "Specify Final Stand Enemy Faction"
     end
 end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandSectorDef
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandSectorDef = {
+    __parents = { "MsgReactionsPreset", "DisplayPreset" },
+    __generated_by_class = "PresetDef",
+
+    properties = {
+        {
+            id = "Sector",
+            name = "Sector",
+            help = "The sector in which the player can choose to start a campaign",
+            editor = "text",
+            default = "A1",
+        }
+    },
+
+    HasGroups = false,
+    HasSortKey = true,
+    HasParameters = true,
+    GlobalMap = "FinalStandSectors",
+    EditorNestedObjCategory = "Final Stand",
+    EditorMenubarName = "Final Stand Sector",
+    EditorIcon = "CommonAssets/UI/Icons/bullet list.png",
+    EditorMenubar = "Editors.Lists",
+    Documentation = "Creates a sector definition for Final Stand game-mode.",
+}
+
+DefineModItemPreset("FinalStandSectorDef", { EditorName = "Final Stand Sector", EditorSubmenu = "Final Stand" })
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandLengthDef

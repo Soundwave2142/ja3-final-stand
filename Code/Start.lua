@@ -6,6 +6,8 @@
 
 --- @param newGameObj table
 function OnMsg.FinalStandSelected(newGameObj)
+    newGameObj.campaign_name = 'Final Stand'
+
     local campaign = CampaignPresets[newGameObj.campaignId]
     FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
 end
@@ -16,51 +18,42 @@ function OnMsg.NewGame(game)
         return
     end
 
-    if NewGameObj then
-        local campaign = CampaignPresets[NewGameObj.campaignId]
-        FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, NewGameObj)
-    end
+    local campaign = GetCurrentCampaignPreset()
+    local newGameObj = NewGameObj or { finalStandFriendlyFaction = 'Rebels' }
+    FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
 
     local FinalStand = {
         -- player made choices
-        config = NewGameObj and NewGameObj['finalStandConfig'] or 'Default',
-        faction = NewGameObj and NewGameObj['finalStandFriendlyFaction'] or 'Rebels',
-        enemyFaction = NewGameObj and NewGameObj['finalStandEnemyFaction'] or 'Legion',
-        -- TODO: Adjust
-        length = NewGameObj and NewGameObj['finalStandLength'] or 'ThreeWaves',
+        config = newGameObj and newGameObj['finalStandConfig'] or 'Default',
+        faction = newGameObj and newGameObj['finalStandFriendlyFaction'] or 'Mercs',
+        enemyFaction = newGameObj and newGameObj['finalStandEnemyFaction'] or 'Legion',
+        sector = newGameObj and newGameObj['finalStandSector'] or 'H4',
+        length = newGameObj and newGameObj['finalStandLength'] or 'ThreeWaves',
         -- variables for tracking progress
+        id = FinalStandConfigurator:GenerateFinalStandId(),
         currentWave = 0,
         currentWaveStarted = false,
         scheduledStand = false,
-        appearancePresets = {}
+        scheduledGameOver = false,
+        appearancePresets = {},
+        finalChance = false
     }
 
     Msg("FinalStandGameConfigured", FinalStand)
+
     game["FinalStand"] = FinalStand
+    campaign["InitialSector"] = GetFinalStandSector(true)
 end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandConfigurator
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DefineClass.FinalStandConfigurator = {
-    DefaultValuesToEnsure = {
-        {
-            relationName = 'Lengths',
-            relationKey = 'Length',
-            newGameObjKey = 'finalStandLength'
-        },
-        {
-            relationName = 'Factions',
-            relationKey = 'Faction',
-            newGameObjKey = 'finalStandFriendlyFaction'
-        },
-        {
-            relationName = 'EnemyFactions',
-            relationKey = 'Faction',
-            newGameObjKey = 'finalStandEnemyFaction'
-        }
-    }
-}
+DefineClass.FinalStandConfigurator = {}
+
+--- @return string
+function FinalStandConfigurator:GenerateFinalStandId()
+    return random_encode64(48)
+end
 
 --- @param campaign CampaignPreset
 --- @param newGameObj table
@@ -71,12 +64,12 @@ function FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
     newGameObj['finalStandConfig'] = configFirstValue
     local configObject = FinalStandConfigs[configFirstValue]
 
-    for _, names in pairs(self.DefaultValuesToEnsure) do
-        local collection = GetRelationCollection(configObject, names.relationName, names.relationKey)
+    for _, options in pairs(FinalStandTemplatePresetsGenerator.Structure) do
+        local collection = GetRelationCollection(configObject, options.configRelationName, options.configRelationKey)
         local firstValue = GetFirstFromCollection(collection)
 
-        if not newGameObj[names.newGameObjKey] then
-            newGameObj[names.newGameObjKey] = firstValue
+        if not newGameObj[options.gameObjName] then
+            newGameObj[options.gameObjName] = firstValue
         end
     end
 end
@@ -87,11 +80,6 @@ end
 DefineClass.FinalStandSquadScheduler = {}
 
 function FinalStandSquadScheduler:Schedule()
-    if GetFinalStandCurrentWave() >= GetFinalStandMaxWaves() then
-        FinalStandFinale:StartEnding()
-        return
-    end
-
     Game.FinalStand.currentWave = Game.FinalStand.currentWave + 1
     Game.FinalStand.scheduledStand = self:CalculateAttackTime()
 
@@ -101,8 +89,6 @@ function FinalStandSquadScheduler:Schedule()
 end
 
 function FinalStandSquadScheduler:ScheduleTimeLineMarker()
-    local sector = CampaignPresets["FinalStand"].InitialSector;
-
     local typ = "final-stand-squad-attack"
     if GetFinalStandCurrentWave() == 1 then
         typ = 'final-stand-squad-attack-first'
@@ -110,6 +96,7 @@ function FinalStandSquadScheduler:ScheduleTimeLineMarker()
         typ = 'final-stand-squad-attack-final'
     end
 
+    local sector = GetFinalStandSector(true);
     AddTimelineEvent("final-stand-squad-attack", Game.FinalStand.scheduledStand, typ, sector)
 end
 

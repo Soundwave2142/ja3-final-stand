@@ -22,16 +22,18 @@ function OnMsg.SatelliteTick()
 end
 
 function OnMsg.ConflictEnd()
-    if not IsFinalStand() or not Game.FinalStand.currentWaveStarted then
+    if not IsFinalStand() then
+        return
+    end
+
+    if not Game.FinalStand.currentWaveStarted or not IsFinalStandSectorPlayerControlled() then
         return
     end
 
     Game.FinalStand.currentWaveStarted = false
     Msg("FinalStandWaveEnded")
 
-    if GetFinalStandCurrentWave() >= GetFinalStandMaxWaves() then
-        FinalStandFinale:StartEnding()
-    else
+    if GetFinalStandCurrentWave() < GetFinalStandMaxWaves() then
         FinalStandSquadScheduler:Schedule()
         FinalStandRewardProvider:GiveRewards()
     end
@@ -56,7 +58,7 @@ function FinalStandSquadSpawner:isTimeToSpawn()
 end
 
 function FinalStandSquadSpawner:Spawn()
-    local sector = CampaignPresets["FinalStand"].InitialSector
+    local sector = GetFinalStandSector(true)
     local squads = self:PickSquads()
 
     Msg("FinalStandAttackSquadSpawning", squads)
@@ -77,7 +79,9 @@ function FinalStandSquadSpawner:PickSquads()
     local squads = {}
 
     local allowedSquadsPool = EnemyFaction:GetPoolForWave(currentWave)
+    print('allowed pool', allowedSquadsPool)
     local randomIndex = InteractionRandRange(1, #allowedSquadsPool, "LDFinalStand");
+    print('random index', randomIndex)
     table.insert(squads, allowedSquadsPool[randomIndex])
 
     local allowedExtraSquadsPool = EnemyFaction:GetPoolForWave(currentWave, true)
@@ -93,6 +97,7 @@ end
 --- @class FinalStandRewardProvider
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandRewardProvider = {}
+-- TODO: Give loyalty on win
 
 function FinalStandRewardProvider:GiveRewards()
     self:GiveMoney()
@@ -122,6 +127,7 @@ function FinalStandRewardProvider:GiveXP()
         default = GetFinalStandConfigValue('baseXp')
     }
 
+    -- TODO: collect all instances that inherit certain class
     local modifiers = {
         faction = GetFinalStandFriendlyFactionValue('xpModifier'),
         enemyFaction = GetFinalStandEnemyFactionValue('xpModifier')
@@ -149,7 +155,7 @@ function FinalStandRewardProvider:CalculateValue(baseValue, modifiers, flatBonus
     -- second, take base reward and modify it for each of the modifiers and subract base reward from it
     local finalReward = baseReward
     for _, modifier in pairs(modifiers) do
-        if modifier > 0 then
+        if type(modifier) == "number" then
             finalReward = finalReward + (MulDivRound(baseReward, 100 + modifier, 100) - baseReward)
         end
     end
@@ -169,7 +175,7 @@ function FinalStandRewardProvider:RestockBobby()
 
     local bobbyRayValues = {
         nextTier = (unlockedTier and unlockedTier or 0) + 1,
-        nextRestock = Game.FinalStand.scheduledStand,
+        nextRestock = Game.FinalStand.scheduledStand + (20 * const.Scale.m),
         modifierStandard = 100,
         modifierUsed = 100
     }

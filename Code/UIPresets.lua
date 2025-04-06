@@ -16,6 +16,16 @@
 DefineClass.FinalStandTemplatePresetsGenerator = {
     Structure = {
         {
+            class = 'FinalStandSectorDef',
+            globalName = 'FinalStandSectors',
+
+            configRelationName = 'Sectors',
+            configRelationKey = 'Sector',
+
+            displayName = T(892716651494, "Final Stand - Sector"),
+            gameObjName = 'finalStandSector'
+        },
+        {
             class = 'FinalStandLengthDef',
             globalName = 'FinalStandLengths',
 

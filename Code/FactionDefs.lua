@@ -197,10 +197,14 @@ DefineClass.FinalStandEnemyFactionSquad = {
             editor = "text",
             default = "",
         }
-    },
-
-    EditorView = Untranslated("<Squad> (<Waves>)"),
+    }
 }
+
+--- @return string
+function FinalStandEnemyFactionSquad:GetEditorView()
+    local power = self.Squad and EnemySquadDefs[self.Squad]:ResolveValue('SquadPowerRange') or ""
+    return string.format("%s | %s | %s", power, self.Waves, self.Squad)
+end
 
 --- @return (string|void)
 function FinalStandEnemyFactionSquad:GetError()

@@ -24,9 +24,10 @@ function FinalStandSquadScheduleAttack:__exec(obj, context)
     FinalStandSquadScheduler:Schedule()
 end
 
---- ====================================================================================================
---- SatelliteTimelineEvent Definitions: First Attack, Regular Attack, Final Attack
---- ====================================================================================================
+--- ===================================================================================================================
+--- SatelliteTimelineEvent Definitions: First Attack, Regular Attack, Final Attack, Game Over
+--- ===================================================================================================================
+
 PlaceObj('SatelliteTimelineEventDef', {
     GetDescriptionText = function(self, eventCtx)
         return self.Text, self.Title, self.Hint
@@ -43,7 +44,7 @@ PlaceObj('SatelliteTimelineEventDef', {
     GetTextContext = function(self, eventCtx)
         return { source = eventCtx }
     end,
-    SortKey = 5,
+    SortKey = 1,
     Text = Untranslated("The enemy outpost on sector will attack <em><SectorId(dest)></em>."),
     Title = Untranslated("Outpost Attack"),
     id = "final-stand-squad-attack-first",
@@ -65,7 +66,7 @@ PlaceObj('SatelliteTimelineEventDef', {
     GetTextContext = function(self, eventCtx)
         return { source = eventCtx }
     end,
-    SortKey = 5,
+    SortKey = 2,
     Text = Untranslated("The enemy outpost on sector will attack <em><SectorId(dest)></em>."),
     Title = Untranslated("Outpost Attack"),
     id = "final-stand-squad-attack",
@@ -87,8 +88,30 @@ PlaceObj('SatelliteTimelineEventDef', {
     GetTextContext = function(self, eventCtx)
         return { source = eventCtx }
     end,
-    SortKey = 5,
-    Text = Untranslated("Enemy will attack <em><SectorId(dest)></em>. This is your final stand!"),
-    Title = Untranslated("Final Stand!"),
+    SortKey = 3,
+    Text = Untranslated("Enemy will attack <em><SectorId(dest)></em>. This is your Final Stand!"),
+    Title = Untranslated("Final Stand"),
     id = "final-stand-squad-attack-final",
+})
+
+PlaceObj('SatelliteTimelineEventDef', {
+    GetDescriptionText = function(self, eventCtx)
+        return self.Text, self.Title, self.Hint
+    end,
+    GetIcon = function(self, eventCtx)
+        local icon = "UI/Icons/SateliteView/icon_enemy"
+        local innerIcon = "UI/Icons/SateliteView/enemy_logo"
+        return icon, innerIcon
+    end,
+    GetTextContext = function(self, eventCtx)
+        local sector = gv_Sectors[eventCtx]
+        return sector and sector.XMapPosition
+    end,
+    GetTextContext = function(self, eventCtx)
+        return { source = eventCtx }
+    end,
+    SortKey = 4,
+    Text = Untranslated("Enemies has taken the sector, if you don't get boots on the ground - it's game over!"),
+    Title = Untranslated("Game Over"),
+    id = "final-stand-game-over",
 })

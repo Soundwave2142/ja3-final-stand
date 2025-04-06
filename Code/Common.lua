@@ -119,7 +119,7 @@ end
 
 --- @param value string
 --- @param faction (FinalStandFriendlyFactionDef|string)
---- @return (table|string|number|boolean)
+--- @return (table|string|number|boolean|nil)
 function GetFinalStandFriendlyFactionValue(value, faction)
     if not faction then
         faction = GetFinalStandFriendlyFaction()
@@ -127,6 +127,10 @@ function GetFinalStandFriendlyFactionValue(value, faction)
 
     if not IsKindOf(faction, "FinalStandFriendlyFactionDef") then
         faction = FinalStandFriendlyFactions[faction]
+    end
+
+    if not faction then
+        return nil
     end
 
     return faction:ResolveValue(value)
@@ -156,7 +160,33 @@ function GetFinalStandEnemyFactionValue(value, faction)
         faction = FinalStandEnemyFactions[faction]
     end
 
+    if not faction then
+        return nil
+    end
+
     return faction[value]
+end
+
+--- @param keyOnly boolean
+--- @param gameSector boolean
+--- @return (string|FinalStandSectorDef|table)
+function GetFinalStandSector(keyOnly, gameSector)
+    local sector = GetFinalStandConfigValue('sector')
+
+    if keyOnly then
+        return sector
+    elseif gameSector then
+        sector = FinalStandSectors[sector].Sector
+        return gv_Sectors[sector]
+    else
+        return FinalStandSectors[sector]
+    end
+end
+
+--- @return boolean
+function IsFinalStandSectorPlayerControlled()
+    local sector = GetFinalStandSector(false, true)
+    return sector.Side == "player1" or sector.Side == "player2"
 end
 
 --- @param keyOnly boolean
@@ -179,8 +209,12 @@ function GetFinalStandLengthValue(value, length)
         length = GetFinalStandLength(true)
     end
 
-    if not IsKindOf(faction, "FinalStandLengthDef") then
+    if not IsKindOf(length, "FinalStandLengthDef") then
         length = FinalStandLengths[length]
+    end
+
+    if not length then
+        return nil
     end
 
     return length:ResolveValue(value)

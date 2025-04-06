@@ -7,11 +7,27 @@
 --- ===================================================================================================================
 
 function OnMsg.LoadSessionData()
+    if not IsFinalStand() then
+        return
+    end
+
     AppearanceHandler:ApplyToTeam()
 end
 
 function OnMsg.ExplorationStart()
+    if not IsFinalStand() then
+        return
+    end
+
     AppearanceHandler:ApplyToTeam()
+end
+
+function OnMsg.InventoryChange(unit)
+    if not IsFinalStand() then
+        return
+    end
+
+    AppearanceHandler:ApplyToUnit(unit)
 end
 
 function OnMsg.PreGameMenuOpen()
@@ -205,7 +221,7 @@ end
 function AppearanceHandler:GenerateId(unit)
     return table.concat({
         'FinalStand', '_',
-        Game.save_id, '_',
+        Game.FinalStand.id, '_',
         GetFinalStandFriendlyFaction(true), '_',
         unit:GetGender(), '_',
         unit.unitdatadef_id
