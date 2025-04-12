@@ -15,9 +15,6 @@ function OnMsg.ConflictEnd()
     elseif not IsFinalStandSectorPlayerControlled() and FinalStandFinale:IsFinalChance() then
         -- if player lost sector, and doesn't have last chance, start bad ending.
         FinalStandFinale:StartGameOver()
-    elseif GetFinalStandCurrentWave() >= GetFinalStandMaxWaves() then
-        -- if current wave is last wave, start good ending.
-        FinalStandFinale:StartEnding()
     else
         -- else ensure it is not Final Chance
         FinalStandFinale:EndFinalChance()
@@ -72,8 +69,7 @@ end
 function FinalStandFinale:StartFinalChance()
     Game.FinalStand.finalChance = true
 
-    local sector
-    GetFinalStandSector(true)
+    local sector = GetFinalStandSector()
     local message =
     "This is your <em>Last Chance</em>, gather all your mercs and resources and take <em><sector></em> back!"
 

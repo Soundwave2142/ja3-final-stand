@@ -105,16 +105,16 @@ function GetFinalStandConfigValue(value)
     return GetFinalStandConfig():ResolveValue(value)
 end
 
---- @param keyOnly boolean
+--- @param asObject boolean
 --- @return (string|FinalStandFriendlyFactionDef)
-function GetFinalStandFriendlyFaction(keyOnly)
+function GetFinalStandFriendlyFaction(asObject)
     local faction = GetFinalStandConfigValue('faction')
 
-    if keyOnly then
-        return faction
-    else
+    if asObject then
         return FinalStandFriendlyFactions[faction]
     end
+
+    return faction
 end
 
 --- @param value string
@@ -122,7 +122,7 @@ end
 --- @return (table|string|number|boolean|nil)
 function GetFinalStandFriendlyFactionValue(value, faction)
     if not faction then
-        faction = GetFinalStandFriendlyFaction()
+        faction = GetFinalStandFriendlyFaction(true)
     end
 
     if not IsKindOf(faction, "FinalStandFriendlyFactionDef") then
@@ -136,16 +136,16 @@ function GetFinalStandFriendlyFactionValue(value, faction)
     return faction:ResolveValue(value)
 end
 
---- @param keyOnly boolean
+--- @param asObject boolean
 --- @return (string|FinalStandEnemyFactionDef)
-function GetFinalStandEnemyFaction(keyOnly)
+function GetFinalStandEnemyFaction(asObject)
     local faction = GetFinalStandConfigValue('enemyFaction')
 
-    if keyOnly then
-        return faction
-    else
+    if asObject then
         return FinalStandEnemyFactions[faction]
     end
+
+    return faction
 end
 
 --- @param value string
@@ -167,38 +167,35 @@ function GetFinalStandEnemyFactionValue(value, faction)
     return faction[value]
 end
 
---- @param keyOnly boolean
---- @param gameSector boolean
+--- @param asObject boolean
 --- @return (string|FinalStandSectorDef|table)
-function GetFinalStandSector(keyOnly, gameSector)
+function GetFinalStandSector(asObject)
     local sector = GetFinalStandConfigValue('sector')
 
-    if keyOnly then
-        return sector
-    elseif gameSector then
+    if asObject then
         sector = FinalStandSectors[sector].Sector
         return gv_Sectors[sector]
-    else
-        return FinalStandSectors[sector]
     end
+
+    return sector
 end
 
 --- @return boolean
 function IsFinalStandSectorPlayerControlled()
-    local sector = GetFinalStandSector(false, true)
+    local sector = GetFinalStandSector(true)
     return sector.Side == "player1" or sector.Side == "player2"
 end
 
---- @param keyOnly boolean
+--- @param asObject boolean
 --- @return (string|FinalStandLengthDef)
-function GetFinalStandLength(keyOnly)
+function GetFinalStandLength(asObject)
     local length = GetFinalStandConfigValue('length')
 
-    if keyOnly then
-        return length
-    else
+    if asObject then
         return FinalStandLengths[length]
     end
+
+    return length
 end
 
 --- @param value string

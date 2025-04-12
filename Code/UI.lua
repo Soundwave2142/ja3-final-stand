@@ -17,7 +17,7 @@ function OnMsg:DialogSetMode(mode, mode_param, old_mode)
     end
 end
 
-FinalStandUiInserted = false
+local FinalStandUiInserted = false
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandUIHandler
@@ -28,11 +28,10 @@ DefineClass.FinalStandUIHandler = {}
 function FinalStandUIHandler:InsertIntoNewGame()
     if not IsFinalStand() then
         -- ensure templates are not present in UI
-        if FinalStandUiInserted == false then
-            return
+        if FinalStandUiInserted then
+            FinalStandUIHandler:Remove()
         end
 
-        FinalStandUIHandler:Remove()
         return
     end
 
@@ -50,7 +49,7 @@ function FinalStandUIHandler:InsertIntoNewGame()
     FinalStandTemplatePresetsGenerator:GenerateEntryTemplates()
     local templateId = FinalStandTemplatePresetsGenerator:GenerateMainTemplate(configObject)
 
-    if FinalStandUiInserted == true then
+    if FinalStandUiInserted then
         return
     end
 

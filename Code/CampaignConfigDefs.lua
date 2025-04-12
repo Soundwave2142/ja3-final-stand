@@ -79,7 +79,7 @@ end
 --- @class FinalStandConfigDef
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandConfigDef = {
-    __parents = { "DisplayPreset" },
+    __parents = { "MsgReactionsPreset", "DisplayPreset" },
     __generated_by_class = "PresetDef",
 
     properties = {

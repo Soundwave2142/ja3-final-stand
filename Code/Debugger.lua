@@ -12,6 +12,10 @@ function OnMsg.FinalStandUIInserted()
     print("Final Stand: UI elements inserted")
 end
 
+function OnMsg.FinalStandUIInserted()
+    print("Final Stand: UI elements removed")
+end
+
 function OnMsg.NewGame(game)
     if not IsFinalStandDebugger() then
         return
@@ -25,7 +29,7 @@ function OnMsg.CampaignStarted()
         return
     end
 
-    print("Final Stand: Campaign Started in:", GetFinalStandSector(true))
+    print("Final Stand: Campaign Started in:", GetFinalStandSector())
     print("Bobby Restock Time:", BobbyRayShopGetRestockTime())
 end
 
@@ -56,7 +60,15 @@ function OnMsg.FinalStandWaveScheduled(time, currentWave)
     print("Final Stand: Starting wave", currentWave, "at", time)
 end
 
-function OnMsg.FinalStandAttackSquadSpawning(squads)
+function OnMsg.FinalStandAttackSquadsPicked(squads)
+    if not IsFinalStandDebugger() then
+        return
+    end
+
+    print("Final Stand: Attack Squad ", squads, " picked")
+end
+
+function OnMsg.FinalStandAttackSquadsSpawning(squads)
     if not IsFinalStandDebugger() then
         return
     end

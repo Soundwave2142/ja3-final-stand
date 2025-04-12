@@ -19,16 +19,19 @@ function OnMsg.NewGame(game)
     end
 
     local campaign = GetCurrentCampaignPreset()
-    local newGameObj = NewGameObj or { finalStandFriendlyFaction = 'Rebels' }
+    local newGameObj = NewGameObj or {}
     FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
+
+    newGameObj['finalStandFriendlyFaction'] = 'Militia'
+    newGameObj['finalStandSector'] = 'D17'
 
     local FinalStand = {
         -- player made choices
-        config = newGameObj and newGameObj['finalStandConfig'] or 'Default',
-        faction = newGameObj and newGameObj['finalStandFriendlyFaction'] or 'Mercs',
-        enemyFaction = newGameObj and newGameObj['finalStandEnemyFaction'] or 'Legion',
-        sector = newGameObj and newGameObj['finalStandSector'] or 'H4',
-        length = newGameObj and newGameObj['finalStandLength'] or 'ThreeWaves',
+        config = newGameObj['finalStandConfig'],
+        faction = newGameObj['finalStandFriendlyFaction'],
+        enemyFaction = newGameObj['finalStandEnemyFaction'],
+        sector = newGameObj['finalStandSector'],
+        length = newGameObj['finalStandLength'],
         -- variables for tracking progress
         id = FinalStandConfigurator:GenerateFinalStandId(),
         currentWave = 0,
@@ -42,7 +45,7 @@ function OnMsg.NewGame(game)
     Msg("FinalStandGameConfigured", FinalStand)
 
     game["FinalStand"] = FinalStand
-    campaign["InitialSector"] = GetFinalStandSector(true)
+    campaign["InitialSector"] = GetFinalStandSector()
 end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -82,6 +85,7 @@ DefineClass.FinalStandSquadScheduler = {}
 function FinalStandSquadScheduler:Schedule()
     Game.FinalStand.currentWave = Game.FinalStand.currentWave + 1
     Game.FinalStand.scheduledStand = self:CalculateAttackTime()
+    Game.FinalStand.scheduledStandSquads = FinalStandSquadSpawner:PickSquads()
 
     Msg('FinalStandWaveScheduled', Game.FinalStand.scheduledStand, Game.FinalStand.currentWave)
 
@@ -96,7 +100,7 @@ function FinalStandSquadScheduler:ScheduleTimeLineMarker()
         typ = 'final-stand-squad-attack-final'
     end
 
-    local sector = GetFinalStandSector(true);
+    local sector = GetFinalStandSector();
     AddTimelineEvent("final-stand-squad-attack", Game.FinalStand.scheduledStand, typ, sector)
 end
 

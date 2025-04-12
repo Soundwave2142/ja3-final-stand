@@ -115,3 +115,101 @@ PlaceObj('SatelliteTimelineEventDef', {
     Title = Untranslated("Game Over"),
     id = "final-stand-game-over",
 })
+
+--- ===================================================================================================================
+--- Make vanilla operations work in Final Stand and make the trigger certain events for modifications.
+--- ===================================================================================================================
+
+--- Make that the game detects vanilla operations.
+local SharePresetsWithBase = { SectorOperation = true }
+local BaseForEachPresetInCampaign = ForEachPresetInCampaign
+
+--- @param class string
+--- @param func function
+function ForEachPresetInCampaign(class, func, ...)
+    if not IsFinalStand() or not SharePresetsWithBase[class] then
+        return BaseForEachPresetInCampaign(class, func, ...)
+    end
+
+    class = g_Classes[class] or class
+    class = class.PresetClass or class.class
+
+    for group_index, group in ipairs(Presets[class]) do
+        for preset_index, preset in ipairs(group) do
+            local id = preset.id
+            local presetCampaign = preset.campaign
+
+            if not presetCampaign then
+                assert(presetCampaign, "Do not use this function for non-campaign related presets.")
+                return ...
+            end
+
+            local campaignRelated = preset.campaign == "<all>"
+                or GetCurrentCampaignPreset().id == preset.campaign
+                or preset.campaign == "HotDiamonds"
+
+            if (id == "" or group[id] == preset) and not preset.Obsolete and campaignRelated then
+                if func(preset, group, ...) == "break" then
+                    return ...
+                end
+            end
+        end
+    end
+
+    return ...
+end
+
+--- Next elements should only be loaded once upon initial load.
+if not FirstLoad then
+    return
+end
+
+local SectorOperationEventsLoaded = false
+
+--- Make vanilla operations trigger events
+function OnMsg.ModsReloaded()
+    if SectorOperationEventsLoaded then
+        return
+    end
+
+    ForEachPresetInCampaign("SectorOperation", function(preset, group, ...)
+        local BaseProgressPerTick = preset:ResolveValue("ProgressPerTick")
+
+        --- @param self SectorOperation
+        --- @param merc table(?)
+        --- @param prediction boolean(?)
+        preset.ProgressPerTick = function(self, merc, prediction)
+            local progresses = { base = BaseProgressPerTick(self, merc, prediction) }
+            Msg("OperationProgressPerTick", self, progresses)
+
+            local totalProgress = 0
+            for _, progress in pairs(progresses) do
+                if type(progress) == 'number' then
+                    totalProgress = totalProgress + progress
+                end
+            end
+
+            return totalProgress
+        end
+
+        local BaseIsEnabled = preset:ResolveValue("IsEnabled")
+
+        --- @param self SectorOperation
+        --- @param sector string(?)
+        preset.IsEnabled = function(self, sector)
+            local base_enabled, base_message = BaseIsEnabled(self, sector)
+            local reasons = { base = { enabled = base_enabled, message = base_message } }
+            Msg("OperationIsEnabled", self, reasons)
+
+            for _, reason in pairs(reasons) do
+                if not reason.enabled then
+                    return false, reason.message
+                end
+            end
+
+            return true
+        end
+    end)
+
+    SectorOperationEventsLoaded = true
+end

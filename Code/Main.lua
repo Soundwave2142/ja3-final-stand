@@ -36,6 +36,8 @@ function OnMsg.ConflictEnd()
     if GetFinalStandCurrentWave() < GetFinalStandMaxWaves() then
         FinalStandSquadScheduler:Schedule()
         FinalStandRewardProvider:GiveRewards()
+    else
+        FinalStandFinale:StartEnding()
     end
 end
 
@@ -58,10 +60,15 @@ function FinalStandSquadSpawner:isTimeToSpawn()
 end
 
 function FinalStandSquadSpawner:Spawn()
-    local sector = GetFinalStandSector(true)
-    local squads = self:PickSquads()
+    -- Squads are picked by the FinalStandSquadScheduler:Schedule()
+    if not Game.FinalStand.scheduledStandSquads then
+        Game.FinalStand.scheduledStandSquads = self:PickSquads()
+    end
 
-    Msg("FinalStandAttackSquadSpawning", squads)
+    local sector = GetFinalStandSector()
+    local squads = Game.FinalStand.scheduledStandSquads
+
+    Msg("FinalStandAttackSquadsSpawning", squads)
 
     for _, squadId in pairs(squads) do
         GenerateEnemySquad(squadId, sector, "Effect", nil, "enemy1")
@@ -74,14 +81,12 @@ end
 --- @return table
 function FinalStandSquadSpawner:PickSquads()
     local currentWave = GetFinalStandCurrentWave()
-    local EnemyFaction = GetFinalStandEnemyFaction()
+    local EnemyFaction = GetFinalStandEnemyFaction(true)
 
     local squads = {}
 
     local allowedSquadsPool = EnemyFaction:GetPoolForWave(currentWave)
-    print('allowed pool', allowedSquadsPool)
     local randomIndex = InteractionRandRange(1, #allowedSquadsPool, "LDFinalStand");
-    print('random index', randomIndex)
     table.insert(squads, allowedSquadsPool[randomIndex])
 
     local allowedExtraSquadsPool = EnemyFaction:GetPoolForWave(currentWave, true)
@@ -89,6 +94,8 @@ function FinalStandSquadSpawner:PickSquads()
         local randomExtraIndex = InteractionRandRange(1, #allowedExtraSquadsPool, "LDFinalStand");
         table.insert(squads, allowedSquadsPool[randomExtraIndex])
     end
+
+    Msg("FinalStandAttackSquadsPicked", squads)
 
     return squads
 end
@@ -137,11 +144,16 @@ function FinalStandRewardProvider:GiveXP()
     local flatBonuses = {}
 
     Msg('FinalStandRewardXP', baseValue, modifiers, flatBonuses)
-    local xpReward = self:CalculateValue(baseValue, modifiers, flatBonuses)
 
+    local xpReward = self:CalculateValue(baseValue, modifiers, flatBonuses)
     local units = GetAllPlayerUnitsOnMap()
+    if #units <= 0 then
+        return
+    end
+
+    local xpRewardPerMerc = xpReward / #units
     for _, unit in ipairs(units) do
-        UnitGainXP(unit, xpReward)
+        UnitGainXP(unit, xpRewardPerMerc)
     end
 end
 

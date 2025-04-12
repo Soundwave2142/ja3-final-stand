@@ -32,7 +32,6 @@ end
 
 function OnMsg.PreGameMenuOpen()
     -- TODO: make mers wear their attire in pre game
-    -- print(AccountStorage, ' - Account Storage')
 end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -59,18 +58,19 @@ DefineClass.AppearanceHandler = {
             },
             -- brown
             {
-                Units = { 'Thor', 'Gus' },
-                Color = RGBA(154, 53, 30, 255),
+                Units = { 'Thor', 'Blood', 'Gus' },
+                Color = RGBA(91, 28, 18, 255),
             },
             -- black
             {
-                Units = { 'Ice', 'Blood', 'Vicky', 'Magic', 'Len' },
-                Color = RGBA(22, 6, 6, 255),
+                Units = { 'Ice', 'Vicki', 'Magic', 'Len', 'PierreMerc' },
+                Color = RGBA(20, 7, 5, 255),
             },
         },
 
+        -- TODO: let pool define roll chances
         ChanceToRollForHat = 80,
-        ChanceToRollForHat2 = 30,
+        ChanceToRollForHat2 = 60,
         ChanceToRollForHead = 50,
         ChanceToRollForBody = 100,
         ChanceToRollForShirt = 100,
@@ -80,10 +80,8 @@ DefineClass.AppearanceHandler = {
         ChanceToRollForHip = 80,
 
         -- Always Roll tables
-        AlwaysRollForHat = {
-            'Mouse', 'Livewire'
-        },
-        AlwaysRollForHat2 = {},
+        AlwaysRollForHat = { 'Mouse', 'Livewire' },
+        AlwaysRollForHat2 = { 'Livewire' },
         AlwaysRollForHead = {},
         AlwaysRollForBody = {},
         AlwaysRollForShirt = {},
@@ -95,22 +93,12 @@ DefineClass.AppearanceHandler = {
         -- Never Roll tables
         NeverRollForHat = {},
         NeverRollForHat2 = {},
-        NeverRollForHead = {
-            'Steroid',
-        },
-        NeverRollForBody = {
-            'Steroid',
-        },
-        NeverRollForShirt = {
-            'Steroid',
-        },
-        NeverRollForArmor = {
-            'Steroid',
-        },
+        NeverRollForHead = { 'Steroid', },
+        NeverRollForBody = { 'Steroid', },
+        NeverRollForShirt = { 'Steroid', },
+        NeverRollForArmor = { 'Steroid', },
         NeverRollForChest = {},
-        NeverRollForArmor = {
-            'Steroid',
-        },
+        NeverRollForArmor = { 'Steroid', },
         NeverRollForPants = {},
         NeverRollForHip = {},
     },
@@ -207,7 +195,6 @@ function AppearanceHandler:GeneratePreset(unit)
         AppearanceHandler:PickBodyParts(unit, pickedParts)
         AppearanceHandler:PickPantsParts(unit, pickedParts)
 
-        -- print("Final Stand: Adding", presetId, "consists of", pickedParts)
         Game.FinalStand.appearancePresets[presetId] = pickedParts
     end
 
@@ -222,7 +209,7 @@ function AppearanceHandler:GenerateId(unit)
     return table.concat({
         'FinalStand', '_',
         Game.FinalStand.id, '_',
-        GetFinalStandFriendlyFaction(true), '_',
+        GetFinalStandFriendlyFaction(), '_',
         unit:GetGender(), '_',
         unit.unitdatadef_id
     })
@@ -432,7 +419,7 @@ function AppearanceHandler:FindBodyColor(unit)
     -- TODO: make support for modded mercs
     local bodyColor = self.BodyColors.Default.Color
 
-    for _, color in pairs(self.bodyColors) do
+    for _, color in pairs(self.BodyColors) do
         for _, unitId in pairs(color.Units) do
             if unitId == unit.unitdatadef_id then
                 return color.Color

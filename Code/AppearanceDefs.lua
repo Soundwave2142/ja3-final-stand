@@ -267,6 +267,8 @@ function FinalStandAttirePoolHat:GetEditorView()
     local gender = self:ResolveValue('Gender')
     view = (gender ~= '' and '<Gender>' or 'No Gender') .. view
     view = view .. (self:ResolveValue('HideHair') and ' - Hides Hair' or '')
+    local hatSpot = self:ResolveValue('HatSpot')
+    view = view .. (hatSpot and ' - ' .. hatSpot or '')
 
     return Untranslated(view)
 end
@@ -351,6 +353,8 @@ function FinalStandAttirePoolHat2:GetEditorView()
     local gender = self:ResolveValue('Gender')
     view = (gender ~= '' and '<Gender>' or 'No Gender') .. view
     view = view .. (self:ResolveValue('HideHair') and ' - Hides Hair' or '')
+    local hatSpot = self:ResolveValue('Hat2Spot')
+    view = view .. (hatSpot and ' - ' .. hatSpot or '')
 
     return Untranslated(view)
 end
@@ -415,7 +419,7 @@ DefineClass.FinalStandAttirePoolShirt = {
             name = "Shirt",
             editor = "combo",
             default = false,
-            items = function(self) return GetFinalStandAttirePoolItems('CharacterShirt', self:ResolveValue('Gender')) end,
+            items = function(self) return GetFinalStandAttirePoolItems('CharacterShirts', self:ResolveValue('Gender')) end,
         },
         {
             id = "BodyColorKey",
