@@ -28,7 +28,7 @@ DefineMapData{
 	MaxSurfRadius2D = 16737,
 	MinimapActiveArea = box(0, 0, -1, -1),
 	MinimapSize = point(0, 0),
-	ModMapPath = "Mod/bzoQECK/Maps/PTFyTd4/",
+	ModMapPath = "Mod/FinalStand/Maps/FinalStandL8/",
 	NetHash = 5272642081488362900,
 	ObjectsHash = -5460519042472345295,
 	OrgLuaRevision = 366685,
@@ -37,6 +37,6 @@ DefineMapData{
 	TerrainHash = -8778290140969481693,
 	Width = 513,
 	group = "FinalStand",
-	id = "PTFyTd4",
+	id = "FinalStandL8",
 	markers = {},
 }

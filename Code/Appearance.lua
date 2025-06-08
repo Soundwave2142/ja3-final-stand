@@ -68,6 +68,12 @@ DefineClass.AppearanceHandler = {
             },
         },
 
+        DefaultItemColors = PlaceObj('ColorizationPropSet', {
+            'EditableColor1', RGBA(11, 19, 8, 255),
+            'EditableColor2', RGBA(11, 19, 8, 255),
+            'EditableColor3', RGBA(11, 19, 8, 255),
+        }),
+
         -- TODO: let pool define roll chances
         ChanceToRollForHat = 80,
         ChanceToRollForHat2 = 60,
@@ -113,11 +119,15 @@ function AppearanceHandler:LoadOptions()
     end
 
     for key, value in pairs(self.DefaultOptions) do
-        if (type(value) == "table") then
-            value = table.copy(value)
+        if type(value) == "table" then
+            if type(value.class) == "string" and value.class then
+                self[key] = value:Clone()
+            else
+                self[key] = table.copy(value)
+            end
+        else
+            self[key] = value
         end
-
-        self[key] = value
     end
 
     Msg("FinalStandAppearanceOptionsLoaded", self)
@@ -294,6 +304,7 @@ function AppearanceHandler:PickBodyParts(unit, pickedParts)
         self:GetFromAllPools('Armor', 'ArmorColor', unit, pickedParts)
     end
 
+    -- TODO: add ChestAttachOffsetX to females if no armor
     if shouldPickChest then
         self:GetFromAllPools('Chest', 'ChestColor', unit, pickedParts)
     end
@@ -391,6 +402,7 @@ function AppearanceHandler:GetFromAllPools(partKey, partColorKey, unit, pickedPa
         table.insert(colors, colorItem)
     end
 
+    -- TODO: rework this, implement ResolveValues in
     for pickedItemValueKey, pickedItemValue in pairs(pickedItem) do
         if pickedItemValueKey == 'param_bindings' then
             -- TODO: get rid of this param_bindings
@@ -399,16 +411,21 @@ function AppearanceHandler:GetFromAllPools(partKey, partColorKey, unit, pickedPa
         end
     end
 
+    local pickedColor
+
     if #colors > 0 then
-        local pickedColor = colors[math.random(#colors)]:Clone()
-
-        local bodyColorKey = pickedItem:ResolveValue('BodyColorKey')
-        if bodyColorKey ~= nil and bodyColorKey ~= "" then
-            pickedColor[bodyColorKey] = self:FindBodyColor(unit)
-        end
-
-        pickedParts[partColorKey] = pickedColor
+        pickedColor = colors[math.random(#colors)]:Clone()
+    else
+        pickedColor = self.DefaultItemColors:Clone()
     end
+
+    local bodyColorKey = pickedItem:ResolveValue('BodyColorKey')
+
+    if bodyColorKey ~= nil and bodyColorKey ~= "" then
+        pickedColor[bodyColorKey] = self:FindBodyColor(unit)
+    end
+
+    pickedParts[partColorKey] = pickedColor
 
     return pickedItem
 end

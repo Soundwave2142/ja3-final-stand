@@ -19,13 +19,25 @@ function OnMsg.NewGame(game)
     end
 
     local campaign = GetCurrentCampaignPreset()
+    local finalStandConfig = FinalStandConfigurator:CreateFinalStandConfig(campaign)
+    Msg("FinalStandGameConfigured", finalStandConfig)
+
+    game["FinalStand"] = finalStandConfig
+    campaign["InitialSector"] = GetFinalStandSector()
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandConfigurator
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandConfigurator = {}
+
+--- @param campaign Campaign
+--- @return table
+function FinalStandConfigurator:CreateFinalStandConfig(campaign)
     local newGameObj = NewGameObj or {}
     FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
 
-    newGameObj['finalStandFriendlyFaction'] = 'Militia'
-    newGameObj['finalStandSector'] = 'D17'
-
-    local FinalStand = {
+    return {
         -- player made choices
         config = newGameObj['finalStandConfig'],
         faction = newGameObj['finalStandFriendlyFaction'],
@@ -41,17 +53,7 @@ function OnMsg.NewGame(game)
         appearancePresets = {},
         finalChance = false
     }
-
-    Msg("FinalStandGameConfigured", FinalStand)
-
-    game["FinalStand"] = FinalStand
-    campaign["InitialSector"] = GetFinalStandSector()
 end
-
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
---- @class FinalStandConfigurator
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DefineClass.FinalStandConfigurator = {}
 
 --- @return string
 function FinalStandConfigurator:GenerateFinalStandId()

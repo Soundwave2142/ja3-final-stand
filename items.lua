@@ -26,7 +26,7 @@ return {
 					'DisplayName', T(638413804817, --[[ModItemCampaignPreset FinalStand DisplayName]] "Ille Morat"),
 				}),
 			},
-			DisclaimerOnStart = T(343258375424, --[[ModItemCampaignPreset FinalStand DisclaimerOnStart]] "Welcome to the Final Stand game mode. The premise is simple: survive the set amount of waves to win.\n\nEach time the enemy wave is coming, it is displayed on the game timeline. Each time you defeat the enemy wave, you will receive monetary compensation, and your mercs will gain an XP boost. \nIt's up to you to choose your roster, and BobbyRayShop is restocked every wave, but mercs and gear still take time to arrive, so plan accordingly.\n\nGood luck!"),
+			DisclaimerOnStart = T(343258375424, --[[ModItemCampaignPreset FinalStand DisclaimerOnStart]] "Welcome to the Final Stand game mode. The premise is simple, the task is not: survive set amount of waves in order to win.<newline><newline>Each time the enemy wave is coming, it is displayed on the game timeline.<newline>Each time you defeat the enemy wave, you will receive monetary compensation, and your mercs will gain an XP boost.<newline>On top of that BobbyRayShop will be restocked, use the shop and operations to prepare for the next wave.<newline><newline>It's up to you to choose your roster, but mercs and gear still take time to arrive, so plan accordingly.<newline><newline>Good luck."),
 			DisplayName = T(500039653974, --[[ModItemCampaignPreset FinalStand DisplayName]] "Final Stand"),
 			EffectsOnStart = {
 				PlaceObj('FinalStandSquadScheduleAttack', {}),
@@ -62,10 +62,10 @@ return {
 				PlaceObj('SatelliteSector', {
 					'Id', "D17",
 					'HideUnderground', true,
-					'Map', "sFzSVq",
+					'Map', "FinalStandD17",
 					'MapTier', 20,
 					'Label1', "City",
-					'modId', "bzoQECK",
+					'modId', "FinalStand",
 					'display_name', T(588901431087, --[[ModItemCampaignPreset FinalStand display_name Sector name for D17]] "Ille Morat"),
 					'Side', "neutral",
 					'TerrainType', "Urban",
@@ -82,7 +82,6 @@ return {
 					'bidirectionalBlockApply', true,
 					'BlockTravelRiver', set( "East", "North", "South", "West" ),
 					'image', "UI/SatelliteView/SectorImages/D17",
-					'Port', true,
 					'MusicCombat', "Battle_Normal",
 					'MusicExploration', "Village_Exploration",
 					'combatTaskAmount', 2,
@@ -90,10 +89,10 @@ return {
 				PlaceObj('SatelliteSector', {
 					'Id', "D7",
 					'HideUnderground', true,
-					'Map', "KhkczoT",
+					'Map', "FinalStandD7",
 					'MapTier', 10,
 					'Label1', "City",
-					'modId', "bzoQECK",
+					'modId', "FinalStand",
 					'display_name', T(580447225647, --[[ModItemCampaignPreset FinalStand display_name Sector name for D7]] "Pantagruel Slums"),
 					'Side', "neutral",
 					'TerrainType', "Urban",
@@ -101,6 +100,7 @@ return {
 					'City', "PantagruelSlums",
 					'ShowCity', true,
 					'never_autoresolve', true,
+					'Hospital', true,
 					'Militia', true,
 					'MaxMilitia', 4,
 					'RAndRAllowed', true,
@@ -116,10 +116,10 @@ return {
 				PlaceObj('SatelliteSector', {
 					'Id', "H4",
 					'HideUnderground', true,
-					'Map', "cfgT7U",
+					'Map', "FinalStandH4",
 					'MapTier', 40,
 					'Label1', "Ernie",
-					'modId', "bzoQECK",
+					'modId', "FinalStand",
 					'Label2', "Outpost",
 					'display_name', T(621127133250, --[[ModItemCampaignPreset FinalStand display_name Sector name for H4]] "Fort L'Eau Bleu"),
 					'Side', "neutral",
@@ -128,23 +128,7 @@ return {
 					'City', "FortLEauBleu",
 					'ShowCity', true,
 					'never_autoresolve', true,
-					'PatrolRespawnTime', 1728000,
-					'TargetSectors', {
-						"H2",
-						"A2",
-						"K10",
-						"F7",
-						"H7",
-					},
-					'ExtraDefenderSquads', {
-						"LegionExtraDefenders_Balanced_Easy",
-					},
-					'EnemySquadsList', {
-						"LegionAttackers_Balanced_Easy",
-					},
-					'StrongEnemySquadsList', {
-						"LegionAttackers_Marksmen_Easy",
-					},
+					'Hospital', true,
 					'Militia', true,
 					'MaxMilitia', 4,
 					'RAndRAllowed', true,
@@ -160,10 +144,10 @@ return {
 				PlaceObj('SatelliteSector', {
 					'Id', "I9",
 					'HideUnderground', true,
-					'Map', "HHhAPrv",
+					'Map', "FinalStandI9",
 					'MapTier', 20,
 					'Label1', "Special",
-					'modId', "bzoQECK",
+					'modId', "FinalStand",
 					'display_name', T(499129490679, --[[ModItemCampaignPreset FinalStand display_name Sector name for I9]] "Rimville"),
 					'Side', "neutral",
 					'TerrainType', "Urban",
@@ -172,6 +156,7 @@ return {
 					'City', "Rimville",
 					'ShowCity', true,
 					'never_autoresolve', true,
+					'Hospital', true,
 					'Militia', true,
 					'MaxMilitia', 4,
 					'RAndRAllowed', true,
@@ -182,18 +167,15 @@ return {
 					'MusicCombat', "Battle_Tough",
 					'MusicConflict', "SpecificMansion_Conflict",
 					'MusicExploration', "SpecificMansion_Exploration",
-					'warningBanters', {
-						"RimvilleApproach_Thugs_BeforeSm_Intruders",
-					},
 					'combatTaskAmount', 2,
 				}),
 				PlaceObj('SatelliteSector', {
 					'Id', "L8",
 					'HideUnderground', true,
-					'Map', "PTFyTd4",
+					'Map', "FinalStandL8",
 					'MapTier', 20,
 					'Label1', "City",
-					'modId', "bzoQECK",
+					'modId', "FinalStand",
 					'display_name', T(187379373038, --[[ModItemCampaignPreset FinalStand display_name Sector name for L8]] "Port Cacao City"),
 					'Side', "neutral",
 					'TerrainType', "Urban",
@@ -271,6 +253,11 @@ return {
 					'Value', 50,
 					'Tag', "<operationsProgressModifier>%",
 				}),
+				PlaceObj('PresetParamNumber', {
+					'Name', "cityLoyaltyAmount",
+					'Value', 5,
+					'Tag', "<cityLoyaltyAmount>",
+				}),
 			},
 			Sectors = {
 				PlaceObj('FinalStandConfigSector', {
@@ -291,25 +278,48 @@ return {
 			},
 			attackTimeMax = 6,
 			attackTimeMin = 4,
-			baseMoney = 6000,
-			baseXp = 10000,
-			description = T(995080477580, --[[ModItemFinalStandConfigDef Default description]] "Default Final Stand config."),
-			description_gamepad = T(876411840233, --[[ModItemFinalStandConfigDef Default description_gamepad]] "Default Final Stand config."),
+			baseMoney = 10000,
+			baseXp = 12000,
+			description = T(995080477580, --[[ModItemFinalStandConfigDef Default description]] "Default Final Stand configuration."),
 			display_name = T(969651972519, --[[ModItemFinalStandConfigDef Default display_name]] "Default"),
 			display_name_caps = T(570560636797, --[[ModItemFinalStandConfigDef Default display_name_caps]] "DEFAULT"),
-			flavor_text = T(738336582644, --[[ModItemFinalStandConfigDef Default flavor_text]] "Default Final Stand config."),
 			group = "Default",
 			id = "Default",
 			msg_reactions = {
 				PlaceObj('MsgReaction', {
+					Event = "FinalStandGameConfigured",
+					Handler = function (self, FinalStand)
+						-- add some starting items to stash
+						--local sectorStash = GetSectorInventory(GetFinalStandSector())
+						--local itemsCopy = table.copy(shipment_details.items)
+						--if sectorStash then
+						--    AddItemsToInventory(sectorStash, itemsCopy)
+						--end
+					end,
+					param_bindings = false,
+				}),
+				PlaceObj('MsgReaction', {
 					Event = "OperationProgressPerTick",
 					Handler = function (self, operation, progresses)
-						if not IsFinalStand() then return end
+						if not IsFinalStandOperationSpeedUpAllowed(operation.id) then return end
 						
 						local base = progresses.base
 						local additionalProgress = (MulDivRound(base, 100 + self:ResolveValue("operationsProgressModifier"), 100) - base)
 						
 						progresses["final_stand"] = additionalProgress
+					end,
+					param_bindings = false,
+				}),
+				PlaceObj('MsgReaction', {
+					Event = "ConflictEnd",
+					Handler = function (self, sector, bNoVoice, playerAttacking, playerWon, isAutoResolve)
+						if not IsFinalStand() then return end
+						if not IsFinalStandSectorPlayerControlled() then return end
+						
+						-- add loyalty to current sector
+						local sector = GetFinalStandSector(true)
+						local value = self:ResolveValue("cityLoyaltyAmount") * GetFinalStandCurrentWave()
+						CityModifyLoyalty(sector.City, value, "")
 					end,
 					param_bindings = false,
 				}),
@@ -325,10 +335,10 @@ return {
 					AttireHead = {},
 					NameColor = 4286226623,
 					SortKey = 1,
-					comment = "(V) No modifiers or changes to Characters",
-					description = T(740134134665, --[[ModItemFinalStandFriendlyFactionDef Mercs description]] "<em>Default faction</em>. Your mercs will not change their attire nor receive any bonuses or penalties.<newline><newline><flavor>You can not change the player faction when the campaign starts, but you can always start a new one and give it another run.</flavor>"),
-					display_name = T(967105562153, --[[ModItemFinalStandFriendlyFactionDef Mercs display_name]] "Mercs"),
-					display_name_caps = T(560481808058, --[[ModItemFinalStandFriendlyFactionDef Mercs display_name_caps]] "MERCS"),
+					comment = "No modifiers or changes to Characters",
+					description = T(740134134665, --[[ModItemFinalStandFriendlyFactionDef Mercs description]] "<em>No Faction</em> - no bonuses or penalties, closer to vanilla experience.<newline><newline><flavor>This is a default non-themed faction, mercenaries will not wear faction attire.</flavor>"),
+					display_name = T(967105562153, --[[ModItemFinalStandFriendlyFactionDef Mercs display_name]] "No Faction"),
+					display_name_caps = T(560481808058, --[[ModItemFinalStandFriendlyFactionDef Mercs display_name_caps]] "NO FACTION"),
 					group = "Default",
 					id = "Mercs",
 				}),
@@ -610,10 +620,11 @@ return {
 							'Tag', "<operationsProgressModifier>%",
 						}),
 					},
-					comment = "Faster, cheaper ops, train militia, more xp, less money",
-					description = T(795340958482, --[[ModItemFinalStandFriendlyFactionDef Militia description]] "<color 21 132 138>Homefront</color> - operations are faster and cheaper. You can also <em>Train Militia</em>, but only once.<newline>\n<color 161 161 161>Knowing your locations and it's people has a lot of benefits.</color><newline><newline>\n<color 21 132 138>Eager Fighters</color> - units receive more <em>XP</em> for each wave completion.<newline>\n<color 161 161 161>Militia is always eager to defend it's territory and they learn twice as fast!</color><newline><newline>\n<color 204 51 0>Village Fund</color> - receive less <em>money</em> for wave completion.<newline>\n<color 161 161 161>They say you can't put gratitude in your pocket, but when it's a matter of defending your home, this is the best you can hope for.</flavor>\n<flavor>This is a themed faction, mercenaries will wear faction attire.</flavor>"),
-					display_name = T(315086321064, --[[ModItemFinalStandFriendlyFactionDef Militia display_name]] "Militia"),
-					display_name_caps = T(838090083518, --[[ModItemFinalStandFriendlyFactionDef Militia display_name_caps]] "MILITIA"),
+					SortKey = 2,
+					comment = "Faster ops, train militia, more xp, less money",
+					description = T(795340958482, --[[ModItemFinalStandFriendlyFactionDef Militia description]] "<color 161 161 161>Push back against the oppressors with the <em>Militia</em> faction.</color><newline><newline><color 21 132 138>Homefront</color> - sector operations are faster. You can also <em>Train Militia</em>.<newline><newline><color 21 132 138>Eager Fighters</color> - units receive <em>more XP</em> for each wave completion.<newline><newline><color 204 51 0>Village Fund</color> - receive <em>less money</em> for wave completion.<newline><newline><flavor>This is a themed faction, mercenaries will wear faction attire.</flavor>"),
+					display_name = T(315086321064, --[[ModItemFinalStandFriendlyFactionDef Militia display_name]] "Grand Chien Militia"),
+					display_name_caps = T(838090083518, --[[ModItemFinalStandFriendlyFactionDef Militia display_name_caps]] "GRAND CHIEN MILITIA"),
 					group = "Default",
 					id = "Militia",
 					moneyModifier = -25,
@@ -637,7 +648,7 @@ return {
 						PlaceObj('MsgReaction', {
 							Event = "OperationProgressPerTick",
 							Handler = function (self, operation, progresses)
-								if not IsFinalStand() then return end
+								if not IsFinalStandOperationSpeedUpAllowed(operation.id) then return end
 								if self.id ~= GetFinalStandFriendlyFaction() then return end
 								
 								-- increase militia operation speed
@@ -701,7 +712,7 @@ return {
 							},
 							'HideHair', false,
 							'Hat2', "EquipmentLen_Glasses",
-							'Hat2AttachOffsetX', 20,
+							'Hat2AttachOffsetX', 5,
 						}),
 					},
 					NameColor = 4286226623,
@@ -1417,9 +1428,9 @@ return {
 							'Tag', "<bobbyRaySpeedModifier>%",
 						}),
 					},
-					SortKey = 2,
+					SortKey = 3,
 					comment = "Faster BobbyRay + higher tier, less xp, slightly more money",
-					description = T(804842149252, --[[ModItemFinalStandFriendlyFactionDef Rebels description]] '<color 21 132 138>Connections</color> - each restock of BobbyRayShop <em>increases tier by 2</em>, instead of 1. <em>Deliveries</em> from said shop arrive twice as <em>fast</em>.<newline>\n<color 161 161 161>Through their connections with criminal organizations and other "enterprises", Maquis Rebels always have the best gear from the free market.</color><newline><newline>\n<color 21 132 138>Mysterious Funding</color> - receive <em>more money</em> for each wave completion.<newline>\n<color 161 161 161>Surprisingly, rebels always find sources of income.</color><newline><newline>\n<color 204 51 0>100 Years War</color> - units receive <em>less XP</em> for wave completion.<newline>\n<color 161 161 161>Fighting a long fight will eventually result in learning everything you can learn.</color><newline><newline>\n<flavor>This is a themed faction, mercenaries will wear faction attire.</flavor>'),
+					description = T(804842149252, --[[ModItemFinalStandFriendlyFactionDef Rebels description]] "<color 161 161 161>Fight for the revolution with the <em>Maquis Rebels</em> faction.</color><newline><newline><color 21 132 138>Connections</color> - each restock of BobbyRayShop <em>increases tier by 2</em>, instead of 1. <em>Deliveries</em> from said shop arrive twice as <em>fast</em> despite what it says on the website.<newline><newline><color 21 132 138>Mysterious Funding</color> - receive <em>more money</em> for each wave completion.<newline><newline><color 204 51 0>War Veterans</color> - units receive <em>less XP</em> for wave completion.<newline><newline><flavor>This is a themed faction, mercenaries will wear faction attire.</flavor>"),
 					display_name = T(943600656612, --[[ModItemFinalStandFriendlyFactionDef Rebels display_name]] "Maquis Rebels"),
 					display_name_caps = T(960626436378, --[[ModItemFinalStandFriendlyFactionDef Rebels display_name_caps]] "MAQUIS REBELS"),
 					group = "Default",
@@ -1442,11 +1453,20 @@ return {
 								if not IsFinalStand() then return end
 								if self.id ~= GetFinalStandFriendlyFaction() then return end
 								
+								-- modify the time
 								local original_time = shipment_details.due_time - Game.CampaignTime
-								local time_modified = (MulDivRound(original_time, 100 + self:ResolveValue("bobbyRaySpeedModifier"), 100) - original_time)
+								local time_modified = MulDivRound(original_time, 100 + self:ResolveValue("bobbyRaySpeedModifier"), 100)
 								
 								local new_due_time = Game.CampaignTime + time_modified
 								shipment_details.due_time = new_due_time
+								
+								-- update timeline event
+								local order_id = tostring(shipment_details.order_id)
+								local timeline_event_id = "bobby_ray_shipment_" .. order_id
+								RemoveTimelineEvent(timeline_event_id)
+								
+								local shipment_context = { sectorId = shipment_details.sector_id, items = shipment_details.shipment_items, order_id = order_id }
+								AddTimelineEvent(timeline_event_id, shipment_details.due_time, "store_shipment", shipment_context)
 							end,
 							param_bindings = false,
 						}),
@@ -1582,6 +1602,9 @@ return {
 							'BodyColorKey', "EditableColor1",
 						}),
 						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', nil),
+							},
 							'Gender', "Female",
 							'Body', "Female_Body_01",
 							'BodyColorKey', "EditableColor1",
@@ -2039,6 +2062,7 @@ return {
 								}),
 							},
 							'Hat', "FactionMale_Hat_05",
+							'HatAttachOffsetX', 4,
 						}),
 						PlaceObj('FinalStandAttirePoolHat', {
 							'Colors', {
@@ -2301,29 +2325,6 @@ return {
 					id = "RebelsAllRounder",
 				}),
 				PlaceObj('ModItemFinalStandAttirePoolDef', {
-					Armor = {
-						PlaceObj('FinalStandAttirePoolArmor', {
-							'Colors', {
-								PlaceObj('ColorizationPropSet', {
-									'EditableColor1', RGBA(121, 49, 33, 255),
-									'EditableColor2', RGBA(83, 110, 44, 255),
-									'EditableColor3', RGBA(3, 2, 2, 255),
-								}),
-								PlaceObj('ColorizationPropSet', {
-									'EditableColor1', RGBA(76, 32, 14, 255),
-									'EditableColor2', RGBA(72, 85, 53, 255),
-									'EditableColor3', RGBA(3, 2, 2, 255),
-								}),
-								PlaceObj('ColorizationPropSet', {
-									'EditableColor1', RGBA(36, 16, 12, 255),
-									'EditableColor2', RGBA(99, 103, 47, 255),
-									'EditableColor3', RGBA(3, 2, 2, 255),
-								}),
-							},
-							'Gender', "Female",
-							'Armor', "EquipmentFemale_FlackVest",
-						}),
-					},
 					Body = {
 						PlaceObj('FinalStandAttirePoolBody', {
 							'Colors', {
@@ -2348,8 +2349,25 @@ return {
 							'BodyColorKey', "EditableColor1",
 						}),
 						PlaceObj('FinalStandAttirePoolBody', {
+							'Colors', {
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(121, 49, 33, 255),
+									'EditableColor2', RGBA(83, 110, 44, 255),
+									'EditableColor3', RGBA(17, 11, 11, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(76, 32, 14, 255),
+									'EditableColor2', RGBA(72, 85, 53, 255),
+									'EditableColor3', RGBA(17, 11, 11, 255),
+								}),
+								PlaceObj('ColorizationPropSet', {
+									'EditableColor1', RGBA(36, 16, 12, 255),
+									'EditableColor2', RGBA(99, 103, 47, 255),
+									'EditableColor3', RGBA(17, 11, 11, 255),
+								}),
+							},
 							'Gender', "Female",
-							'Body', "Female_Body_01",
+							'Body', "EquipmentIMPTrooper_Top",
 							'BodyColorKey', "EditableColor1",
 						}),
 					},
@@ -2376,19 +2394,18 @@ return {
 							'Colors', {
 								PlaceObj('ColorizationPropSet', {
 									'EditableColor1', RGBA(62, 8, 8, 255),
-									'EditableColor2', RGBA(26, 23, 23, 255),
-									'EditableColor3', RGBA(0, 0, 0, 255),
+									'EditableColor2', RGBA(62, 8, 8, 255),
+									'EditableColor3', RGBA(62, 8, 8, 255),
 								}),
 								PlaceObj('ColorizationPropSet', {
 									'EditableColor1', RGBA(55, 30, 15, 255),
-									'EditableColor2', RGBA(26, 23, 23, 255),
-									'EditableColor3', RGBA(0, 0, 0, 255),
+									'EditableColor2', RGBA(55, 30, 15, 255),
+									'EditableColor3', RGBA(55, 30, 15, 255),
 								}),
 							},
 							'Gender', "Female",
 							'RollForHat2', false,
 							'Hat', "FactionMale_Hat_10",
-							'HatSpot', "Origin",
 						}),
 					},
 					NameColor = 4286226623,
@@ -2433,30 +2450,7 @@ return {
 								}),
 							},
 							'Gender', "Female",
-							'Pants', "EquipmentFemale_Pants_03",
-						}),
-					},
-					Shirt = {
-						PlaceObj('FinalStandAttirePoolShirt', {
-							'Colors', {
-								PlaceObj('ColorizationPropSet', {
-									'EditableColor1', RGBA(83, 110, 44, 255),
-									'EditableColor2', RGBA(83, 110, 44, 255),
-									'EditableColor3', RGBA(3, 2, 2, 255),
-								}),
-								PlaceObj('ColorizationPropSet', {
-									'EditableColor1', RGBA(72, 85, 53, 255),
-									'EditableColor2', RGBA(72, 85, 53, 255),
-									'EditableColor3', RGBA(3, 2, 2, 255),
-								}),
-								PlaceObj('ColorizationPropSet', {
-									'EditableColor1', RGBA(99, 103, 47, 255),
-									'EditableColor2', RGBA(99, 103, 47, 255),
-									'EditableColor3', RGBA(3, 2, 2, 255),
-								}),
-							},
-							'Gender', "Female",
-							'Shirt', "EquipmentFemale_Shirt_01",
+							'Pants', "EquipmentFemale_Pants_01",
 						}),
 					},
 					Specialization = "ExplosiveExpert",
@@ -2651,6 +2645,7 @@ return {
 							},
 							'Gender', "Female",
 							'Hat', "FactionMale_Hat_04",
+							'HatAttachOffsetY', -3,
 						}),
 					},
 					Hat2 = {
@@ -2807,7 +2802,9 @@ return {
 					}),
 				},
 				comment = "5% increase in Money and XP, easy enemies",
+				description = T(163165721641, --[[ModItemFinalStandEnemyFactionDef Legion description]] "<color 161 161 161>Major's ruthless, one could even dare to say, para-military.</color><newline><newline><em>Piece of Cake</em> - this faction is overall easy to fight, <em>no money or XP increase</em> from base rewards.<newline><newline>"),
 				display_name = T(625545314418, --[[ModItemFinalStandEnemyFactionDef Legion display_name]] "Legion"),
+				display_name_caps = T(928522287632, --[[ModItemFinalStandEnemyFactionDef Legion display_name_caps]] "LEGION"),
 				group = "Default",
 				id = "Legion",
 				moneyModifier = 5,
@@ -2897,7 +2894,9 @@ return {
 					}),
 				},
 				comment = "20% increase in Money and XP, medium enemies",
+				description = T(570856303260, --[[ModItemFinalStandEnemyFactionDef Adonis description]] "<color 161 161 161>Army of soldiers from the powerful corporation.</color><newline><newline><em>Slight Challenge</em> - this faction is overall not a walk in a park, <em><percent(moneyModifier)> increase in XP and money</em> from base rewards.<newline><newline>"),
 				display_name = T(848092566579, --[[ModItemFinalStandEnemyFactionDef Adonis display_name]] "Adonis"),
+				display_name_caps = T(487895655216, --[[ModItemFinalStandEnemyFactionDef Adonis display_name_caps]] "ADONIS"),
 				group = "Default",
 				id = "Adonis",
 				moneyModifier = 20,
@@ -2963,7 +2962,9 @@ return {
 					}),
 				},
 				comment = "40% increase in Money and XP, hard enemies",
-				display_name = T(607354837385, --[[ModItemFinalStandEnemyFactionDef Army display_name]] "Army"),
+				description = T(398191236510, --[[ModItemFinalStandEnemyFactionDef Army description]] "<color 161 161 161>Well-organized military force of Grand Chien.</color><newline><newline><em>Tough Fight</em> - this faction is overall hard to fight, <em><percent(moneyModifier)> increase in XP and money</em> from base rewards.<newline><newline>"),
+				display_name = T(607354837385, --[[ModItemFinalStandEnemyFactionDef Army display_name]] "Grand Chien Army"),
+				display_name_caps = T(376620708541, --[[ModItemFinalStandEnemyFactionDef Army display_name_caps]] "GRAND CHIEN ARMY"),
 				group = "Default",
 				id = "Army",
 				moneyModifier = 40,
@@ -3005,7 +3006,9 @@ return {
 					}),
 				},
 				comment = "60% increase in Money and XP, hard enemies",
-				display_name = T(280034056377, --[[ModItemFinalStandEnemyFactionDef SuperSoldiers display_name]] "SuperSoldiers"),
+				description = T(345842431232, --[[ModItemFinalStandEnemyFactionDef SuperSoldiers description]] "<color 161 161 161>Siegfried's Super Soldiers.</color><newline><newline><em>ÜBER</em> - extremely nasty enemy to face, <em><percent(moneyModifier)> increase in XP and money</em> from base rewards.<newline><newline>"),
+				display_name = T(280034056377, --[[ModItemFinalStandEnemyFactionDef SuperSoldiers display_name]] "Siegfried's Guard"),
+				display_name_caps = T(904780289973, --[[ModItemFinalStandEnemyFactionDef SuperSoldiers display_name_caps]] "SIEGFRIED'S GUARD"),
 				group = "Default",
 				id = "SuperSoldiers",
 				moneyModifier = 60,
@@ -3018,7 +3021,7 @@ return {
 			PlaceObj('ModItemFinalStandLengthDef', {
 				NameColor = 4291018156,
 				SortKey = 1,
-				description = T(469065984286, --[[ModItemFinalStandLengthDef ThreeWaves description]] "Survival <maxWaves> waves in order to win! This is the shortest and easiest way to experience the game-mode.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you want the full experience, it is recommended to <em>choose 7 waves</em>.<newline><newline><flavor>You can not change the length of the game when the campaign starts, but you can always restart it and give it another go.</flavor>"),
+				description = T(469065984286, --[[ModItemFinalStandLengthDef ThreeWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you wish for the full experience, it is recommended to <em>choose 7 waves</em>."),
 				display_name = T(400364955478, --[[ModItemFinalStandLengthDef ThreeWaves display_name]] "3 Waves"),
 				display_name_caps = T(442614194967, --[[ModItemFinalStandLengthDef ThreeWaves display_name_caps]] "3 WAVES"),
 				group = "Default",
@@ -3027,7 +3030,7 @@ return {
 			PlaceObj('ModItemFinalStandLengthDef', {
 				NameColor = 4291018156,
 				SortKey = 2,
-				description = T(286294288316, --[[ModItemFinalStandLengthDef FiveWaves description]] "Survival <maxWaves> waves in order to win!<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you want the full experience, it is recommended to <em>choose 7 waves</em>.<newline><newline><flavor>You can not change the length of the game when the campaign starts, but you can always restart it and give it another go.</flavor>"),
+				description = T(286294288316, --[[ModItemFinalStandLengthDef FiveWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you wish for the full experience, it is recommended to <em>choose 7 waves</em>."),
 				display_name = T(845045912590, --[[ModItemFinalStandLengthDef FiveWaves display_name]] "5 Waves"),
 				display_name_caps = T(329343893497, --[[ModItemFinalStandLengthDef FiveWaves display_name_caps]] "5 WAVES"),
 				group = "Default",
@@ -3037,7 +3040,7 @@ return {
 			PlaceObj('ModItemFinalStandLengthDef', {
 				NameColor = 4291018156,
 				SortKey = 3,
-				description = T(367987529496, --[[ModItemFinalStandLengthDef SevenWaves description]] "Survival <maxWaves> waves in order to win! This is the <em>recommended</em>, full experience of the game-mode.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves.<newline><newline><flavor>You can not change the length of the game when the campaign starts, but you can always restart it and give it another go.</flavor>"),
+				description = T(367987529496, --[[ModItemFinalStandLengthDef SevenWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves, this is the <em>recommended</em>, full experience of the game-mode."),
 				display_name = T(880015722679, --[[ModItemFinalStandLengthDef SevenWaves display_name]] "7 Waves"),
 				display_name_caps = T(467155438678, --[[ModItemFinalStandLengthDef SevenWaves display_name_caps]] "7 WAVES"),
 				group = "Default",
@@ -3170,16 +3173,16 @@ return {
 		'name', "Sectors",
 	}, {
 		PlaceObj('ModItemSector', {
-			'mapName', "cfgT7U",
+			'mapName', "FinalStandH4",
 			'campaignId', "FinalStand",
 			'sectorId', "H4",
 			'SatelliteSectorObj', PlaceObj('SatelliteSector', {
 				'Id', "H4",
 				'HideUnderground', true,
-				'Map', "cfgT7U",
+				'Map', "FinalStandH4",
 				'MapTier', 40,
 				'Label1', "Ernie",
-				'modId', "bzoQECK",
+				'modId', "FinalStand",
 				'Label2', "Outpost",
 				'display_name', T(621127133250, --[[ModItemCampaignPreset FinalStand display_name Sector name for H4]] "Fort L'Eau Bleu"),
 				'Side', "neutral",
@@ -3188,23 +3191,7 @@ return {
 				'City', "FortLEauBleu",
 				'ShowCity', true,
 				'never_autoresolve', true,
-				'PatrolRespawnTime', 1728000,
-				'TargetSectors', {
-					"H2",
-					"A2",
-					"K10",
-					"F7",
-					"H7",
-				},
-				'ExtraDefenderSquads', {
-					"LegionExtraDefenders_Balanced_Easy",
-				},
-				'EnemySquadsList', {
-					"LegionAttackers_Balanced_Easy",
-				},
-				'StrongEnemySquadsList', {
-					"LegionAttackers_Marksmen_Easy",
-				},
+				'Hospital', true,
 				'Militia', true,
 				'MaxMilitia', 4,
 				'RAndRAllowed', true,
@@ -3220,16 +3207,16 @@ return {
 			}),
 		}),
 		PlaceObj('ModItemSector', {
-			'mapName', "HHhAPrv",
+			'mapName', "FinalStandI9",
 			'campaignId', "FinalStand",
 			'sectorId', "I9",
 			'SatelliteSectorObj', PlaceObj('SatelliteSector', {
 				'Id', "I9",
 				'HideUnderground', true,
-				'Map', "HHhAPrv",
+				'Map', "FinalStandI9",
 				'MapTier', 20,
 				'Label1', "Special",
-				'modId', "bzoQECK",
+				'modId', "FinalStand",
 				'display_name', T(499129490679, --[[ModItemCampaignPreset FinalStand display_name Sector name for I9]] "Rimville"),
 				'Side', "neutral",
 				'TerrainType', "Urban",
@@ -3238,6 +3225,7 @@ return {
 				'City', "Rimville",
 				'ShowCity', true,
 				'never_autoresolve', true,
+				'Hospital', true,
 				'Militia', true,
 				'MaxMilitia', 4,
 				'RAndRAllowed', true,
@@ -3248,23 +3236,20 @@ return {
 				'MusicCombat', "Battle_Tough",
 				'MusicConflict', "SpecificMansion_Conflict",
 				'MusicExploration', "SpecificMansion_Exploration",
-				'warningBanters', {
-					"RimvilleApproach_Thugs_BeforeSm_Intruders",
-				},
 				'combatTaskAmount', 2,
 			}),
 		}),
 		PlaceObj('ModItemSector', {
-			'mapName', "PTFyTd4",
+			'mapName', "FinalStandL8",
 			'campaignId', "FinalStand",
 			'sectorId', "L8",
 			'SatelliteSectorObj', PlaceObj('SatelliteSector', {
 				'Id', "L8",
 				'HideUnderground', true,
-				'Map', "PTFyTd4",
+				'Map', "FinalStandL8",
 				'MapTier', 20,
 				'Label1', "City",
-				'modId', "bzoQECK",
+				'modId', "FinalStand",
 				'display_name', T(187379373038, --[[ModItemCampaignPreset FinalStand display_name Sector name for L8]] "Port Cacao City"),
 				'Side', "neutral",
 				'TerrainType', "Urban",
@@ -3288,16 +3273,16 @@ return {
 			}),
 		}),
 		PlaceObj('ModItemSector', {
-			'mapName', "KhkczoT",
+			'mapName', "FinalStandD7",
 			'campaignId', "FinalStand",
 			'sectorId', "D7",
 			'SatelliteSectorObj', PlaceObj('SatelliteSector', {
 				'Id', "D7",
 				'HideUnderground', true,
-				'Map', "KhkczoT",
+				'Map', "FinalStandD7",
 				'MapTier', 10,
 				'Label1', "City",
-				'modId', "bzoQECK",
+				'modId', "FinalStand",
 				'display_name', T(580447225647, --[[ModItemCampaignPreset FinalStand display_name Sector name for D7]] "Pantagruel Slums"),
 				'Side', "neutral",
 				'TerrainType', "Urban",
@@ -3305,6 +3290,7 @@ return {
 				'City', "PantagruelSlums",
 				'ShowCity', true,
 				'never_autoresolve', true,
+				'Hospital', true,
 				'Militia', true,
 				'MaxMilitia', 4,
 				'RAndRAllowed', true,
@@ -3319,16 +3305,16 @@ return {
 			}),
 		}),
 		PlaceObj('ModItemSector', {
-			'mapName', "sFzSVq",
+			'mapName', "FinalStandD17",
 			'campaignId', "FinalStand",
 			'sectorId', "D17",
 			'SatelliteSectorObj', PlaceObj('SatelliteSector', {
 				'Id', "D17",
 				'HideUnderground', true,
-				'Map', "sFzSVq",
+				'Map', "FinalStandD17",
 				'MapTier', 20,
 				'Label1', "City",
-				'modId', "bzoQECK",
+				'modId', "FinalStand",
 				'display_name', T(588901431087, --[[ModItemCampaignPreset FinalStand display_name Sector name for D17]] "Ille Morat"),
 				'Side', "neutral",
 				'TerrainType', "Urban",
@@ -3345,7 +3331,6 @@ return {
 				'bidirectionalBlockApply', true,
 				'BlockTravelRiver', set( "East", "North", "South", "West" ),
 				'image', "UI/SatelliteView/SectorImages/D17",
-				'Port', true,
 				'MusicCombat', "Battle_Normal",
 				'MusicExploration', "Village_Exploration",
 				'combatTaskAmount', 2,
@@ -3353,41 +3338,46 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			Sector = "H4",
+			SortKey = 1,
 			comment = "Fort L'Eau Bleu (outpost)",
-			description = T(150244906240, --[[ModItemFinalStandSectorDef H4 description]] "Description of the sector!"),
-			display_name = T(919903154411, --[[ModItemFinalStandSectorDef H4 display_name]] "H4 - Fort L'Eau Bleu"),
+			description = T(150244906240, --[[ModItemFinalStandSectorDef H4 description]] "Main stronghold of Ernie island.<newline><newline><image UI/SatelliteView/SectorImages/H04 1600>"),
+			display_name = T(919903154411, --[[ModItemFinalStandSectorDef H4 display_name]] "Fort L'Eau Bleu (H4)"),
 			group = "Default",
 			id = "H4",
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			Sector = "I9",
+			SortKey = 2,
 			comment = "Rimville (outpost/mansion)",
-			description = T(706232630775, --[[ModItemFinalStandSectorDef I9 description]] "Description of the sector!"),
-			display_name = T(377896673109, --[[ModItemFinalStandSectorDef I9 display_name]] "I9 - Rimville"),
+			description = T(706232630775, --[[ModItemFinalStandSectorDef I9 description]] "Boss Blaubert's mansion.<newline><newline><image UI/SatelliteView/SectorImages/I09 1600>"),
+			display_name = T(377896673109, --[[ModItemFinalStandSectorDef I9 display_name]] "Rimville (I9)"),
 			group = "Default",
 			id = "I9",
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			Sector = "L8",
+			SortKey = 3,
 			comment = "Port Cacao City (city/mansion)",
-			description = T(119457814568, --[[ModItemFinalStandSectorDef L8 description]] "Description of the sector!"),
-			display_name = T(685381178936, --[[ModItemFinalStandSectorDef L8 display_name]] "L8 - Port Cacao City"),
+			description = T(119457814568, --[[ModItemFinalStandSectorDef L8 description]] "City center of Port Cacao.<newline><newline><image UI/SatelliteView/SectorImages/L08 1600>"),
+			display_name = T(685381178936, --[[ModItemFinalStandSectorDef L8 display_name]] "Port Cacao City (L8)"),
 			group = "Default",
 			id = "L8",
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			Sector = "D7",
+			SortKey = 4,
 			comment = "Pantagruel Slums (city/open area)",
-			description = T(642687711828, --[[ModItemFinalStandSectorDef D7 description]] "Description of the sector!"),
-			display_name = T(976812820692, --[[ModItemFinalStandSectorDef D7 display_name]] "D7 - Pantagruel Slums"),
+			description = T(642687711828, --[[ModItemFinalStandSectorDef D7 description]] "Densely populated slums west of Pantagruel center.<newline><newline><image UI/SatelliteView/SectorImages/D07 1600>"),
+			display_name = T(976812820692, --[[ModItemFinalStandSectorDef D7 display_name]] "Pantagruel Slums (D7)"),
 			group = "Default",
 			id = "D7",
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			Sector = "D17",
+			SortKey = 5,
 			comment = "Ille Morat",
-			description = T(429721753974, --[[ModItemFinalStandSectorDef D17 description]] "Description of the sector!"),
-			display_name = T(412313514242, --[[ModItemFinalStandSectorDef D17 display_name]] "D17 - Ille Morat"),
+			description = T(429721753974, --[[ModItemFinalStandSectorDef D17 description]] "Ille Morat village port.<newline><newline><image UI/SatelliteView/SectorImages/D17 1600>"),
+			display_name = T(412313514242, --[[ModItemFinalStandSectorDef D17 display_name]] "Ille Morat (D17)"),
 			group = "Default",
 			id = "D17",
 		}),
@@ -3466,716 +3456,4 @@ return {
 			}),
 			}),
 		}),
-	PlaceObj('ModItemUnitDataCompositeDef', {
-		'Group', "MercenariesOld",
-		'Id', "TestF",
-		'object_class', "UnitData",
-		'Health', 85,
-		'Agility', 76,
-		'Dexterity', 93,
-		'Strength', 68,
-		'Wisdom', 78,
-		'Leadership', 19,
-		'Marksmanship', 94,
-		'Mechanical', 5,
-		'Explosives', 5,
-		'Medical', 17,
-		'Portrait', "UI/MercsPortraits/Raven",
-		'BigPortrait', "UI/Mercs/Raven",
-		'IsMercenary', true,
-		'Name', T(775277976996, --[[ModItemUnitDataCompositeDef TestF Name]] "TEST F"),
-		'Nick', T(736472653747, --[[ModItemUnitDataCompositeDef TestF Nick]] "Raven"),
-		'AllCapsNick', T(696993136295, --[[ModItemUnitDataCompositeDef TestF AllCapsNick]] "RAVEN"),
-		'Bio', T(943289334891, --[[ModItemUnitDataCompositeDef TestF Bio]] "While husband Ron and others kept Somali pirates attempting to board their cruise ship pinned down, Raven used the cover of night to systematically kill one after another using controlled bursts from a captured automatic rifle. A formidable markswoman with nerves of steel, Raven prefers to work alongside her husband but is an asset to any team that is looking to maintain a high standard of excellence and esprit de corps."),
-		'Nationality', "USA",
-		'Title', T(943286403870, --[[ModItemUnitDataCompositeDef TestF Title]] "Never More Badass"),
-		'Email', T(619154713379, --[[ModItemUnitDataCompositeDef TestF Email]] "nevermore@aim.com"),
-		'snype_nick', T(783026836966, --[[ModItemUnitDataCompositeDef TestF snype_nick]] "nevermore"),
-		'Refusals', {
-			PlaceObj('MercChatRefusal', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(328855564136, --[[ModItemUnitDataCompositeDef TestF Text MercChatRefusal Lines ChatMessage voice:TestF]] "I don't think I'm up to anything after Ron's death. Sorry, I need time to spend with my dogs and to grieve. Don't contact me again."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						Status = "Dead",
-						TargetUnit = "Raider",
-					}),
-				},
-			}),
-			PlaceObj('MercChatRefusal', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(747999319859, --[[ModItemUnitDataCompositeDef TestF Text MercChatRefusal Lines ChatMessage voice:TestF]] "Your bank statement looks... lacking. I need to be sure I will get paid. I'm not in this just for the thrills, you know."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('MercChatConditionMoney', {}),
-				},
-			}),
-		},
-		'Haggles', {
-			PlaceObj('MercChatHaggle', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(407540800841, --[[ModItemUnitDataCompositeDef TestF Text MercChatHaggle Lines ChatMessage voice:TestF]] "I don't know much about you. In fact, I don't know anything about you. "),
-					}),
-					PlaceObj('ChatMessage', {
-						'Text', T(187341630244, --[[ModItemUnitDataCompositeDef TestF Text MercChatHaggle Lines ChatMessage voice:TestF]] "This means I must charge you a higher fee in case you turn out to be incompetent. "),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('MercChatConditionRehire', {}),
-				},
-				'chanceToRoll', 20,
-			}),
-		},
-		'Mitigations', {
-			PlaceObj('MercChatMitigation', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(602523900358, --[[ModItemUnitDataCompositeDef TestF Text MercChatMitigation Lines ChatMessage voice:TestF]] "If my husband will work for you, so will I."),
-					}),
-					PlaceObj('ChatMessage', {
-						'Text', T(619214845944, --[[ModItemUnitDataCompositeDef TestF Text MercChatMitigation Lines ChatMessage voice:TestF]] "Let's do it."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						Status = "Hired",
-						TargetUnit = "Raider",
-					}),
-				},
-				'chanceToRoll', 100,
-			}),
-		},
-		'ExtraPartingWords', {
-			PlaceObj('MercChatBranch', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(695410436374, --[[ModItemUnitDataCompositeDef TestF Text MercChatBranch Lines ChatMessage voice:TestF]] "I feel bad about leaving Ron alone at home. Honestly, he mopes around the house more than the dogs when I'm gone."),
-					}),
-					PlaceObj('ChatMessage', {
-						'Text', T(113850879219, --[[ModItemUnitDataCompositeDef TestF Text MercChatBranch Lines ChatMessage voice:TestF]] "Why don't you give him a call? He's pretty good - not as good as me, but then again few are."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						TargetUnit = "Raider",
-					}),
-				},
-			}),
-		},
-		'Offline', {
-			PlaceObj('ChatMessage', {
-				'Text', T(763892462843, --[[ModItemUnitDataCompositeDef TestF Text Offline ChatMessage voice:TestF]] "Hi, this is Charlene Higgens. I'm out and about. How about we postpone this for another time?"),
-			}),
-		},
-		'GreetingAndOffer', {
-			PlaceObj('ChatMessage', {
-				'Text', T(227677773764, --[[ModItemUnitDataCompositeDef TestF Text GreetingAndOffer ChatMessage voice:TestF]] "Hi, this is Charlene Higgens. I understand you have a mission I could be interested in."),
-			}),
-		},
-		'ConversationRestart', {
-			PlaceObj('ChatMessage', {
-				'Text', T(311904849854, --[[ModItemUnitDataCompositeDef TestF Text ConversationRestart ChatMessage voice:TestF]] "OK. Let's try this again."),
-			}),
-		},
-		'IdleLine', {
-			PlaceObj('ChatMessage', {
-				'Text', T(318985828088, --[[ModItemUnitDataCompositeDef TestF Text IdleLine ChatMessage voice:TestF]] "I'm good at night ops stuff and shooting stuff and being a badass in general. Just something to keep in mind while you're pondering."),
-			}),
-		},
-		'PartingWords', {
-			PlaceObj('ChatMessage', {
-				'Text', T(431309677267, --[[ModItemUnitDataCompositeDef TestF Text PartingWords ChatMessage voice:TestF]] "Great. Can't wait to start. Just need to find a dog sitter."),
-			}),
-		},
-		'RehireIntro', {
-			PlaceObj('ChatMessage', {
-				'Text', T(718690222165, --[[ModItemUnitDataCompositeDef TestF Text RehireIntro ChatMessage voice:TestF]] "My contract's about up for renewal. I'm interested, if you are."),
-			}),
-		},
-		'RehireOutro', {
-			PlaceObj('ChatMessage', {
-				'Text', T(249755983578, --[[ModItemUnitDataCompositeDef TestF Text RehireOutro ChatMessage voice:TestF]] "Good. I like this arrangement."),
-			}),
-		},
-		'StartingSalary', 1650,
-		'SalaryIncrease', 230,
-		'SalaryLv1', 1100,
-		'SalaryMaxLv', 7300,
-		'LegacyNotes', '"Former L.A.P.D. SWAT team sharpshooter, Sgt. Charlene Higgens left the force for A.I.M. so she could work alongside her husband, Ron Higgens. They prefer to take assignments together since operate with the precision of a solitary unit. If you listen to them though, you\'d never realize they\'re married; they rarely acknowledge their personal lives during work. Raven is qualified in night operations." - A.I.M. dossier\n\nAdditional info:\n\nA female version of her husband. They belong together. Also good friends with Donna who is their unofficial go to doctor for treating injuries.\nLess obsessive about being in charge.\nA consummate professional that gets on well with everyone.\nLighter, more prone to humor\nMore open and outgoing.',
-		'StartingLevel', 2,
-		'CustomEquipGear', function (self, items)
-			self:TryEquip(items, "Handheld A", "Firearm")
-			self:TryEquip(items, "Handheld B", "Firearm")
-		end,
-		'MaxHitPoints', 85,
-		'Likes', {
-			"Raider",
-		},
-		'StartingPerks', {
-			"AutoWeapons",
-			"Spotter",
-			"Deadeye",
-		},
-		'AppearancesList', {
-			PlaceObj('AppearanceWeight', {
-				'Preset', "TestAppearanceF",
-			}),
-		},
-		'Equipment', {
-			"Raven",
-		},
-		'Tier', "Veteran",
-		'Specialization', "Marksmen",
-		'pollyvoice', "Emma",
-		'gender', "Female",
-		'VoiceResponseId', "Raven",
-	}),
-	PlaceObj('ModItemAppearancePreset', {
-		Body = "EquipmentIMPTrooper_Top",
-		BodyColor = PlaceObj('ColorizationPropSet', {
-			'EditableColor1', RGBA(0, 141, 255, 255),
-			'EditableColor2', RGBA(0, 255, 9, 255),
-			'EditableColor3', RGBA(255, 11, 0, 255),
-		}),
-		Hat = "FactionMale_Hat_13",
-		Hat2 = "NPCCostumeFemale_Scarf",
-		Hat2Spot = "Origin",
-		Head = "Head_Livewire",
-		Pants = "NPCCostumeFemale_Pants_01",
-		group = "Default",
-		id = "TestAppearanceF",
-	}),
-	PlaceObj('ModItemUnitDataCompositeDef', {
-		'Group', "MercenariesOld",
-		'Id', "TestM",
-		'object_class', "UnitData",
-		'Health', 94,
-		'Agility', 69,
-		'Dexterity', 51,
-		'Strength', 95,
-		'Wisdom', 72,
-		'Leadership', 18,
-		'Marksmanship', 79,
-		'Mechanical', 24,
-		'Explosives', 37,
-		'Medical', 8,
-		'Portrait', "UI/MercsPortraits/Grizzly",
-		'BigPortrait', "UI/Mercs/Grizzly",
-		'IsMercenary', true,
-		'Name', T(221851204204, --[[ModItemUnitDataCompositeDef TestM Name]] "TEST M"),
-		'Nick', T(501761184263, --[[ModItemUnitDataCompositeDef TestM Nick]] "Grizzly"),
-		'AllCapsNick', T(328682788747, --[[ModItemUnitDataCompositeDef TestM AllCapsNick]] "GRIZZLY"),
-		'Bio', T(313276093378, --[[ModItemUnitDataCompositeDef TestM Bio]] "Steve Bornell is so tough he doesn't just spit nails when he eats iron, he swallows rocks and craps out concrete bunkers. Never one to shy away from a fight, he can beat you to a pulp with his bare hands or take out the tank you're driving with a rocket launcher. And when you need a friend, Grizzly is the big cuddly bear in your corner."),
-		'Nationality', "USA",
-		'Title', T(138989584994, --[[ModItemUnitDataCompositeDef TestM Title]] "A Bear of a Man"),
-		'Email', T(539118642155, --[[ModItemUnitDataCompositeDef TestM Email]] "grizz@aim.com"),
-		'snype_nick', T(278856531370, --[[ModItemUnitDataCompositeDef TestM snype_nick]] "grizz"),
-		'Refusals', {
-			PlaceObj('MercChatRefusal', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(759786796055, --[[ModItemUnitDataCompositeDef TestM Text MercChatRefusal Lines ChatMessage voice:TestM]] "I don't work with Dr. Q., and take my advice, you shouldn't either. Word to the wise, beware of him."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						Status = "Hired",
-						TargetUnit = "DrQ",
-					}),
-				},
-			}),
-		},
-		'Haggles', {
-			PlaceObj('MercChatHaggle', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(369175593795, --[[ModItemUnitDataCompositeDef TestM Text MercChatHaggle Lines ChatMessage voice:TestM]] "You've got too many foreigners in that team of yours. I'm looking to hang out with some good old US soldiers, dammit. I'm not racist, but if I'm gonna be trusting damn foreigners with my life, it's gonna cost extra."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('CheckExpression', {
-						Expression = function (self, obj)
-							return table.count(gv_UnitData, "HireStatus", "Hired") > 3 and table.count(gv_UnitData, function(i, ud) return ud.HireStatus == "Hired" and ud.Nationality ~= "USA" end) >= 2
-						end,
-					}),
-				},
-			}),
-		},
-		'Mitigations', {
-			PlaceObj('MercChatMitigation', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(575730482641, --[[ModItemUnitDataCompositeDef TestM Text MercChatMitigation Lines ChatMessage voice:TestM]] "Hey, me and my Shadow. We're two of a kind, man. I'm in."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						Status = "Hired",
-						TargetUnit = "Shadow",
-					}),
-				},
-				'chanceToRoll', 100,
-			}),
-			PlaceObj('MercChatMitigation', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(237128140731, --[[ModItemUnitDataCompositeDef TestM Text MercChatMitigation Lines ChatMessage voice:TestM]] "You got problems, but a chance to see the Wolf howl again... that appeals."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						Status = "Hired",
-						TargetUnit = "Wolf",
-					}),
-				},
-				'chanceToRoll', 100,
-			}),
-		},
-		'ExtraPartingWords', {
-			PlaceObj('MercChatBranch', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(585879264727, --[[ModItemUnitDataCompositeDef TestM Text MercChatBranch Lines ChatMessage voice:TestM]] "It will be good to have my Shadow back. Why don't you give him a call as well. We'll be formidable. "),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						TargetUnit = "Shadow",
-					}),
-				},
-			}),
-			PlaceObj('MercChatBranch', {
-				'Lines', {
-					PlaceObj('ChatMessage', {
-						'Text', T(421662110443, --[[ModItemUnitDataCompositeDef TestM Text MercChatBranch Lines ChatMessage voice:TestM]] "I remember Wolf howling way back when. Why don't you give him a call as well. He's an excellent soldier."),
-					}),
-				},
-				'Conditions', {
-					PlaceObj('UnitHireStatus', {
-						TargetUnit = "Wolf",
-					}),
-				},
-			}),
-		},
-		'Offline', {
-			PlaceObj('ChatMessage', {
-				'Text', T(895121142024, --[[ModItemUnitDataCompositeDef TestM Text Offline ChatMessage voice:TestM]] "Yeah, this is Steve Bornell. I'm not here right now, so that's that. Try me another time."),
-			}),
-		},
-		'GreetingAndOffer', {
-			PlaceObj('ChatMessage', {
-				'Text', T(140722363768, --[[ModItemUnitDataCompositeDef TestM Text GreetingAndOffer ChatMessage voice:TestM]] "Bornell here. Whaddaya want?"),
-			}),
-		},
-		'ConversationRestart', {
-			PlaceObj('ChatMessage', {
-				'Text', T(981369041292, --[[ModItemUnitDataCompositeDef TestM Text ConversationRestart ChatMessage voice:TestM]] "Let's do this again. We may sign a contract yet. "),
-			}),
-		},
-		'IdleLine', {
-			PlaceObj('ChatMessage', {
-				'Text', T(337189788262, --[[ModItemUnitDataCompositeDef TestM Text IdleLine ChatMessage voice:TestM]] "Enough woolgathering. Get your head in the game. "),
-			}),
-		},
-		'PartingWords', {
-			PlaceObj('ChatMessage', {
-				'Text', T(949032982386, --[[ModItemUnitDataCompositeDef TestM Text PartingWords ChatMessage voice:TestM]] "Excellent! I've been looking for some fun."),
-			}),
-		},
-		'RehireIntro', {
-			PlaceObj('ChatMessage', {
-				'Text', T(883545559735, --[[ModItemUnitDataCompositeDef TestM Text RehireIntro ChatMessage voice:TestM]] "Yeah, about this contract. It's about up. Are we renewing, or what's the deal?"),
-			}),
-		},
-		'RehireOutro', {
-			PlaceObj('ChatMessage', {
-				'Text', T(819364228198, --[[ModItemUnitDataCompositeDef TestM Text RehireOutro ChatMessage voice:TestM]] "It's always better the next time around, right? Right!"),
-			}),
-		},
-		'MedicalDeposit', "none",
-		'StartingSalary', 480,
-		'SalaryIncrease', 270,
-		'SalaryLv1', 175,
-		'SalaryMaxLv', 3600,
-		'LegacyNotes', '"A bear of a man, Grizzly Bornell carries the big guns of battle with authority. Even though heavy weapons are his specialty, he is just as lethal when left empty-handed. He\'s a soldier\'s soldier--all guts and no need for glory. Not surprisingly, his combat exploits are almost always the talk of the plane ride home."\n\nAdditional info:\nBig and burly, a bear of a man.\nHis toughness is to such an extent it borders on comical, yet understated. No need for kickass statements, it is simply understood.\nFriendly, and without pretence, he\'s the type of guy you\'d want next to you in combat.\nVoice: Deep, warm, reassuring.\nNot a big fan of traditional medical techniques, views them as crazy.',
-		'StartingLevel', 2,
-		'CustomEquipGear', function (self, items)
-			self:TryEquip(items, "Handheld A", "Firearm")
-			self:TryEquip(items, "Handheld B", "MeleeWeapon")
-		end,
-		'MaxHitPoints', 94,
-		'Likes', {
-			"Shadow",
-			"Wolf",
-		},
-		'Dislikes', {
-			"DrQ",
-		},
-		'StartingPerks', {
-			"HeavyWeaponsTraining",
-			"GrizzlyPerk",
-			"BloodlustPerk",
-		},
-		'AppearancesList', {
-			PlaceObj('AppearanceWeight', {
-				'Preset', "TestAppearanceM",
-			}),
-		},
-		'Equipment', {
-			"Grizzly",
-		},
-		'Specialization', "AllRounder",
-		'gender', "Male",
-		'blocked_spots', set( "Weaponls", "Weaponrs" ),
-	}),
-	PlaceObj('ModItemAppearancePreset', {
-		Body = "Faction_Rebels_Top_Comander",
-		BodyColor = PlaceObj('ColorizationPropSet', {
-			'EditableColor1', RGBA(20, 7, 5, 255),
-			'EditableColor2', RGBA(73, 8, 8, 255),
-			'EditableColor3', RGBA(109, 83, 55, 255),
-		}),
-		Head = "Head_Len",
-		group = "Default",
-		id = "TestAppearanceM",
-	}),
-	PlaceObj('ModItemXTemplate', {
-		__is_kind_of = "XButton",
-		group = "Zulu",
-		id = "NewGameMenuFinalStandEntryOld",
-		PlaceObj('XTemplateWindow', {
-			'__class', "XButton",
-			'RolloverTemplate', "RolloverGenericFixedL",
-			'RolloverAnchor', "right",
-			'RolloverText', T(914391830806, --[[ModItemXTemplate NewGameMenuFinalStandEntryOld RolloverText]] "<description>"),
-			'RolloverOffset', box(25, 0, 0, 0),
-			'RolloverTitle', T(939410163843, --[[ModItemXTemplate NewGameMenuFinalStandEntryOld RolloverTitle]] "<display_name>"),
-			'UIEffectModifierId', "MainMenuMainBar",
-			'MinHeight', 64,
-			'MaxHeight', 64,
-			'LayoutMethod', "HList",
-			'BorderColor', RGBA(0, 0, 0, 0),
-			'Background', RGBA(255, 255, 255, 0),
-			'OnContextUpdate', function (self, context, ...)
-				if IsKindOf(self.context, "FinalStandLengthDef") then
-				    local gameObj = Game or NewGameObj
-				    if not gameObj then return end
-				
-				    if self.context.id == gameObj['FinalStandLengths'] then
-				        self.idCheckmark:SetColumn(2)
-				    else
-				        self.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'FXPress', "CheckBoxClick",
-			'FXPressDisabled', "activityAssignSelectDisabled",
-			'FocusedBorderColor', RGBA(0, 0, 0, 0),
-			'FocusedBackground', RGBA(128, 128, 128, 0),
-			'DisabledBorderColor', RGBA(0, 0, 0, 0),
-			'OnPress', function (self, gamepad)
-				if not GetUIStyleGamepad() then
-				    self.parent:SetFocus(true)
-				end
-				
-				for _, obj in ipairs(self.parent) do
-				    if IsKindOf(obj, "XButton") and obj == self then
-				        self.idCheckmark:SetColumn(2)
-				        NewGameObj["FinalStandLengths"] = self.context.id
-				        --NetChangeGameInfo({start_info = NewGameObj})
-				        if netInGame and NetIsHost() then
-				            local context = GetDialog(self):ResolveId("node").idSubMenu.context
-				            if context and context.invited_player_id then
-				                CreateRealTimeThread(function(invited_player_id)
-				                    NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
-				                        { start_info = NewGameObj, no_scroll = true })
-				                end, context.invited_player_id)
-				            end
-				        end
-				    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandLengthDef") then
-				        obj.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'RolloverBackground', RGBA(255, 255, 255, 0),
-			'PressedBackground', RGBA(255, 255, 255, 0),
-		}, {
-			PlaceObj('XTemplateWindow', {
-				'__class', "XBlurRect",
-				'Margins', box(0, 5, 0, 5),
-				'Dock', "box",
-				'BlurRadius', 10,
-				'Mask', "UI/Common/mm_panel",
-				'FrameLeft', 15,
-				'FrameRight', 10,
-			}),
-			PlaceObj('XTemplateWindow', {
-				'__class', "XFrame",
-				'Id', "idEffect",
-				'Margins', box(5, 5, 5, 5),
-				'Dock', "box",
-				'Transparency', 179,
-				'HandleKeyboard', false,
-				'DisabledBackground', RGBA(255, 255, 255, 255),
-				'Image', "UI/Common/screen_effect",
-				'ImageScale', point(100000, 1000),
-				'TileFrame', true,
-				'SqueezeX', false,
-				'SqueezeY', false,
-			}),
-			PlaceObj('XTemplateWindow', {
-				'__class', "XFrame",
-				'UIEffectModifierId', "MainMenuMainBar",
-				'Id', "idImg",
-				'Dock', "box",
-				'Transparency', 64,
-				'HandleKeyboard', false,
-				'DisabledBackground', RGBA(255, 255, 255, 255),
-				'Image', "UI/Common/mm_panel",
-				'SqueezeX', false,
-				'SqueezeY', false,
-			}),
-			PlaceObj('XTemplateWindow', {
-				'__class', "XFrame",
-				'UIEffectModifierId', "MainMenuHighlight",
-				'Id', "idImgBcgr",
-				'Dock', "box",
-				'Transparency', 255,
-				'HandleKeyboard', false,
-				'DisabledBackground', RGBA(255, 255, 255, 255),
-				'Image', "UI/Common/mm_panel_selected",
-				'SqueezeX', false,
-				'SqueezeY', false,
-			}),
-			PlaceObj('XTemplateWindow', {
-				'__class', "AutoFitText",
-				'Id', "idName",
-				'Margins', box(20, 0, 0, 0),
-				'HAlign', "left",
-				'VAlign', "center",
-				'MinWidth', 300,
-				'MaxWidth', 300,
-				'HandleKeyboard', false,
-				'HandleMouse', false,
-				'FocusedBorderColor', RGBA(0, 0, 0, 0),
-				'DisabledBorderColor', RGBA(0, 0, 0, 0),
-				'TextStyle', "MMOptionEntry",
-				'Translate', true,
-				'Text', T(543433418361, --[[ModItemXTemplate NewGameMenuFinalStandEntryOld Text]] "<display_name>"),
-				'TextVAlign', "center",
-				'SafeSpace', 10,
-			}),
-			PlaceObj('XTemplateWindow', {
-				'__class', "XImage",
-				'Id', "idCheckmark",
-				'Margins', box(0, 0, 50, 0),
-				'Dock', "right",
-				'HAlign', "center",
-				'VAlign', "center",
-				'MinWidth', 50,
-				'FoldWhenHidden', true,
-				'HandleKeyboard', false,
-				'Image', "UI/Hud/checkmark",
-				'Columns', 2,
-			}),
-			PlaceObj('XTemplateFunc', {
-				'name', "OnSetRollover(self, rollover)",
-				'func', function (self, rollover)
-					                    self.idName:SetTextStyle(rollover and "MMOptionEntryHighlight" or "MMOptionEntry")
-					                    if rollover then
-					                        self.idCheckmark:SetImage("UI/Hud/checkmark_rollover")
-					                    else
-					                        self.idCheckmark:SetImage("UI/Hud/checkmark")
-					                    end
-					                    if rollover then
-					                        PlayFX("MainMenuButtonRollover")
-					                        self.idImgBcgr:SetTransparency(0, 150)
-					                    else
-					                        self.idImgBcgr:SetTransparency(255, 150)
-					                    end
-				end,
-			}),
-			PlaceObj('XTemplateFunc', {
-				'name', "OnShortcut(self, shortcut, source, ...)",
-				'func', function (self, shortcut, source, ...)
-					                    if shortcut == "ButtonA" then
-					                        self:Press()
-					                    end
-				end,
-			}),
-			PlaceObj('XTemplateFunc', {
-				'name', "SetSelected(self, selected)",
-				'func', function (self, selected)
-					                    self:SetFocus(selected)
-				end,
-			}),
-			PlaceObj('XTemplateFunc', {
-				'name', "Open(self)",
-				'func', function (self)
-					                    XButton.Open(self)
-				end,
-			}),
-			}),
-		PlaceObj('XTemplateProperty', {
-			'category', "General",
-			'id', "Name",
-			'editor', "text",
-			'Set', function (self, value)
-				self.idName:SetText(value)
-			end,
-			'Get', function (self)
-				return self.idName:GetText()
-			end,
-			'name', T(897564294510, --[[ModItemXTemplate NewGameMenuFinalStandEntryOld name]] "Name"),
-		}),
-	}),
-	PlaceObj('ModItemXTemplate', {
-		__is_kind_of = "NewGameCategory",
-		group = "Zulu",
-		id = "NewGameMenuFinalStandOld",
-		PlaceObj('XTemplateTemplate', {
-			'comment', "Final Stand Waves",
-			'__template', "NewGameCategory",
-			'IdNode', false,
-			'Name', T(892716651495, --[[ModItemXTemplate NewGameMenuFinalStandOld Name]] "Final Stand - Waves"),
-		}),
-		PlaceObj('XTemplateTemplate', {
-			'comment', "3 Waves",
-			'__context', function (parent, context) return FinalStandLengths["ThreeWaves"] end,
-			'__template', "NewGameMenuFinalStandEntryOld",
-			'Id', "idThreeWaves",
-			'IdNode', false,
-			'OnContextUpdate', function (self, context, ...)
-				if IsKindOf(self.context, "FinalStandLengthDef") then
-				    local gameObj = Game or NewGameObj
-				    if not gameObj then return end
-				
-				    if self.context.id == gameObj['FinalStandLengths'] then
-				        self.idCheckmark:SetColumn(2)
-				    else
-				        self.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'OnPress', function (self, gamepad)
-				if not GetUIStyleGamepad() then
-				    self.parent:SetFocus(true)
-				end
-				
-				for _, obj in ipairs(self.parent) do
-				    if IsKindOf(obj, "XButton") and obj == self then
-				        self.idCheckmark:SetColumn(2)
-				        NewGameObj["FinalStandLengths"] = self.context.id
-				        --NetChangeGameInfo({start_info = NewGameObj})
-				        if netInGame and NetIsHost() then
-				            local context = GetDialog(self):ResolveId("node").idSubMenu.context
-				            if context and context.invited_player_id then
-				                CreateRealTimeThread(function(invited_player_id)
-				                    NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
-				                        { start_info = NewGameObj, no_scroll = true })
-				                end, context.invited_player_id)
-				            end
-				        end
-				    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandLengthDef") then
-				        obj.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'Name', T(511287105543, --[[ModItemXTemplate NewGameMenuFinalStandOld Name]] "3 Waves"),
-		}),
-		PlaceObj('XTemplateTemplate', {
-			'comment', "5 Waves",
-			'__context', function (parent, context) return FinalStandLengths["FiveWaves"] end,
-			'__template', "NewGameMenuFinalStandEntryOld",
-			'Id', "idFiveWaves",
-			'IdNode', false,
-			'OnContextUpdate', function (self, context, ...)
-				if IsKindOf(self.context, "FinalStandLengthDef") then
-				    local gameObj = Game or NewGameObj
-				    if not gameObj then return end
-				
-				    if self.context.id == gameObj['FinalStandLengths'] then
-				        self.idCheckmark:SetColumn(2)
-				    else
-				        self.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'OnPress', function (self, gamepad)
-				if not GetUIStyleGamepad() then
-				    self.parent:SetFocus(true)
-				end
-				
-				for _, obj in ipairs(self.parent) do
-				    if IsKindOf(obj, "XButton") and obj == self then
-				        self.idCheckmark:SetColumn(2)
-				        NewGameObj["FinalStandLengths"] = self.context.id
-				        --NetChangeGameInfo({start_info = NewGameObj})
-				        if netInGame and NetIsHost() then
-				            local context = GetDialog(self):ResolveId("node").idSubMenu.context
-				            if context and context.invited_player_id then
-				                CreateRealTimeThread(function(invited_player_id)
-				                    NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
-				                        { start_info = NewGameObj, no_scroll = true })
-				                end, context.invited_player_id)
-				            end
-				        end
-				    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandLengthDef") then
-				        obj.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'Name', T(287157780620, --[[ModItemXTemplate NewGameMenuFinalStandOld Name]] "5 Waves"),
-		}),
-		PlaceObj('XTemplateTemplate', {
-			'comment', "7 Waves",
-			'__context', function (parent, context) return FinalStandLengths["SevenWaves"] end,
-			'__template', "NewGameMenuFinalStandEntryOld",
-			'Id', "idSevenWaves",
-			'IdNode', false,
-			'OnContextUpdate', function (self, context, ...)
-				if IsKindOf(self.context, "FinalStandLengthDef") then
-				    local gameObj = Game or NewGameObj
-				    if not gameObj then return end
-				
-				    if self.context.id == gameObj['FinalStandLengths'] then
-				        self.idCheckmark:SetColumn(2)
-				    else
-				        self.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'OnPress', function (self, gamepad)
-				if not GetUIStyleGamepad() then
-				    self.parent:SetFocus(true)
-				end
-				
-				for _, obj in ipairs(self.parent) do
-				    if IsKindOf(obj, "XButton") and obj == self then
-				        self.idCheckmark:SetColumn(2)
-				        NewGameObj["FinalStandLengths"] = self.context.id
-				        --NetChangeGameInfo({start_info = NewGameObj})
-				        if netInGame and NetIsHost() then
-				            local context = GetDialog(self):ResolveId("node").idSubMenu.context
-				            if context and context.invited_player_id then
-				                CreateRealTimeThread(function(invited_player_id)
-				                    NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
-				                        { start_info = NewGameObj, no_scroll = true })
-				                end, context.invited_player_id)
-				            end
-				        end
-				    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandLengthDef") then
-				        obj.idCheckmark:SetColumn(1)
-				    end
-				end
-			end,
-			'Name', T(260215724009, --[[ModItemXTemplate NewGameMenuFinalStandOld Name]] "7 Waves"),
-		}),
-	}),
 }

@@ -104,7 +104,7 @@ end
 --- @class FinalStandRewardProvider
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandRewardProvider = {}
--- TODO: Give loyalty on win
+-- TODO: give loyalty on win
 
 function FinalStandRewardProvider:GiveRewards()
     self:GiveMoney()

@@ -1,10 +1,27 @@
 return PlaceObj('ModDef', {
 	'title', "Final Stand",
-	'dependencies', {},
-	'id', "bzoQECK",
+	'description', "New campaign designed as a replayable survival gamemode. Every playthrough offers a unique experience through the decisions you make, the strategies you employ, and the tactics you use to survive.\n\nChoose your faction, an enemy faction, and a sector to defend. Assemble a squad of mercs and take your stance, fighting waves of enemies. Beating a wave will grant you XP, money, and some respite. Spend it wisely and prepare for the next wave, level up mercs, buy guns, gather supplies, and perform sector operations. Each wave will be tougher with better-equipped enemies and greater numbers. Beat them all in order to win.",
+	'image', "Mod/FinalStand/Images/preview.png",
+	'last_changes', "Initial version upload of the mod. For details about core mechanics in the base version, navigate to CHANGELOG.md",
+	'ignore_files', {
+		"*.git/*",
+		"*.svn/*",
+		"*.md",
+		"*.bbcode",
+		"*.drawio",
+	},
+	'dependencies', {
+		PlaceObj('ModDependency', {
+			'id', "JA3_CommonLib",
+			'title', "JA3_CommonLib",
+			'version_major', 1,
+			'version_minor', 5,
+		}),
+	},
+	'id', "FinalStand",
 	'author', "Soundwave2142",
-	'version_major', 1,
-	'version', 1098,
+	'version_minor', 80,
+	'version', 601,
 	'lua_revision', 233360,
 	'saved_with_revision', 366685,
 	'code', {
@@ -20,13 +37,11 @@ return PlaceObj('ModDef', {
 		"Code/UIPresets.lua",
 		"Code/UI.lua",
 		"Code/Debugger.lua",
-		"UnitData/TestF.lua",
-		"UnitData/TestM.lua",
 	},
 	'default_options', {},
 	'has_data', true,
-	'saved', 1744458548,
-	'code_hash', -1388260389595856636,
+	'saved', 1749380525,
+	'code_hash', -3157340217198959374,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CampaignPreset",
@@ -288,37 +303,8 @@ return PlaceObj('ModDef', {
 			'Id', "D17",
 			'ClassDisplayName', "Final Stand Sector",
 		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "UnitDataCompositeDef",
-			'Id', "TestF",
-			'ClassDisplayName', "Unit",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "AppearancePreset",
-			'Id', "TestAppearanceF",
-			'ClassDisplayName', "Appearance preset",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "UnitDataCompositeDef",
-			'Id', "TestM",
-			'ClassDisplayName', "Unit",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "AppearancePreset",
-			'Id', "TestAppearanceM",
-			'ClassDisplayName', "Appearance preset",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "XTemplate",
-			'Id', "NewGameMenuFinalStandEntryOld",
-			'ClassDisplayName', "UI Template (XTemplate)",
-		}),
-		PlaceObj('ModResourcePreset', {
-			'Class', "XTemplate",
-			'Id', "NewGameMenuFinalStandOld",
-			'ClassDisplayName', "UI Template (XTemplate)",
-		}),
 	},
+	'steam_id', "3495365172",
 	'TagOther', true,
 	'TagQuest&Campaigns', true,
 })

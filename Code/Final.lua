@@ -25,13 +25,9 @@ end
 --- @class FinalStandFinale
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandFinale = {
-    outroMsg = Untranslated(
-        [[You survived your Final Stand, Congratulations!
-        The locations is secured for now and you can rest, for now...]]
-    ),
-    gameOverMsg = Untranslated(
-        [[You failed... The location was raised and captured...]]
-    ),
+    OutroMsg = T(214200009901,
+        "You survived your Final Stand. The locations is secured for now and you can rest, for now..."),
+    GameOverMsg = T(214200009902, "You failed... The location was captured and raised..."),
 }
 
 function FinalStandFinale:StartEnding()
@@ -52,9 +48,9 @@ function FinalStandFinale:PlayOutro()
 
     Sleep(4500)
 
-    local duration = ReadDurationFromText(_InternalTranslate(self.outroMsg))
+    local duration = ReadDurationFromText(_InternalTranslate(self.OutroMsg))
 
-    g_DisclaimerSplashScreen = SplashText(self.outroMsg, "DisclaimerOnStart", 600, 1500, duration * 4)
+    g_DisclaimerSplashScreen = SplashText(self.OutroMsg, "DisclaimerOnStart", 600, 1500, duration * 4)
     g_DisclaimerSplashScreen:SetMouseCursor("UI/Cursors/Hand.tga")
 
     local res = g_DisclaimerSplashScreen:Wait()
@@ -69,11 +65,9 @@ end
 function FinalStandFinale:StartFinalChance()
     Game.FinalStand.finalChance = true
 
-    local sector = GetFinalStandSector()
-    local message =
-    "This is your <em>Last Chance</em>, gather all your mercs and resources and take <em><sector></em> back!"
-
-    CombatLog("important", T { 156954263652, message, sector = sector })
+    CombatLog("important",
+        T(214200009900,
+            "This is your <em>Last Chance</em>, gather all your mercs and resources and take the sector back at any cost!"))
 end
 
 function FinalStandFinale:EndFinalChance()
@@ -102,9 +96,9 @@ function FinalStandFinale:PlayGameOverOutro()
 
     Sleep(4500)
 
-    local duration = ReadDurationFromText(_InternalTranslate(self.gameOverMsg))
+    local duration = ReadDurationFromText(_InternalTranslate(self.GameOverMsg))
 
-    g_DisclaimerSplashScreen = SplashText(self.gameOverMsg, "DisclaimerOnStart", 600, 1500, duration * 4)
+    g_DisclaimerSplashScreen = SplashText(self.GameOverMsg, "DisclaimerOnStart", 600, 1500, duration * 4)
     g_DisclaimerSplashScreen:SetMouseCursor("UI/Cursors/Hand.tga")
 
     local res = g_DisclaimerSplashScreen:Wait()

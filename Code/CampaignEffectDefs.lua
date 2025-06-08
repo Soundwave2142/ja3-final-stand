@@ -45,8 +45,8 @@ PlaceObj('SatelliteTimelineEventDef', {
         return { source = eventCtx }
     end,
     SortKey = 1,
-    Text = Untranslated("The enemy outpost on sector will attack <em><SectorId(dest)></em>."),
-    Title = Untranslated("Outpost Attack"),
+    Text = T(214200002000, "Sector <em><SectorId(source)></em> will be attacked by enemy troops. Prepare for the first wave!"),
+    Title = T(214200002001, "Initial Enemy Attack"),
     id = "final-stand-squad-attack-first",
 })
 
@@ -64,11 +64,11 @@ PlaceObj('SatelliteTimelineEventDef', {
         return sector and sector.XMapPosition
     end,
     GetTextContext = function(self, eventCtx)
-        return { source = eventCtx }
+        return { source = eventCtx, currentWave = GetFinalStandCurrentWave() }
     end,
     SortKey = 2,
-    Text = Untranslated("The enemy outpost on sector will attack <em><SectorId(dest)></em>."),
-    Title = Untranslated("Outpost Attack"),
+    Text = T(214200002002, "Sector <em><SectorId(source)></em> will be attacked by enemy troops. Prepare for the wave <currentWave>!"),
+    Title = T(214200002003, "Enemy Attack"),
     id = "final-stand-squad-attack",
 })
 
@@ -89,31 +89,9 @@ PlaceObj('SatelliteTimelineEventDef', {
         return { source = eventCtx }
     end,
     SortKey = 3,
-    Text = Untranslated("Enemy will attack <em><SectorId(dest)></em>. This is your Final Stand!"),
-    Title = Untranslated("Final Stand"),
+    Text = T(214200002004, "Last wave, enemy will throw everything they've got. This is your Final Stand!"),
+    Title = T(214200002005, "Final Stand"),
     id = "final-stand-squad-attack-final",
-})
-
-PlaceObj('SatelliteTimelineEventDef', {
-    GetDescriptionText = function(self, eventCtx)
-        return self.Text, self.Title, self.Hint
-    end,
-    GetIcon = function(self, eventCtx)
-        local icon = "UI/Icons/SateliteView/icon_enemy"
-        local innerIcon = "UI/Icons/SateliteView/enemy_logo"
-        return icon, innerIcon
-    end,
-    GetTextContext = function(self, eventCtx)
-        local sector = gv_Sectors[eventCtx]
-        return sector and sector.XMapPosition
-    end,
-    GetTextContext = function(self, eventCtx)
-        return { source = eventCtx }
-    end,
-    SortKey = 4,
-    Text = Untranslated("Enemies has taken the sector, if you don't get boots on the ground - it's game over!"),
-    Title = Untranslated("Game Over"),
-    id = "final-stand-game-over",
 })
 
 --- ===================================================================================================================
@@ -157,6 +135,13 @@ function ForEachPresetInCampaign(class, func, ...)
     end
 
     return ...
+end
+
+function IsFinalStandOperationSpeedUpAllowed(operationId)
+    if not IsFinalStand() then return false end
+
+    local notAllowed = { Arriving = true, Traveling = true, Idle = true }
+    return notAllowed[operationId] ~= true
 end
 
 --- Next elements should only be loaded once upon initial load.

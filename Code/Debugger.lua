@@ -1,5 +1,3 @@
-print("Final Stand: Debugger file loaded")
-
 function IsFinalStandDebugger()
     -- TODO: check if debugger present
     return IsFinalStand()

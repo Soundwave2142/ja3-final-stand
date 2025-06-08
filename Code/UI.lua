@@ -26,6 +26,8 @@ DefineClass.FinalStandUIHandler = {}
 
 --- Calls for generation of all needed templates and insertion in the game UI.
 function FinalStandUIHandler:InsertIntoNewGame()
+    -- TODO: This is WRONG way to do it, need to rework it to insert only once and display on condition
+
     if not IsFinalStand() then
         -- ensure templates are not present in UI
         if FinalStandUiInserted then

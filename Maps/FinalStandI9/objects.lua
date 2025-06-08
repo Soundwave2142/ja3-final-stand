@@ -19424,8 +19424,7 @@ PlaceObj('Colonial_GateDoor', {
 	'Gamma', RGBA(0, 0, 128, 255),
 	'CollectionIndex', 1151,
 	'AllowedMask', 4294967279,
-	'lockpickStateMap', "locked",
-	'lockpickDifficulty', "Medium",
+	'lockpickDifficulty', "None",
 	'HitPoints', 3,
 }, nil, 1781158177)
 PlaceObj('WallDec_Colonial_FenceTop_Body_01', {
@@ -26713,8 +26712,7 @@ PlaceObj('Colonial_GateDoor', {
 	'Saturation', 0,
 	'Gamma', RGBA(0, 0, 128, 255),
 	'AllowedMask', 4294967279,
-	'lockpickStateMap', "locked",
-	'lockpickDifficulty', "Hard",
+	'lockpickDifficulty', "None",
 	'HitPoints', 3,
 }, nil, 1382323562)
 PlaceObj('WallDec_Colonial_FenceTop_Body_01', {
@@ -28312,8 +28310,7 @@ PlaceObj('Colonial_GateDoor', {
 	'Saturation', 0,
 	'Gamma', RGBA(0, 0, 128, 255),
 	'AllowedMask', 4294967279,
-	'lockpickStateMap', "locked",
-	'lockpickDifficulty', "Hard",
+	'lockpickDifficulty', "None",
 	'HitPoints', 3,
 }, nil, 1082125796)
 PlaceObj('WallDec_Colonial_FenceTop_Body_01', {
@@ -31767,6 +31764,7 @@ PlaceObj('Colonial_GateDoor', {
 	'Saturation', 0,
 	'Gamma', RGBA(0, 0, 128, 255),
 	'AllowedMask', 4294967279,
+	'lockpickDifficulty', "None",
 	'HitPoints', 3,
 }, nil, 1478388652)
 PlaceObj('Column_Colonial_Body_01', {
@@ -35797,7 +35795,7 @@ PlaceObj('TallDoor_Colonial_Single_01', {
 	'AllowedMask', 4294967279,
 	'material', "Colonial",
 	'height', 4,
-	'lockpickStateMap', "locked",
+	'lockpickDifficulty', "None",
 	'AttachLight', false,
 	'HitPoints', 10,
 }, nil, 1045570071)

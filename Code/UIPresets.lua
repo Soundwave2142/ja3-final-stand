@@ -22,7 +22,7 @@ DefineClass.FinalStandTemplatePresetsGenerator = {
             configRelationName = 'Sectors',
             configRelationKey = 'Sector',
 
-            displayName = T(892716651494, "Final Stand - Sector"),
+            displayName = T(214200001000, "Final Stand - Sector"),
             gameObjName = 'finalStandSector'
         },
         {
@@ -32,7 +32,7 @@ DefineClass.FinalStandTemplatePresetsGenerator = {
             configRelationName = 'Lengths',
             configRelationKey = 'Length',
 
-            displayName = T(892716651495, "Final Stand - Length"),
+            displayName = T(214200001001, "Final Stand - Length"),
             gameObjName = 'finalStandLength'
         },
         {
@@ -42,7 +42,7 @@ DefineClass.FinalStandTemplatePresetsGenerator = {
             configRelationName = 'Factions',
             configRelationKey = 'Faction',
 
-            displayName = T(892716651496, "Final Stand - Faction"),
+            displayName = T(214200001002, "Final Stand - Player Faction"),
             gameObjName = 'finalStandFriendlyFaction'
         },
         {
@@ -52,7 +52,7 @@ DefineClass.FinalStandTemplatePresetsGenerator = {
             configRelationName = 'EnemyFactions',
             configRelationKey = 'Faction',
 
-            displayName = T(892716651497, "Final Stand - Enemy Faction"),
+            displayName = T(214200001003, "Final Stand - Enemy Faction"),
             gameObjName = 'finalStandEnemyFaction'
         }
     }
