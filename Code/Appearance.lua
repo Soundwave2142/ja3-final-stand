@@ -63,7 +63,7 @@ DefineClass.AppearanceHandler = {
             },
             -- black
             {
-                Units = { 'Ice', 'Vicki', 'Magic', 'Len', 'PierreMerc' },
+                Units = { 'Ice', 'Vicki', 'Magic', 'Len', 'PierreMerc', 'Pierre_FS' },
                 Color = RGBA(20, 7, 5, 255),
             },
         },

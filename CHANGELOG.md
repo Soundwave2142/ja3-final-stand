@@ -1,9 +1,37 @@
 # Final Stand
 
-# 0.80 - 08.06.2025
+# 0.90
+
+### Description
+This patch overall is focused on a player having better footing upon starting a new game and makes the gamemode feel more natural with better flow.
+
+A.I.M. Gold can now be purchased, and some "secret" mercs from Hot Diamonds can now be hired. 
+Starting gear, supplies, and XP are now provided, as well as better monetary and XP rewards for wave completion.
+On top of that, the player now will earn loyalty with the sector that will further increase rewards next wave and decrease sector operations cost. 
+New Help pages, Militia Training tweaks, balancing tweaks and bug fixes.
 
 ### Detailed Changes
-Initial version with no detailed changes. Present functionality and core game concepts are described in the Description section.
+
+###### New Features
+- Added ability to buy A.I.M. Gold for 7500$.
+- Added ability to hire Smiley, Flay, Larry, Pierre and Spike from HD in FS.
+- Added bonus that player will receive upon starting a game in a form of basic supplies and different gear depending on the player and enemy faction.
+- Added starting popup and first wave completed popup to remind player about in-game help and BobbyRay's Shop.
+- Added popup warning when entering _Last Chance_
+- Added help hints about starting bonuses, enemy, wave completion rewards to the tutorial/help menu.
+- Added Loyalty gain on wave completing that will further increase money yield next wave.
+
+###### Balance Changes
+- Added XP boost for any new arriving merc when fighting harder factions.
+- Increased XP and monetary rewards for beating a wave for all factions.
+- Decreased ability to train Militia from twice to only once per wave.
+- Removed possibility of ..._Ordnance_Hard units spawning at wave 2 (can still spawn at wave 4 and 5).
+
+###### Bug Fixes
+- Fixed units not receiving proper amount of perk points on level up.
+- Fixes and improvements for code and in particular Main Menu options injection.
+
+# 0.80 - 08.06.2025
 
 ### Description
 Upon starting a new game from the menu, player can now select a new campaign - ___Final Stand___. 
@@ -41,4 +69,7 @@ Upon mercs arriving at the sector and player entering combat, losing again will 
 
 Once player has beaten all 7 (or other selected number) waves, end credits will roll and congratulate player on the victory.
 Currently, there's no dialog for any stages of the game (including start/ending).
+
+### Detailed Changes
+- Initial version with no detailed changes. Present functionality and core game concepts are described in the Description section.
 

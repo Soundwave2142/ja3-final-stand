@@ -26,10 +26,23 @@ function OnMsg.NewGame(game)
     campaign["InitialSector"] = GetFinalStandSector()
 end
 
+function OnMsg.StartSatelliteGameplay()
+    if not IsFinalStand() then
+        return
+    end
+
+    FinalStandStarterGearGenerator:GiveStarterGear()
+end
+
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandConfigurator
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DefineClass.FinalStandConfigurator = {}
+DefineClass.FinalStandConfigurator = {
+    PerWaveFlags = {
+        currentWaveStarted = false,
+        finalChance = false,
+    }
+}
 
 --- @param campaign Campaign
 --- @return table
@@ -37,7 +50,7 @@ function FinalStandConfigurator:CreateFinalStandConfig(campaign)
     local newGameObj = NewGameObj or {}
     FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
 
-    return {
+    local config = {
         -- player made choices
         config = newGameObj['finalStandConfig'],
         faction = newGameObj['finalStandFriendlyFaction'],
@@ -47,12 +60,14 @@ function FinalStandConfigurator:CreateFinalStandConfig(campaign)
         -- variables for tracking progress
         id = FinalStandConfigurator:GenerateFinalStandId(),
         currentWave = 0,
-        currentWaveStarted = false,
         scheduledStand = false,
-        scheduledGameOver = false,
         appearancePresets = {},
-        finalChance = false
+        boostedUnits = {}
     }
+
+    self:ResetPerWaveFlags(config)
+
+    return config
 end
 
 --- @return string
@@ -79,44 +94,139 @@ function FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
     end
 end
 
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
---- @class FinalStandSquadScheduler
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DefineClass.FinalStandSquadScheduler = {}
+--- @param config (table|nil)
+function FinalStandConfigurator:ResetPerWaveFlags(config)
+    config = config or Game.FinalStand
 
-function FinalStandSquadScheduler:Schedule()
-    Game.FinalStand.currentWave = Game.FinalStand.currentWave + 1
-    Game.FinalStand.scheduledStand = self:CalculateAttackTime()
-    Game.FinalStand.scheduledStandSquads = FinalStandSquadSpawner:PickSquads()
-
-    Msg('FinalStandWaveScheduled', Game.FinalStand.scheduledStand, Game.FinalStand.currentWave)
-
-    self:ScheduleTimeLineMarker()
-end
-
-function FinalStandSquadScheduler:ScheduleTimeLineMarker()
-    local typ = "final-stand-squad-attack"
-    if GetFinalStandCurrentWave() == 1 then
-        typ = 'final-stand-squad-attack-first'
-    elseif GetFinalStandCurrentWave() == GetFinalStandMaxWaves() then
-        typ = 'final-stand-squad-attack-final'
+    for flag, defaultState in pairs(self.PerWaveFlags) do
+        config[flag] = defaultState
     end
 
-    local sector = GetFinalStandSector();
-    AddTimelineEvent("final-stand-squad-attack", Game.FinalStand.scheduledStand, typ, sector)
+    Msg("FinalStandGamePerWaveFlagsReset", config)
 end
 
---- @return string(?)
-function FinalStandSquadScheduler:CalculateAttackTime()
-    local attackInHours = math.random(
-        GetFinalStandConfigValue('attackTimeMin'),
-        GetFinalStandConfigValue('attackTimeMax')
-    )
-    local attackTime = Game.CampaignTime + (attackInHours * const.Scale.h)
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandStarterGearGenerator
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandStarterGearGenerator = {}
 
-    if GetFinalStandConfigValue('attackTimeIncludeMercArrivalTime') then
-        attackTime = attackTime + const.Satellite.MercArrivalTime
+function FinalStandStarterGearGenerator:GiveStarterGear()
+    if Game.FinalStand.starterGearGiven then
+        return;
     end
 
-    return attackTime
+    local lootDefs = self:GatherLootDefs()
+
+    for _, lootDef in ipairs(lootDefs) do
+        local items = {}
+        lootDef:GenerateLoot(nil, {}, InteractionRand(nil, "FinalStandStartingGear"), items)
+
+        local squadsOnMap = GetSquadsOnMap("references")
+
+        for _, squad in ipairs(squadsOnMap) do
+            AddItemsToSquadBag(squad.UniqueId, items)
+
+            for _, unit in ipairs(squad.units) do
+                if #items > 0 then
+                    unit = gv_UnitData[unit]
+                    unit:AddItemsToInventory(items)
+                end
+            end
+        end
+
+        if #items > 0 then
+            local stash = GetFinalStandSectorStash()
+
+            if stash then
+                AddItemsToInventory(stash, items, true)
+            end
+        end
+    end
+
+    Game.FinalStand.starterGearGiven = true
+end
+
+--- @return table
+function FinalStandStarterGearGenerator:GatherLootDefs()
+    local lootDefIds = {}
+
+    GetFinalStandFriendlyFaction(true):AppendStartingEquipmentToList(lootDefIds)
+    GetFinalStandEnemyFaction(true):AppendStartingEquipmentToList(lootDefIds)
+
+    local lootDefs = {}
+
+    for _, lootDefId in ipairs(lootDefIds) do
+        if LootDefs[lootDefId] then
+            lootDefs[#lootDefs + 1] = LootDefs[lootDefId]
+        end
+    end
+
+    return lootDefs
+end
+
+local BasePremiumPopupLogic = PremiumPopupLogic
+
+--- Overriden to change price of AIM Premium as well as avoid showing dialog when not needed.
+function PremiumPopupLogic()
+    if not IsFinalStand() then
+        return BasePremiumPopupLogic()
+    end
+
+    local popupHost = GetDialog("PDADialog")
+    popupHost = popupHost and popupHost:ResolveId("idDisplayPopupHost")
+
+    local premiumPrice = GetFinalStandConfigValue('AimGoldPrice')
+
+    if AIMPremium == "unoffered" then
+        CreateRealTimeThread(function()
+            local aimPrem = CreateMessageBox(
+                popupHost,
+                T(361843368664, "A.I.M. Gold"),
+                T(615566544023, "You need an A.I.M. Gold account to contact this merc."),
+                T(175313021861, "Close"))
+            aimPrem:Wait()
+            return
+        end)
+        return true
+    elseif AIMPremium == "offer" then
+        -- no need to offer anything, users know at this point.
+        NetSyncEvent("ChangeAIMPremiumState", "offered")
+
+        return true
+    elseif AIMPremium == "offered" then
+        CreateRealTimeThread(function()
+            local aimPrem = CreateQuestionBox(
+                popupHost,
+                T(361843368664, "A.I.M. Gold"),
+                T(548407393248,
+                    "Congratulations - you are eligible for an account upgrade! Gain FULL ACCESS to the A.I.M. site right now with our one-time exclusive offer. Purchase NOW! "),
+                T { 138562752874, "Buy (<money(AIMCost)>)",
+                    AIMCost = premiumPrice }, T(175313021861, "Close"),
+                premiumPrice,
+                function(premiumPrice) if Game.Money < premiumPrice then return "disabled" else return "enabled" end end)
+
+            local resp = aimPrem:Wait()
+            if resp ~= "ok" then
+                return
+            else
+                NetSyncEvent("ChangeAIMPremiumState", "active", premiumPrice)
+            end
+        end)
+        return true
+    elseif AIMPremium == "grant" then
+        CreateRealTimeThread(function()
+            local aimPrem = CreateMessageBox(
+                popupHost,
+                T(361843368664, "A.I.M. Gold"),
+                T(419850567943,
+                    "CONGRATULATIONS! As a loyal and valued A.I.M. partner we would like to present you with exclusive access to A.I.M. Gold. You will be able contact our best mercenaries at NO EXTRA COST."),
+                T(413525748743, "Ok"))
+            aimPrem:Wait()
+            NetSyncEvent("ChangeAIMPremiumState", "active")
+            return
+        end)
+        return true
+    end
+
+    return false
 end

@@ -180,6 +180,31 @@ function GetFinalStandSector(asObject)
     return sector
 end
 
+function GetFinalStandSectorStash()
+    local sector = GetFinalStandSector(true)
+
+    return GetSectorInventory(sector.Id)
+end
+
+--- @param value string
+--- @param sector (FinalStandLengthDef|string)
+--- @return (table|string|number|boolean)
+function GetFinalStandSectorValue(value, sector)
+    if not sector then
+        sector = GetFinalStandSector(true)
+    end
+
+    if not IsKindOf(sector, "FinalStandSectorDef") then
+        sector = FinalStandSectors[sector]
+    end
+
+    if not sector then
+        return nil
+    end
+
+    return sector:ResolveValue(value)
+end
+
 --- @return boolean
 function IsFinalStandSectorPlayerControlled()
     local sector = GetFinalStandSector(true)

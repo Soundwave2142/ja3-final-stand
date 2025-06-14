@@ -9,15 +9,15 @@ function OnMsg.ConflictEnd()
         return
     end
 
-    if not IsFinalStandSectorPlayerControlled() and not FinalStandFinale:IsFinalChance() then
-        -- if player lost sector, and still has one chance, initiate that last chance.
+    -- if sector is player controlled, no need to check for possibility of bad ending.
+    if IsFinalStandSectorPlayerControlled() then
+        return
+    end
+
+    if not FinalStandFinale:IsFinalChance() then
         FinalStandFinale:StartFinalChance()
-    elseif not IsFinalStandSectorPlayerControlled() and FinalStandFinale:IsFinalChance() then
-        -- if player lost sector, and doesn't have last chance, start bad ending.
-        FinalStandFinale:StartGameOver()
     else
-        -- else ensure it is not Final Chance
-        FinalStandFinale:EndFinalChance()
+        FinalStandFinale:StartGameOver()
     end
 end
 
@@ -25,8 +25,7 @@ end
 --- @class FinalStandFinale
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandFinale = {
-    OutroMsg = T(214200009901,
-        "You survived your Final Stand. The locations is secured for now and you can rest, for now..."),
+    OutroMsg = T(214200009901, "You survived your Final Stand. The locations is secured and you can rest, for now..."),
     GameOverMsg = T(214200009902, "You failed... The location was captured and raised..."),
 }
 
@@ -41,12 +40,12 @@ function FinalStandFinale:StartEnding()
 end
 
 function FinalStandFinale:PlayOutro()
-    Sleep(4500)
+    Sleep(2000)
 
     local dlg = OpenDialog("Fade")
     dlg.idFade:SetVisible(true, true)
 
-    Sleep(4500)
+    Sleep(2000)
 
     local duration = ReadDurationFromText(_InternalTranslate(self.OutroMsg))
 
@@ -65,13 +64,16 @@ end
 function FinalStandFinale:StartFinalChance()
     Game.FinalStand.finalChance = true
 
-    CombatLog("important",
-        T(214200009900,
-            "This is your <em>Last Chance</em>, gather all your mercs and resources and take the sector back at any cost!"))
-end
+    local popupHost = GetDialog("PDADialogSatellite")
+    popupHost = popupHost and popupHost:ResolveId("idDisplayPopupHost")
 
-function FinalStandFinale:EndFinalChance()
-    Game.FinalStand.finalChance = false
+    local dlg = CreateMessageBox(
+        popupHost,
+        T(214200009900, "Last Chance"),
+        T(214200009901, "Your mercs have perished and you have lost the sector!") .. '\n\n' ..
+        T(214200009902, "This is your <em>Last Chance</em>, gather all your resources and gather a new squad. Take that sector back at all cost!")
+    )
+    dlg:Wait()
 end
 
 function FinalStandFinale:IsFinalChance()
@@ -89,12 +91,12 @@ function FinalStandFinale:StartGameOver()
 end
 
 function FinalStandFinale:PlayGameOverOutro()
-    Sleep(4500)
+    Sleep(2000)
 
     local dlg = OpenDialog("Fade")
     dlg.idFade:SetVisible(true, true)
 
-    Sleep(4500)
+    Sleep(2000)
 
     local duration = ReadDurationFromText(_InternalTranslate(self.GameOverMsg))
 
