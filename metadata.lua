@@ -2,7 +2,7 @@ return PlaceObj('ModDef', {
 	'title', "Final Stand",
 	'description', "New campaign designed as a replayable survival gamemode. Every playthrough offers a unique experience through the decisions you make, the strategies you employ, and the tactics you use to survive.\n\nChoose your faction, an enemy faction, and a sector to defend. Assemble a squad of mercs and take your stance, fighting waves of enemies. Beating a wave will grant you XP, money, and some respite. Spend it wisely and prepare for the next wave, level up mercs, buy guns, gather supplies, and perform sector operations. Each wave will be tougher with better-equipped enemies and greater numbers. Beat them all in order to win.",
 	'image', "Mod/FinalStand/Images/preview.png",
-	'last_changes', "Initial version upload of the mod. For details about core mechanics in the base version, navigate to CHANGELOG.md",
+	'last_changes', "This patch overall is focused on a player having better footing upon starting a new game and makes the gamemode feel more natural with better flow.",
 	'ignore_files', {
 		"*.git/*",
 		"*.svn/*",
@@ -20,8 +20,8 @@ return PlaceObj('ModDef', {
 	},
 	'id', "FinalStand",
 	'author', "Soundwave2142",
-	'version_minor', 80,
-	'version', 708,
+	'version_minor', 90,
+	'version', 665,
 	'lua_revision', 233360,
 	'saved_with_revision', 366685,
 	'code', {
@@ -39,14 +39,13 @@ return PlaceObj('ModDef', {
 		"Code/Start.lua",
 		"Code/Main.lua",
 		"Code/Final.lua",
-		"Code/UIPresets.lua",
 		"Code/UI.lua",
 		"Code/Debugger.lua",
 	},
 	'default_options', {},
 	'has_data', true,
-	'saved', 1749903787,
-	'code_hash', 2134529645281278673,
+	'saved', 1749976352,
+	'code_hash', -1877111458086385845,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CampaignPreset",

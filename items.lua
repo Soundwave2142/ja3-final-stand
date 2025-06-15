@@ -288,18 +288,6 @@ return {
 		id = "Default",
 		msg_reactions = {
 			PlaceObj('MsgReaction', {
-				Event = "FinalStandGameConfigured",
-				Handler = function (self, FinalStand)
-					-- add some starting items to stash
-					--local sectorStash = GetSectorInventory(GetFinalStandSector())
-					--local itemsCopy = table.copy(shipment_details.items)
-					--if sectorStash then
-					--    AddItemsToInventory(sectorStash, itemsCopy)
-					--end
-				end,
-				param_bindings = false,
-			}),
-			PlaceObj('MsgReaction', {
 				Event = "StartSatelliteGameplay",
 				Handler = function (self)
 					if not IsFinalStand() then return end
@@ -4312,11 +4300,6 @@ return {
 			'name', "Misc",
 		}, {
 			PlaceObj('ModItemCode', {
-				'name', "UIPresets",
-				'comment', "Holds Template presets that use to generate actual template presets in UI.lua",
-				'CodeFileName', "Code/UIPresets.lua",
-			}),
-			PlaceObj('ModItemCode', {
 				'name', "UI",
 				'comment', "Generated templates and handles logic for inserting into game menus",
 				'CodeFileName', "Code/UI.lua",
@@ -4555,7 +4538,7 @@ return {
 		PlaceObj('ModItemPopupNotification', {
 			Image = "UI/Messages/game_over",
 			OnceOnly = true,
-			Text = T(891409899418, --[[ModItemPopupNotification FinalStandGameOver Text]] "If enemies defeat your squad and you lose control over sector, you will enter <em>Last Chance</em>.<newline><newline>This means you will be prompted to spend any money you have left to hire a new squad and take that sector back.<newline><newline>If you have no money or you fail to retake the sector, the game will end. However, if you succeed, you will exit <em>Last Chance</em> and can continue fighting for your overall victory."),
+			Text = T(891409899418, --[[ModItemPopupNotification FinalStandGameOver Text]] "If enemies defeat your squad and you lose control over sector, you will enter <em>Last Chance</em>.<newline><newline>This means you will be prompted to spend any money you have left to hire a new squad and take that sector back.<newline><newline>If you have no money or you fail to retake the sector, the game will end. However, if you succeed, you will exit <em>Last Chance</em> and can continue fighting."),
 			Title = T(298883238277, --[[ModItemPopupNotification FinalStandGameOver Title]] "Final Chance and Game Over"),
 			campaign = "FinalStand",
 			group = "StartingHelp",

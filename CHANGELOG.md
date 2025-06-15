@@ -1,12 +1,12 @@
 # Final Stand
 
-# 0.90
+# 0.90  - 15.06.2025
 
 ### Description
 This patch overall is focused on a player having better footing upon starting a new game and makes the gamemode feel more natural with better flow.
 
 A.I.M. Gold can now be purchased, and some "secret" mercs from Hot Diamonds can now be hired. 
-Starting gear, supplies, and XP are now provided, as well as better monetary and XP rewards for wave completion.
+Different gear, supplies, and XP are now provided on game start. Better monetary and XP rewards for wave completion.
 On top of that, the player now will earn loyalty with the sector that will further increase rewards next wave and decrease sector operations cost. 
 New Help pages, Militia Training tweaks, balancing tweaks and bug fixes.
 
@@ -17,7 +17,7 @@ New Help pages, Militia Training tweaks, balancing tweaks and bug fixes.
 - Added ability to hire Smiley, Flay, Larry, Pierre and Spike from HD in FS.
 - Added bonus that player will receive upon starting a game in a form of basic supplies and different gear depending on the player and enemy faction.
 - Added starting popup and first wave completed popup to remind player about in-game help and BobbyRay's Shop.
-- Added popup warning when entering _Last Chance_
+- Added warning popup when entering _Last Chance_.
 - Added help hints about starting bonuses, enemy, wave completion rewards to the tutorial/help menu.
 - Added Loyalty gain on wave completing that will further increase money yield next wave.
 

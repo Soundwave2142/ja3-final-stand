@@ -41,6 +41,7 @@ DefineClass.FinalStandConfigurator = {
     PerWaveFlags = {
         currentWaveStarted = false,
         finalChance = false,
+        finalChancePopup = false,
     }
 }
 
@@ -84,7 +85,7 @@ function FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
     newGameObj['finalStandConfig'] = configFirstValue
     local configObject = FinalStandConfigs[configFirstValue]
 
-    for _, options in pairs(FinalStandTemplatePresetsGenerator.Structure) do
+    for _, options in pairs(FinalStandTemplatePresetsGenerator:GetStructure()) do
         local collection = GetRelationCollection(configObject, options.configRelationName, options.configRelationKey)
         local firstValue = GetFirstFromCollection(collection)
 

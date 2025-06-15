@@ -174,15 +174,7 @@ end
 --- Checks whatever Preset can be applied to unit. Currently only Mercs are supported.
 --- @param unit table
 function AppearanceHandler:canBeAppliedToUnit(unit)
-    if not IsMerc(unit) then
-        return false
-    end
-
-    if not unit:GetGender() then
-        return false
-    end
-
-    return true
+    return unit and IsMerc(unit) and unit:GetGender()
 end
 
 --- Generated (or takes from Game) parts for preset and inserts into the game.
