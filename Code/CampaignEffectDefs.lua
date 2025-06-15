@@ -45,7 +45,8 @@ PlaceObj('SatelliteTimelineEventDef', {
         return { source = eventCtx }
     end,
     SortKey = 1,
-    Text = T(214200002000, "Sector <em><SectorId(source)></em> will be attacked by enemy troops. Prepare for the first wave!"),
+    Text = T(214200002000,
+        "Sector <em><SectorId(source)></em> will be attacked by enemy troops. Prepare for the first wave!"),
     Title = T(214200002001, "Initial Enemy Attack"),
     id = "final-stand-squad-attack-first",
 })
@@ -67,7 +68,8 @@ PlaceObj('SatelliteTimelineEventDef', {
         return { source = eventCtx, currentWave = GetFinalStandCurrentWave() }
     end,
     SortKey = 2,
-    Text = T(214200002002, "Sector <em><SectorId(source)></em> will be attacked by enemy troops. Prepare for the wave <currentWave>!"),
+    Text = T(214200002002,
+        "Sector <em><SectorId(source)></em> will be attacked by enemy troops. Prepare for the wave <currentWave>!"),
     Title = T(214200002003, "Enemy Attack"),
     id = "final-stand-squad-attack",
 })
@@ -98,10 +100,10 @@ PlaceObj('SatelliteTimelineEventDef', {
 --- Make vanilla operations work in Final Stand and make the trigger certain events for modifications.
 --- ===================================================================================================================
 
---- Make that the game detects vanilla operations.
 local SharePresetsWithBase = { SectorOperation = true }
 local BaseForEachPresetInCampaign = ForEachPresetInCampaign
 
+--- Overriden to make the game detect vanilla operations.
 --- @param class string
 --- @param func function
 function ForEachPresetInCampaign(class, func, ...)
@@ -144,6 +146,46 @@ function IsFinalStandOperationSpeedUpAllowed(operationId)
     return notAllowed[operationId] ~= true
 end
 
+local BaseCompleteCurrentMilitiaTraining = CompleteCurrentMilitiaTraining
+
+--- Overriden to show that militia can only be trained once.
+--- @param sector table
+--- @param mercs table
+function CompleteCurrentMilitiaTraining(sector, mercs)
+    if not IsFinalStand() then
+        return BaseCompleteCurrentMilitiaTraining(sector, mercs)
+    end
+
+    NetUpdateHash("CompleteCurrentMilitiaTraining")
+    g_MilitiaTrainingCompleteCounter = g_MilitiaTrainingCompleteCounter + 1
+
+    CreateMapRealTimeThread(function()
+        local militia_squad, count_trained = SpawnMilitia(const.Satellite.MilitiaUnitsPerTraining, sector, "operation")
+        sector.militia_training = false
+
+        local militia_types = { MilitiaRookie = 0, MilitiaElite = 0, MilitiaVeteran = 0 }
+        for _, unit_id in ipairs(militia_squad.units) do
+            local unit = gv_UnitData[unit_id]
+            militia_types[unit.class] = militia_types[unit.class] + 1
+        end
+
+        local popupHost = GetDialog("PDADialogSatellite")
+        popupHost = popupHost and popupHost:ResolveId("idDisplayPopupHost")
+
+        local dlg = CreateMessageBox(
+            popupHost,
+            T(295710973806, "Militia Training"),
+            T { 522643975325, "Militia training is finished - trained <militia_trained> defenders.<newline><GameColorD>(<sectorName>)</GameColorD>",
+                sectorName = GetSectorName(sector),
+                militia_trained = count_trained } ..
+            "\n\n" ..
+            T(214200002006,
+                "You can only train militia once per wave. Victories in combat can advance militia soldiers to Elite levels.")
+        )
+        dlg:Wait()
+    end)
+end
+
 --- Next elements should only be loaded once upon initial load.
 if not FirstLoad then
     return
@@ -151,13 +193,13 @@ end
 
 local SectorOperationEventsLoaded = false
 
---- Make vanilla operations trigger events
+--- Make operations trigger events
 function OnMsg.ModsReloaded()
     if SectorOperationEventsLoaded then
         return
     end
 
-    ForEachPresetInCampaign("SectorOperation", function(preset, group, ...)
+    ForEachPreset("SectorOperation", function(preset, group, ...)
         local BaseProgressPerTick = preset:ResolveValue("ProgressPerTick")
 
         --- @param self SectorOperation

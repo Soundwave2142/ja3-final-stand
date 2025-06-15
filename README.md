@@ -24,7 +24,7 @@ __Current available lengths__ are: __3__ Waves, __5__ Waves, __7__ Waves.
 On top of that, your chosen mercenaries will wear faction attire compiled from faction-themed pools. 
 The exception is the __No Faction__ option, which provides vanilla experience with no bonuses or penalties and no faction-themed attire.
 __Current available player factions__ are: ___No Faction___, ___Militia___, ___Rebels___.
-- __Enemy Faction__ - the main opposing force, depending on your choice, will yield different rewards (XP/monetary) and you will face different units.
+- __Enemy Faction__ - the main opposing force, depending on your choice, the enemy faction will yield different rewards (XP, money, loyalty), and you will face different units.
 __Current available enemy factions__ are: ___Legion, Adonis, Grand Chien Army, Siegfried's Guard (Super Soldiers)___.
 
 Each player faction and enemy faction has its strengths and weaknesses. 
@@ -45,8 +45,6 @@ Money and time are always a leading factor.
 The roadmap represents a set of concepts and improvements that are planned to be added in later updates. 
 This list is not final and will change and expand.
 
-- __Bug Fixes and Balancing__ - After the initial release, I hope to fix most core or minor issues (if found). 
-And balance player and enemy strengths (if required) following user feedback.
 - __Addons Support__ - _FS_ was built with expandability in mind, but it's not currently at a place I am happy with.
 This change will bring support (with a detailed guide) for expanding FS into any direction one might wish using game-provided modding tools. 
 Add your own sectors, player factions with custom attire and bonuses, and enemy factions with custom units. 
@@ -66,11 +64,12 @@ This will hopefully bring some motivation to the table and will remind of ones a
 
 ![Changes](https://imgur.com/a3pGlIO.png)
 Changes described below are NOT a detailed changelog but are only meant to highlight evolution of the mod. 
-For detailed changes, please navigate to Steam changelogs here.
+For detailed changes, please navigate to CHANGELOG.md.
 
-| Date       | Version | Description                                                                                                       |
-|------------|---------|-------------------------------------------------------------------------------------------------------------------|
-| 08.06.2025 | 0.8     | Initial version upload of the mod. For details about core mechanics in the base version, navigate to CHANGELOG.md |
+| Date       | Version | Description                                                                                                                                         |
+|------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| 15.06.2025 | 0.90    | This patch overall is focused on a player having better footing upon starting a new game and makes the gamemode feel more natural with better flow. |
+| 08.06.2025 | 0.80    | Initial version upload of the mod. For details about core mechanics in the base version, navigate to CHANGELOG.md                                   |
 
 ![Compatibility](https://imgur.com/I11Wukc.png)
 While the mod was designed to be fully compatible with other mods, it is impossible to cover every case.

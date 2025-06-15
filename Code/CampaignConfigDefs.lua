@@ -83,6 +83,13 @@ DefineClass.FinalStandConfigDef = {
     __generated_by_class = "PresetDef",
 
     properties = {
+        -- category - Misc
+        {
+            id = "AimGoldPrice",
+            name = "A.I.M. Gold Price",
+            editor = "number",
+            default = 20000
+        },
         -- category - Map and Length
         {
             category = "Map and Length",
@@ -161,6 +168,23 @@ DefineClass.FinalStandConfigDef = {
             "Base XP Reward for all squads per wave, additional modifier applied to it such as: faction modifier and map modifier",
             editor = "number",
             default = 5000
+        },
+        {
+            category = "Rewards",
+            id = "baseLoyalty",
+            name = "Base Loyalty Reward",
+            help =
+            "Base Loyalty Reward for sector per wave, additional modifier applied to it such as: faction modifier and map modifier",
+            editor = "number",
+            default = 5
+        },
+        {
+            category = "Rewards",
+            id = "loyaltyIncreasesMoney",
+            name = "Loyalty Increases Money",
+            help = "Money reward will additionally be increased on current loyalty. Calculated before loyalty reward given to the player.",
+            editor = "bool",
+            default = true
         }
     },
 
@@ -200,6 +224,91 @@ function FinalStandConfigDef:GetError()
 end
 
 DefineModItemPreset("FinalStandConfigDef", { EditorName = "Final Stand Config", EditorSubmenu = "Final Stand" })
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandModifiersAwarePreset
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandModifiersAwarePreset = {
+    __parents = { "Preset", },
+    __generated_by_class = "PresetDef",
+
+    properties = {
+        {
+            category = "Modifiers",
+            id = "moneyModifier",
+            name = "Money Modifier",
+            editor = "number",
+            default = 0,
+            scale = "%",
+        },
+        {
+            category = "Modifiers",
+            id = "xpModifier",
+            name = "XP Modifier",
+            editor = "number",
+            default = 0,
+            scale = "%",
+        },
+        {
+            category = "Modifiers",
+            id = "loyaltyModifier",
+            name = "Loyalty Modifier",
+            editor = "number",
+            default = 0,
+            scale = "%",
+        }
+    }
+}
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandStarterLootAwarePreset
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandStarterLootAwarePreset = {
+    __parents = { "Preset", },
+    __generated_by_class = "PresetDef",
+
+    properties = {
+        {
+            category = "Equipment",
+            id = "StartingEquipmentGeneration",
+            name = "Starting Equipment Generation",
+            editor = "combo",
+            default = "All",
+            items = function(self) return { "All", "Random" } end,
+            help = "Full list or random loot def from the list will be provided to player"
+        },
+        {
+            category = "Equipment",
+            id = "StartingEquipment",
+            name = "Starting Equipment",
+            editor = "preset_id_list",
+            default = {},
+            template = true,
+            editor_preview = true,
+            preset_class = "LootDef",
+            item_default = "",
+            help = "Will be generated for player squad upon start of the game if player is fighting this faction"
+        }
+    }
+}
+
+--- @param list table
+function FinalStandStarterLootAwarePreset:AppendStartingEquipmentToList(list)
+    local startingEquipment = self:ResolveValue('StartingEquipment')
+    local startingEquipmentGenMethod = self:ResolveValue('StartingEquipmentGeneration')
+
+    if #startingEquipment == 0 then
+        return
+    end
+
+    if startingEquipmentGenMethod == "Random" then
+        list[#list + 1] = startingEquipment[math.random(#startingEquipment)]
+    else
+        for _, startingEquipmentItem in ipairs(startingEquipment) do
+            list[#list + 1] = startingEquipmentItem
+        end
+    end
+end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandConfigSector
@@ -318,7 +427,7 @@ end
 --- @class FinalStandSectorDef
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandSectorDef = {
-    __parents = { "MsgReactionsPreset", "DisplayPreset" },
+    __parents = { "MsgReactionsPreset", "DisplayPreset", "FinalStandModifiersAwarePreset" },
     __generated_by_class = "PresetDef",
 
     properties = {
@@ -348,7 +457,7 @@ DefineModItemPreset("FinalStandSectorDef", { EditorName = "Final Stand Sector", 
 --- @class FinalStandLengthDef
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandLengthDef = {
-    __parents = { "MsgReactionsPreset", "DisplayPreset" },
+    __parents = { "MsgReactionsPreset", "DisplayPreset", "FinalStandModifiersAwarePreset" },
     __generated_by_class = "PresetDef",
 
     properties = {
@@ -390,3 +499,35 @@ function FinalStandLengthDef:GetError()
 end
 
 DefineModItemPreset("FinalStandLengthDef", { EditorName = "Final Stand Length", EditorSubmenu = "Final Stand" })
+
+--- ===================================================================================================================
+--- Extend UnitPreset with additional FinalStand related parameters
+--- ===================================================================================================================
+
+AppendClass.UnitProperties = {
+    properties = {
+        {
+            category = "General",
+            id = 'IsFinalStandOnly',
+            name = "Is Final Stand Only",
+            editor = "bool",
+            default = false,
+            template = true,
+            help = "Will define merc as Final Stand only and will not appear in other campaigns."
+        }
+    }
+}
+
+local BaseIsMetAIMMerc = IsMetAIMMerc
+
+--- Overriden in order to hide duplicated+altered versions of Secret Mercs for FS in Non-FS campaigns.
+--- @param merc table
+function IsMetAIMMerc(merc)
+    local showMerc = BaseIsMetAIMMerc(merc)
+
+    if not IsFinalStand() and showMerc then
+        return merc:ResolveValue('IsFinalStandOnly') ~= true
+    end
+
+    return showMerc
+end

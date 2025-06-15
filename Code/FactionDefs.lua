@@ -8,27 +8,13 @@
 --- @class FinalStandFactionDef
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandFactionDef = {
-    __parents = { "MsgReactionsPreset", "DisplayPreset" },
-    __generated_by_class = "PresetDef",
-
-    properties = {
-        {
-            category = "Modifiers",
-            id = "moneyModifier",
-            name = "Money Modifier",
-            editor = "number",
-            default = 0,
-            scale = "%",
-        },
-        {
-            category = "Modifiers",
-            id = "xpModifier",
-            name = "XP Modifier",
-            editor = "number",
-            default = 0,
-            scale = "%",
-        }
+    __parents = {
+        "MsgReactionsPreset",
+        "DisplayPreset",
+        "FinalStandModifiersAwarePreset",
+        "FinalStandStarterLootAwarePreset"
     },
+    __generated_by_class = "PresetDef",
 
     HasGroups = false,
     HasSortKey = true,

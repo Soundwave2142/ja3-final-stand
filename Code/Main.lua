@@ -16,7 +16,7 @@ function OnMsg.SatelliteTick()
         return
     end
 
-    if FinalStandSquadSpawner:isTimeToSpawn() then
+    if FinalStandSquadSpawner:IsTimeToSpawn() then
         FinalStandSquadSpawner:Spawn()
     end
 end
@@ -30,12 +30,64 @@ function OnMsg.ConflictEnd()
         return
     end
 
-    Game.FinalStand.currentWaveStarted = false
+    FinalStandSquadScheduler:EndWave()
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandSquadScheduler
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandSquadScheduler = {}
+
+function FinalStandSquadScheduler:Schedule()
+    Game.FinalStand.currentWave = Game.FinalStand.currentWave + 1
+    Game.FinalStand.scheduledStand = self:CalculateAttackTime()
+    Game.FinalStand.scheduledStandSquads = FinalStandSquadSpawner:PickSquads()
+
+    Msg('FinalStandWaveScheduled', Game.FinalStand.scheduledStand, Game.FinalStand.currentWave)
+
+    self:ScheduleTimeLineMarker()
+end
+
+function FinalStandSquadScheduler:ScheduleTimeLineMarker()
+    local typ = "final-stand-squad-attack"
+    if GetFinalStandCurrentWave() == 1 then
+        typ = 'final-stand-squad-attack-first'
+    elseif GetFinalStandCurrentWave() == GetFinalStandMaxWaves() then
+        typ = 'final-stand-squad-attack-final'
+    end
+
+    local sector = GetFinalStandSector();
+    AddTimelineEvent("final-stand-squad-attack", Game.FinalStand.scheduledStand, typ, sector)
+end
+
+--- @return string(?)
+function FinalStandSquadScheduler:CalculateAttackTime()
+    local attackInHours = math.random(
+        GetFinalStandConfigValue('attackTimeMin'),
+        GetFinalStandConfigValue('attackTimeMax')
+    )
+    local attackTime = Game.CampaignTime + (attackInHours * const.Scale.h)
+
+    if GetFinalStandConfigValue('attackTimeIncludeMercArrivalTime') then
+        attackTime = attackTime + const.Satellite.MercArrivalTime
+    end
+
+    return attackTime
+end
+
+function FinalStandSquadScheduler:EndWave()
+    FinalStandConfigurator:ResetPerWaveFlags()
     Msg("FinalStandWaveEnded")
 
     if GetFinalStandCurrentWave() < GetFinalStandMaxWaves() then
+        FinalStandRewardProvider:GiveMoney()
+        FinalStandRewardProvider:GiveXP()
+        FinalStandRewardProvider:GiveLoyalty()
+
         FinalStandSquadScheduler:Schedule()
-        FinalStandRewardProvider:GiveRewards()
+        -- we need to restock bobby after the next wave has been scheduled,
+        -- as we need to know when it's going to happen.
+        FinalStandRewardProvider:RestockBobby()
     else
         FinalStandFinale:StartEnding()
     end
@@ -47,7 +99,7 @@ end
 DefineClass.FinalStandSquadSpawner = {}
 
 --- @return boolean
-function FinalStandSquadSpawner:isTimeToSpawn()
+function FinalStandSquadSpawner:IsTimeToSpawn()
     if not Game['FinalStand'] then
         return false
     end
@@ -104,59 +156,134 @@ end
 --- @class FinalStandRewardProvider
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandRewardProvider = {}
--- TODO: give loyalty on win
-
-function FinalStandRewardProvider:GiveRewards()
-    self:GiveMoney()
-    self:GiveXP()
-    self:RestockBobby()
-end
 
 function FinalStandRewardProvider:GiveMoney()
-    local baseValue = {
-        default = GetFinalStandConfigValue('baseMoney')
-    }
-
-    local modifiers = {
-        faction = GetFinalStandFriendlyFactionValue('moneyModifier'),
-        enemyFaction = GetFinalStandEnemyFactionValue('moneyModifier')
-        -- TODO: add reward based on wave
-    }
-
+    local baseValue = self:GetBaseForAttribute('baseMoney')
+    local modifiers = self:GetModifiersForAttribute('moneyModifier')
     local flatBonuses = {}
 
+    if GetFinalStandConfigValue('loyaltyIncreasesMoney') == true then
+        local sector = GetFinalStandSector(true)
+        modifiers['loyalty'] = GetCityLoyalty(sector.City)
+    end
+
+    print('FinalStandRewardMoney', baseValue, modifiers, flatBonuses)
     Msg('FinalStandRewardMoney', baseValue, modifiers, flatBonuses)
-    AddMoney(self:CalculateValue(baseValue, modifiers, flatBonuses), "reward")
+    local moneyReward = self:CalculateValue(baseValue, modifiers, flatBonuses);
+
+    if moneyReward > 0 then
+        AddMoney(moneyReward, "reward")
+    end
 end
 
 function FinalStandRewardProvider:GiveXP()
-    local baseValue = {
-        default = GetFinalStandConfigValue('baseXp')
-    }
-
-    -- TODO: collect all instances that inherit certain class
-    local modifiers = {
-        faction = GetFinalStandFriendlyFactionValue('xpModifier'),
-        enemyFaction = GetFinalStandEnemyFactionValue('xpModifier')
-        -- TODO: add reward based on wave
-    }
-
+    local units = GetAllPlayerUnitsOnMap()
+    local baseValue = self:GetBaseForAttribute('baseXp')
+    local modifiers = self:GetModifiersForAttribute('xpModifier')
     local flatBonuses = {}
 
-    Msg('FinalStandRewardXP', baseValue, modifiers, flatBonuses)
-
+    Msg('FinalStandRewardXP', baseValue, modifiers, flatBonuses, units)
     local xpReward = self:CalculateValue(baseValue, modifiers, flatBonuses)
-    local units = GetAllPlayerUnitsOnMap()
+
+    if xpReward > 0 then
+        FinalStandRewardProvider:GiveXPToUnits(units, xpReward)
+    end
+    -- todo: add log messages
+end
+
+--- @param units table
+--- @param xp number
+function FinalStandRewardProvider:GiveXPToUnits(units, xp)
     if #units <= 0 then
         return
     end
 
-    local xpRewardPerMerc = xpReward / #units
+    local livingUnits = {}
+
     for _, unit in ipairs(units) do
-        UnitGainXP(unit, xpRewardPerMerc)
+        if not unit:IsDead() then
+            livingUnits[#livingUnits + 1] = unit
+        end
+    end
+
+    units = livingUnits;
+
+    local xpBonusPercent = 0
+
+    for i, unit in ipairs(units) do -- add one time bonus xp from Teacher
+        if HasPerk(unit, "Teacher") then
+            xpBonusPercent = xpBonusPercent + CharacterEffectDefs.Teacher:ResolveValue("squad_exp_bonus")
+            break
+        end
+    end
+
+    for i, unit in ipairs(units) do -- add one time bonus xp from OldDog
+        if HasPerk(unit, "OldDog") then
+            xpBonusPercent = xpBonusPercent + CharacterEffectDefs.OldDog:ResolveValue("old_dog_XP_bonus")
+            break
+        end
+    end
+
+    xp = xp + MulDivRound(xp, xpBonusPercent, 100)
+
+    local leveledUp = {}
+    local perUnit = MulDivRound(xp, 1000, #units * 1000)
+
+    for i, unit in ipairs(units) do
+        local previousLvl = unit:GetLevel()
+        local gain = CalcRewardExperienceToUnit(unit, perUnit)
+
+        ReceiveStatGainingPoints(unit, gain)
+        unit.Experience = (unit.Experience or 0) + gain
+        local newLvl = unit:GetLevel()
+
+        local levelsGained = newLvl - previousLvl
+
+        if levelsGained > 0 then
+            leveledUp[#leveledUp + 1] = unit
+            unit.perkPoints = unit.perkPoints + levelsGained
+            TutorialHintsState.GainLevel = true
+        end
+    end
+
+    for _, unit in ipairs(leveledUp) do
+        ObjModified(unit)
+        Msg("UnitLeveledUp", unit)
     end
 end
 
+function FinalStandRewardProvider:GiveLoyalty()
+    local sector = GetFinalStandSector(true)
+    local baseValue = self:GetBaseForAttribute('baseLoyalty')
+    local modifiers = self:GetModifiersForAttribute('loyaltyModifier')
+    local flatBonuses = {}
+
+    Msg('FinalStandRewardLoyalty', baseValue, modifiers, flatBonuses, sector)
+    local loyaltyReward = self:CalculateValue(baseValue, modifiers, flatBonuses)
+
+    if loyaltyReward > 0 then
+        CityModifyLoyalty(sector.City, loyaltyReward, "")
+    end
+end
+
+function FinalStandRewardProvider:GetBaseForAttribute(attribute)
+    return {
+        default = GetFinalStandConfigValue(attribute)
+    }
+end
+
+function FinalStandRewardProvider:GetModifiersForAttribute(attribute)
+    return {
+        length = GetFinalStandLengthValue(attribute),
+        sector = GetFinalStandSectorValue(attribute),
+        faction = GetFinalStandFriendlyFactionValue(attribute),
+        enemyFaction = GetFinalStandEnemyFactionValue(attribute)
+    }
+end
+
+--- @param baseValue table
+--- @param modifiers table
+--- @param flatBonuses table
 function FinalStandRewardProvider:CalculateValue(baseValue, modifiers, flatBonuses)
     -- first, add up all base reward values
     local baseReward = 0
@@ -167,12 +294,10 @@ function FinalStandRewardProvider:CalculateValue(baseValue, modifiers, flatBonus
     -- second, take base reward and modify it for each of the modifiers and subract base reward from it
     local finalReward = baseReward
     for _, modifier in pairs(modifiers) do
-        if type(modifier) == "number" then
+        if type(modifier) == "number" and modifier ~= 0 then
             finalReward = finalReward + (MulDivRound(baseReward, 100 + modifier, 100) - baseReward)
         end
     end
-
-    print("Calculating reward:", baseReward, modifiers, finalReward)
 
     -- lastly, add any flat bonuses if present
     for _, flatBonus in pairs(flatBonuses) do
@@ -182,6 +307,7 @@ function FinalStandRewardProvider:CalculateValue(baseValue, modifiers, flatBonus
     return finalReward
 end
 
+--- Bobby restocks after the next wave has been scheduled, as we need to know when it's going to happen.
 function FinalStandRewardProvider:RestockBobby()
     local unlockedTier = BobbyRayShopGetUnlockedTier()
 
@@ -193,7 +319,6 @@ function FinalStandRewardProvider:RestockBobby()
     }
 
     Msg('FinalStandBobbyRayRestock', bobbyRayValues)
-    print("Final Stand: Restocking Bobby -", bobbyRayValues)
 
     -- TODO: add tier per wave modifier
     SetQuestVar(QuestGetState("BobbyRayQuest"), "UnlockedTier", bobbyRayValues.nextTier)
