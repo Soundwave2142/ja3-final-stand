@@ -6,14 +6,6 @@ end
 --- ====================================================================================================
 --- New Game / Loading Game
 --- ====================================================================================================
-function OnMsg.FinalStandUIInserted()
-    print("Final Stand: UI elements inserted")
-end
-
-function OnMsg.FinalStandUIInserted()
-    print("Final Stand: UI elements removed")
-end
-
 function OnMsg.NewGame(game)
     if not IsFinalStandDebugger() then
         return

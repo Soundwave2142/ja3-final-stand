@@ -28,12 +28,12 @@ end
 
 --- Collect checks to ensure Final Stand Campaign is identified
 --- @return boolean
-function IsFinalStand()
+function IsFinalStand(campaignId)
     local isFinalStandChecks = {}
-    Msg('isFinalStand', isFinalStandChecks)
+    Msg('isFinalStand', isFinalStandChecks, campaignId)
 
-    for key, value in pairs(isFinalStandChecks) do
-        if value == true then
+    for _, check in pairs(isFinalStandChecks) do
+        if check == true then
             return true
         end
     end
@@ -43,42 +43,29 @@ end
 
 --- Add check to identify basic Final Stand campaign
 --- @param isFinalStandChecks table
-function OnMsg.isFinalStand(isFinalStandChecks)
+function OnMsg.isFinalStand(isFinalStandChecks, campaignId)
     local campaign = GetCampaign()
-    if campaign and campaign:ResolveValue('IsFinalStand') then
+    local correctCampaign = not campaignId or campaignId == campaign.id
+
+    if campaign and campaign:ResolveValue('IsFinalStand') and correctCampaign then
         isFinalStandChecks[campaign.id] = true
     end
 end
 
---- @param object table
---- @param relationName string
---- @param relationKey string
---- @param globalPresetCollection (table|nil)
---- @return table
-function GetRelationCollection(object, relationName, relationKey, globalPresetCollection)
-    local collection = {}
-
-    for _, relation in pairs(object[relationName]) do
-        local presetId = relation[relationKey]
-
-        if globalPresetCollection then
-            table.insert(collection, _G[globalPresetCollection][presetId])
-        else
-            table.insert(collection, presetId)
-        end
-    end
-
-    return collection
-end
-
 --- @param collection table
 --- @return table
-function GetFirstFromCollection(collection)
+function GetSortedCollection(collection)
+    local sorted = {}
+
     for _, item in pairs(collection) do
-        return item
+        sorted[#sorted + 1] = item
     end
 
-    return false
+    table.stable_sort(sorted, function(a, b)
+        return (a.SortKey or 0) < (b.SortKey or 0)
+    end)
+
+    return sorted
 end
 
 --- @return FinalStandConfigDef
@@ -258,4 +245,40 @@ function GetFinalStandMaxWaves()
     end
 
     return false
+end
+
+function HasFinalStandWaveScheduled(waveNumber)
+    if not Game or not Game.FinalStand then
+        return
+    end
+
+    local correctWaveNumber = true
+
+    if type(waveNumber) == 'number' then
+        correctWaveNumber = Game.FinalStand.currentWave == waveNumber
+    end
+
+    return correctWaveNumber and Game.FinalStand.scheduledStand > Game.CampaignTime
+end
+
+function HasFinalStandWaveStarted(waveNumber)
+    if not Game or not Game.FinalStand then
+        return
+    end
+
+    local correctWaveNumber = true
+
+    if type(waveNumber) == 'number' then
+        correctWaveNumber = Game.FinalStand.currentWave == waveNumber
+    end
+
+    return correctWaveNumber and Game.FinalStand.currentWaveStarted
+end
+
+function HasFinalStandWaveEnded(waveNumber)
+    if not Game or not Game.FinalStand then
+        return
+    end
+
+    return GetFinalStandCurrentWave() > waveNumber
 end

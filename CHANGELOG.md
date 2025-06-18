@@ -1,5 +1,22 @@
 # Final Stand
 
+# 1.00  - 20.06.2025
+
+### Description
+
+### Detailed Changes
+
+###### New Features
+- Added Final Stand quest-line that will note player's different actions such as entering _Last Chance_ or loosing mercs for each wave.
+- Reworked behind-the-scenes structure of entities to support extensions.
+
+_This was a lot of work with not a lot to show, but completely necessary in order achieve my vision of allowing anyone to create their Final Stand experiences._
+
+###### Balance Changes
+- Reduced price of A.I.M. Gold from 7500$ to 5000$.
+
+###### Bug Fixes
+
 # 0.90  - 15.06.2025
 
 ### Description
@@ -7,7 +24,7 @@ This patch overall is focused on a player having better footing upon starting a 
 
 A.I.M. Gold can now be purchased, and some "secret" mercs from Hot Diamonds can now be hired. 
 Different gear, supplies, and XP are now provided on game start. Better monetary and XP rewards for wave completion.
-On top of that, the player now will earn loyalty with the sector that will further increase rewards next wave and decrease sector operations cost. 
+The player now will earn loyalty with the sector that will further increase rewards next wave and decrease sector operations cost. 
 New Help pages, Militia Training tweaks, balancing tweaks and bug fixes.
 
 ### Detailed Changes
