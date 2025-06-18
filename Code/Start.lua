@@ -1,8 +1,33 @@
 --- ===================================================================================================================
---- Responsible for start of the game and assignment of all correct values.
----
 --- @author Soundwave2142
 --- ===================================================================================================================
+
+if FirstLoad then
+    local FinalStandTemplateCreated = false
+
+    function OnMsg.ModsReloaded()
+        if FinalStandTemplateCreated then
+            return
+        end
+
+        FinalStandMainMenuUIHandler:InsertIntoNewGame("NewGameMenuFinalStandEntries")
+        FinalStandTemplateCreated = true
+    end
+end
+
+--- @return boolean
+function IsFinalStandSelectedInMainMenu()
+    return CampaignPresets[NewGameObj.campaignId]:ResolveValue('IsFinalStand')
+end
+
+--- @param mode string
+--- @param mode_param table(?)
+--- @param old_mode string
+function OnMsg:DialogSetMode(mode, mode_param, old_mode)
+    if mode == 'newgame02' and old_mode == 'newgame01' and IsFinalStandSelectedInMainMenu() then
+        Msg('FinalStandSelected', NewGameObj)
+    end
+end
 
 --- @param newGameObj table
 function OnMsg.FinalStandSelected(newGameObj)
@@ -12,26 +37,120 @@ function OnMsg.FinalStandSelected(newGameObj)
     FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
 end
 
+--- @param parent table
+--- @param config FinalStandConfigDef
+function OnMsg.PreGameMenuFinalStandConfigChanged(parent, config)
+    FinalStandMainMenuUIHandler:HandleConfigChanged(parent, config)
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandMainMenuUIHandler
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandMainMenuUIHandler = {
+    KnownFinalStandMainMenuClasses = {
+        "FinalStandSectorDef",
+        "FinalStandLengthDef",
+        "FinalStandFriendlyFactionDef",
+        "FinalStandEnemyFactionDef"
+    }
+}
+
+--- @param templateId string
+function FinalStandMainMenuUIHandler:InsertIntoNewGame(templateId)
+    Msg('FinalStandBeforeUIInsert', templateId)
+
+    local _, parent1, idx1 = UIFindControl("MainMenu", { __template = "NewGameMenuGameRules" })
+
+    if parent1 then
+        table.insert(parent1, 2, PlaceObj('XTemplateTemplate', {
+            '__context', function(parent, context) return context end,
+            '__template', templateId,
+            '__condition', function(parent, context) return IsFinalStandSelectedInMainMenu() end,
+            'IdNode', false,
+        }))
+    end
+
+    Msg("FinalStandUIInserted", parent1, templateId)
+end
+
+--- @param context
+--- @return boolean
+function FinalStandMainMenuUIHandler:IsContextFinalStandObject(context)
+    if not context then
+        return
+    end
+
+    for _, class in ipairs(self.KnownFinalStandMainMenuClasses) do
+        if IsKindOf(context, class) then
+            return true
+        end
+    end
+
+    return false;
+end
+
+--- @return table
+function FinalStandMainMenuUIHandler:GetFinalStandConfigs()
+    local campaign = CampaignPresets[NewGameObj.campaignId]
+    local configs = campaign:GetFinalStandConfigs()
+    local validConfigs = {}
+
+    for _, config in ipairs(configs) do
+        if config:IsValidConfig() then
+            validConfigs[#validConfigs + 1] = config
+        end
+    end
+
+    return validConfigs
+end
+
+--- @param parent table
+--- @param config FinalStandConfigDef
+function FinalStandMainMenuUIHandler:HandleConfigChanged(parent, config)
+    for _, obj in ipairs(parent) do
+        if self:IsContextFinalStandObject(obj.context) then
+            local visibility = obj.context:IsRelatedToConfig(config.id)
+            obj:SetVisible(visibility)
+        end
+    end
+
+    local newGameObj = NewGameObj
+
+    if newGameObj then
+        local campaign = CampaignPresets[NewGameObj.campaignId]
+        FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
+    end
+
+    self:EnsureCorrectOptionsAreChecked(parent)
+end
+
+--- @param parent table
+function FinalStandMainMenuUIHandler:EnsureCorrectOptionsAreChecked(parent)
+    for _, obj in ipairs(parent) do
+        if self:IsContextFinalStandObject(obj.context) and obj.context:HasMember("PreGameObjectName") then
+            local newGameObjValue = NewGameObj[obj.context.PreGameObjectName]
+
+            if newGameObjValue == obj.context.id then
+                obj:OnPress()
+            end
+        end
+    end
+end
+
 --- @param game table
 function OnMsg.NewGame(game)
     if not IsFinalStand() then
         return
     end
 
+    local newGameObj = NewGameObj or {}
     local campaign = GetCurrentCampaignPreset()
-    local finalStandConfig = FinalStandConfigurator:CreateFinalStandConfig(campaign)
+    local finalStandConfig = FinalStandConfigurator:CreateFinalStandConfig(campaign, newGameObj)
+
     Msg("FinalStandGameConfigured", finalStandConfig)
 
     game["FinalStand"] = finalStandConfig
     campaign["InitialSector"] = GetFinalStandSector()
-end
-
-function OnMsg.StartSatelliteGameplay()
-    if not IsFinalStand() then
-        return
-    end
-
-    FinalStandStarterGearGenerator:GiveStarterGear()
 end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -47,17 +166,18 @@ DefineClass.FinalStandConfigurator = {
 
 --- @param campaign Campaign
 --- @return table
-function FinalStandConfigurator:CreateFinalStandConfig(campaign)
-    local newGameObj = NewGameObj or {}
-    FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
+function FinalStandConfigurator:CreateFinalStandConfig(campaign, newGameObj)
+    if not self:AreDefaultsAssigned(newGameObj) then
+        self:EnsureDefaultsAreAssigned(campaign, newGameObj)
+    end
 
     local config = {
         -- player made choices
-        config = newGameObj['finalStandConfig'],
-        faction = newGameObj['finalStandFriendlyFaction'],
-        enemyFaction = newGameObj['finalStandEnemyFaction'],
-        sector = newGameObj['finalStandSector'],
-        length = newGameObj['finalStandLength'],
+        config = newGameObj[FinalStandConfigDef.PreGameObjectName],
+        sector = newGameObj[FinalStandSectorDef.PreGameObjectName],
+        length = newGameObj[FinalStandLengthDef.PreGameObjectName],
+        faction = newGameObj[FinalStandFriendlyFactionDef.PreGameObjectName],
+        enemyFaction = newGameObj[FinalStandEnemyFactionDef.PreGameObjectName],
         -- variables for tracking progress
         id = FinalStandConfigurator:GenerateFinalStandId(),
         currentWave = 0,
@@ -76,21 +196,64 @@ function FinalStandConfigurator:GenerateFinalStandId()
     return random_encode64(48)
 end
 
+--- @param newGameObj table
+--- @return boolean
+function FinalStandConfigurator:AreDefaultsAssigned(newGameObj)
+    local requiredDefaults = {
+        FinalStandConfigDef.PreGameObjectName,
+        FinalStandSectorDef.PreGameObjectName,
+        FinalStandLengthDef.PreGameObjectName,
+        FinalStandFriendlyFactionDef.PreGameObjectName,
+        FinalStandEnemyFactionDef.PreGameObjectName
+    }
+
+    for _, newGameObjectName in pairs(requiredDefaults) do
+        if not newGameObj[newGameObjectName] then
+            return false
+        end
+    end
+
+    return true
+end
+
 --- @param campaign CampaignPreset
 --- @param newGameObj table
 function FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
-    local configCollection = GetRelationCollection(campaign, 'FinalStandConfigs', 'Config')
-    local configFirstValue = GetFirstFromCollection(configCollection)
+    local configs = campaign:GetFinalStandConfigs()
 
-    newGameObj['finalStandConfig'] = configFirstValue
-    local configObject = FinalStandConfigs[configFirstValue]
+    if configs and #configs > 0 then
+        local config = configs[1];
+        local configId = config.id
 
-    for _, options in pairs(FinalStandTemplatePresetsGenerator:GetStructure()) do
-        local collection = GetRelationCollection(configObject, options.configRelationName, options.configRelationKey)
-        local firstValue = GetFirstFromCollection(collection)
+        if newGameObj[FinalStandConfigDef.PreGameObjectName] then
+            local newGameConfig = FinalStandConfigs[newGameObj[FinalStandConfigDef.PreGameObjectName]]
 
-        if not newGameObj[options.gameObjName] then
-            newGameObj[options.gameObjName] = firstValue
+            if newGameConfig and newGameConfig:IsRelatedToCampaign(newGameObj.campaignId) then
+                config = FinalStandConfigs[newGameObj[FinalStandConfigDef.PreGameObjectName]]
+                configId = newGameObj[FinalStandConfigDef.PreGameObjectName]
+            end
+        end
+
+        newGameObj[FinalStandConfigDef.PreGameObjectName] = configId;
+
+        local sectors = config:GetAllSectors(true)
+        if sectors and #sectors > 0 then
+            newGameObj[FinalStandSectorDef.PreGameObjectName] = sectors[1].id
+        end
+
+        local lengths = config:GetAllLengths(true)
+        if lengths and #lengths > 0 then
+            newGameObj[FinalStandLengthDef.PreGameObjectName] = lengths[1].id
+        end
+
+        local factions = config:GetAllFriendlyFactions(true)
+        if factions and #factions > 0 then
+            newGameObj[FinalStandFriendlyFactionDef.PreGameObjectName] = factions[1].id
+        end
+
+        local enemyFactions = config:GetAllEnemyFactions(true)
+        if enemyFactions and #enemyFactions > 0 then
+            newGameObj[FinalStandEnemyFactionDef.PreGameObjectName] = enemyFactions[1].id
         end
     end
 end
@@ -104,6 +267,14 @@ function FinalStandConfigurator:ResetPerWaveFlags(config)
     end
 
     Msg("FinalStandGamePerWaveFlagsReset", config)
+end
+
+function OnMsg.StartSatelliteGameplay()
+    if not IsFinalStand() then
+        return
+    end
+
+    FinalStandStarterGearGenerator:GiveStarterGear()
 end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++

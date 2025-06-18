@@ -33,11 +33,7 @@ return {
 			}),
 			PlaceObj('FinalStandSquadScheduleAttack', {}),
 		},
-		FinalStandConfigs = {
-			PlaceObj('CampaignPresetFinalStandConfig', {
-				'Config', "Default",
-			}),
-		},
+		FinalStandConfigs = {},
 		FirstRunInterface = function (self, interfaceType)
 			--used for debugging
 			if interfaceType == "QuickStart" then
@@ -53,7 +49,7 @@ return {
 			OpenAIMAndSelectMerc()
 			g_PDALoadingFlavor = true
 		end,
-		InitialSector = "H4",
+		InitialSector = "L8",
 		Initialize = function (self)
 			AllowRevealSectors({ "H4", "I9", "L8", "D7", "D17" })
 		end,
@@ -215,66 +211,13 @@ return {
 		underground_file = "UI/SatelliteView/SatView_Underground",
 	}),
 	PlaceObj('ModItemFinalStandConfigDef', {
-		AimGoldPrice = 7500,
-		EnemyFactions = {
-			PlaceObj('FinalStandConfigEnemyFaction', {
-				'Faction', "Legion",
-			}),
-			PlaceObj('FinalStandConfigEnemyFaction', {
-				'Faction', "Adonis",
-			}),
-			PlaceObj('FinalStandConfigEnemyFaction', {
-				'Faction', "Army",
-			}),
-			PlaceObj('FinalStandConfigEnemyFaction', {
-				'Faction', "SuperSoldiers",
-			}),
-		},
-		Factions = {
-			PlaceObj('FinalStandConfigFaction', {
-				'Faction', "Mercs",
-			}),
-			PlaceObj('FinalStandConfigFaction', {
-				'Faction', "Militia",
-			}),
-			PlaceObj('FinalStandConfigFaction', {
-				'Faction', "Rebels",
-			}),
-		},
-		Lengths = {
-			PlaceObj('FinalStandConfigLength', {
-				'Length', "ThreeWaves",
-			}),
-			PlaceObj('FinalStandConfigLength', {
-				'Length', "FiveWaves",
-			}),
-			PlaceObj('FinalStandConfigLength', {
-				'Length', "SevenWaves",
-			}),
-		},
+		AimGoldPrice = 5000,
 		NameColor = 4292643868,
 		Parameters = {
 			PlaceObj('PresetParamPercent', {
 				'Name', "operationsProgressModifier",
 				'Value', 50,
 				'Tag', "<operationsProgressModifier>%",
-			}),
-		},
-		Sectors = {
-			PlaceObj('FinalStandConfigSector', {
-				'Sector', "H4",
-			}),
-			PlaceObj('FinalStandConfigSector', {
-				'Sector', "I9",
-			}),
-			PlaceObj('FinalStandConfigSector', {
-				'Sector', "L8",
-			}),
-			PlaceObj('FinalStandConfigSector', {
-				'Sector', "D7",
-			}),
-			PlaceObj('FinalStandConfigSector', {
-				'Sector', "D17",
 			}),
 		},
 		attackTimeMax = 6,
@@ -323,6 +266,11 @@ return {
 	}, {
 		PlaceObj('ModItemFinalStandFriendlyFactionDef', {
 			AttireHead = {},
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			NameColor = 4286226623,
 			SortKey = 1,
 			StartingEquipment = {
@@ -337,41 +285,46 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandFriendlyFactionDef', {
 			AttirePools = {
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "MilitiaLeader",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "MilitiaAllRounder",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "MilitiaMarksmen",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "MilitiaExplosive",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "MilitiaDoctor",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "MilitiaMechanic",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralLeader",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralAllRounder",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralMarksmen",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralExplosives",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralDoctor",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralMechanic",
+				}),
+			},
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
 				}),
 			},
 			NameColor = 4286226623,
@@ -461,41 +414,46 @@ return {
 		PlaceObj('ModItemFinalStandFriendlyFactionDef', {
 			AttireHead = {},
 			AttirePools = {
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "RebelsLeader",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "RebelsAllRounder",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "RebelsMarksmen",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "RebelsExplosive",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "RebelsDoctor",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "RebelsMechanic",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralLeader",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralAllRounder",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralMarksmen",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralExplosives",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralDoctor",
 				}),
-				PlaceObj('FinalStandFactionAttire', {
+				PlaceObj('FinalStandFactionAttireSelector', {
 					'AttirePool', "GeneralMechanic",
+				}),
+			},
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
 				}),
 			},
 			NameColor = 4286226623,
@@ -773,6 +731,11 @@ return {
 					'Waves', "6,7",
 				}),
 			},
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			NameColor = 4292577681,
 			Parameters = {
 				PlaceObj('PresetParamNumber', {
@@ -896,6 +859,11 @@ return {
 					'Waves', "6,7",
 				}),
 			},
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			NameColor = 4292577681,
 			Parameters = {
 				PlaceObj('PresetParamNumber', {
@@ -1013,6 +981,11 @@ return {
 					'Waves', "5,6,7",
 				}),
 			},
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			NameColor = 4292577681,
 			Parameters = {
 				PlaceObj('PresetParamNumber', {
@@ -1100,6 +1073,11 @@ return {
 				PlaceObj('FinalStandEnemyFactionSquad', {
 					'Squad', "SmallStations",
 					'Waves', "6,7",
+				}),
+			},
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
 				}),
 			},
 			NameColor = 4292577681,
@@ -4154,8 +4132,13 @@ return {
 			}),
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			Sector = "H4",
-			SortKey = 1,
+			SortKey = 10,
 			comment = "Fort L'Eau Bleu (outpost)",
 			description = T(150244906240, --[[ModItemFinalStandSectorDef H4 description]] "Main stronghold of Ernie island.<newline><newline><image UI/SatelliteView/SectorImages/H04 1600>"),
 			display_name = T(919903154411, --[[ModItemFinalStandSectorDef H4 display_name]] "Fort L'Eau Bleu (H4)"),
@@ -4163,8 +4146,13 @@ return {
 			id = "H4",
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			Sector = "I9",
-			SortKey = 2,
+			SortKey = 20,
 			comment = "Rimville (outpost/mansion)",
 			description = T(706232630775, --[[ModItemFinalStandSectorDef I9 description]] "Boss Blaubert's mansion.<newline><newline><image UI/SatelliteView/SectorImages/I09 1600>"),
 			display_name = T(377896673109, --[[ModItemFinalStandSectorDef I9 display_name]] "Rimville (I9)"),
@@ -4174,8 +4162,13 @@ return {
 			moneyModifier = 15,
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			Sector = "L8",
-			SortKey = 3,
+			SortKey = 30,
 			comment = "Port Cacao City (city/mansion)",
 			description = T(119457814568, --[[ModItemFinalStandSectorDef L8 description]] "City center of Port Cacao.<newline><newline><image UI/SatelliteView/SectorImages/L08 1600>"),
 			display_name = T(685381178936, --[[ModItemFinalStandSectorDef L8 display_name]] "Port Cacao City (L8)"),
@@ -4185,8 +4178,13 @@ return {
 			xpModifier = 10,
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			Sector = "D7",
-			SortKey = 4,
+			SortKey = 40,
 			comment = "Pantagruel Slums (city/open area)",
 			description = T(642687711828, --[[ModItemFinalStandSectorDef D7 description]] "Densely populated slums west of Pantagruel center.<newline><newline><image UI/SatelliteView/SectorImages/D07 1600>"),
 			display_name = T(976812820692, --[[ModItemFinalStandSectorDef D7 display_name]] "Pantagruel Slums (D7)"),
@@ -4197,8 +4195,13 @@ return {
 			xpModifier = 10,
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			Sector = "D17",
-			SortKey = 5,
+			SortKey = 50,
 			comment = "Ille Morat",
 			description = T(429721753974, --[[ModItemFinalStandSectorDef D17 description]] "Ille Morat village port.<newline><newline><image UI/SatelliteView/SectorImages/D17 1600>"),
 			display_name = T(412313514242, --[[ModItemFinalStandSectorDef D17 display_name]] "Ille Morat (D17)"),
@@ -4213,8 +4216,13 @@ return {
 		'name', "Lengths",
 	}, {
 		PlaceObj('ModItemFinalStandLengthDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			NameColor = 4291018156,
-			SortKey = 1,
+			SortKey = 10,
 			description = T(469065984286, --[[ModItemFinalStandLengthDef ThreeWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you wish for the full experience, it is recommended to <em>choose 7 waves</em>."),
 			display_name = T(400364955478, --[[ModItemFinalStandLengthDef ThreeWaves display_name]] "3 Waves"),
 			display_name_caps = T(442614194967, --[[ModItemFinalStandLengthDef ThreeWaves display_name_caps]] "3 WAVES"),
@@ -4222,8 +4230,13 @@ return {
 			id = "ThreeWaves",
 		}),
 		PlaceObj('ModItemFinalStandLengthDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			NameColor = 4291018156,
-			SortKey = 2,
+			SortKey = 20,
 			description = T(286294288316, --[[ModItemFinalStandLengthDef FiveWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you wish for the full experience, it is recommended to <em>choose 7 waves</em>."),
 			display_name = T(845045912590, --[[ModItemFinalStandLengthDef FiveWaves display_name]] "5 Waves"),
 			display_name_caps = T(329343893497, --[[ModItemFinalStandLengthDef FiveWaves display_name_caps]] "5 WAVES"),
@@ -4232,14 +4245,149 @@ return {
 			maxWaves = 5,
 		}),
 		PlaceObj('ModItemFinalStandLengthDef', {
+			FinalStandConfigs = {
+				PlaceObj('FinalStandConfigSelect', {
+					'Config', "Default",
+				}),
+			},
 			NameColor = 4291018156,
-			SortKey = 3,
+			SortKey = 30,
 			description = T(367987529496, --[[ModItemFinalStandLengthDef SevenWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves, this is the <em>recommended</em>, full experience of the game-mode."),
 			display_name = T(880015722679, --[[ModItemFinalStandLengthDef SevenWaves display_name]] "7 Waves"),
 			display_name_caps = T(467155438678, --[[ModItemFinalStandLengthDef SevenWaves display_name_caps]] "7 WAVES"),
 			group = "Default",
 			id = "SevenWaves",
 			maxWaves = 7,
+		}),
+		}),
+	PlaceObj('ModItemFolder', {
+		'name', "Quests",
+	}, {
+		PlaceObj('ModItemQuestsDef', {
+			DisplayName = T(640802470591, --[[ModItemQuestsDef FinalStandWave1 DisplayName]] "Final Stand - Wave 1"),
+			KillTCEsConditions = {
+				PlaceObj('QuestKillTCEsOnCompleted', {}),
+			},
+			Main = true,
+			NoteDefs = {
+				LastNoteIdx = 2,
+				PlaceObj('QuestNote', {
+					AddInHistory = true,
+					CompletionConditions = {
+						PlaceObj('QuestIsTCEState', {
+							Prop = "TCE_FinalStandWaveStarted",
+							QuestId = "FinalStandWave1",
+							Value = true,
+						}),
+					},
+					ShowConditions = {
+						PlaceObj('QuestIsVariableBool', {
+							QuestId = "FinalStandWave1",
+							Vars = set( "Given" ),
+						}),
+					},
+					Text = T(819071997447, --[[ModItemQuestsDef FinalStandWave1 Text]] "Enemy wave is approaching, prepare your defense!"),
+				}),
+				PlaceObj('QuestNote', {
+					AddInHistory = true,
+					CompletionConditions = {
+						PlaceObj('QuestIsVariableBool', {
+							QuestId = "FinalStandWave1",
+							Vars = set( "Completed" ),
+						}),
+					},
+					Idx = 2,
+					ShowConditions = {
+						PlaceObj('QuestIsTCEState', {
+							Prop = "TCE_FinalStandWaveStarted",
+							QuestId = "FinalStandWave1",
+							Value = true,
+						}),
+					},
+					Text = T(353280713895, --[[ModItemQuestsDef FinalStandWave1 Text]] "Enemy assault in progress!"),
+				}),
+			},
+			TCEs = {
+				PlaceObj('TriggeredConditionalEvent', {
+					Conditions = {
+						PlaceObj('CheckExpression', {
+							Expression = function (self, obj) return HasFinalStandWaveScheduled(1) end,
+						}),
+					},
+					Effects = {
+						PlaceObj('QuestSetVariableBool', {
+							Prop = "Given",
+							QuestId = "FinalStandWave1",
+						}),
+					},
+					Once = true,
+					ParamId = "TCE_FinalStandWaveScheduled",
+					QuestId = "FinalStandWave1",
+				}),
+				PlaceObj('TriggeredConditionalEvent', {
+					Conditions = {
+						PlaceObj('CheckExpression', {
+							Expression = function (self, obj, Wave) return HasFinalStandWaveStarted(1) end,
+							Params = "self, obj, Wave",
+						}),
+					},
+					Effects = {
+						PlaceObj('QuestKillTCE', {
+							QuestId = "FinalStandWave1",
+							TCE = "TCE_FinalStandWaveScheduled",
+						}),
+					},
+					ParamId = "TCE_FinalStandWaveStarted",
+					QuestId = "FinalStandWave1",
+				}),
+				PlaceObj('TriggeredConditionalEvent', {
+					Conditions = {
+						PlaceObj('CheckExpression', {
+							Expression = function (self, obj, Wave) return HasFinalStandWaveEnded(1) end,
+							Params = "self, obj, Wave",
+						}),
+					},
+					Effects = {
+						PlaceObj('QuestSetVariableBool', {
+							Prop = "Completed",
+							QuestId = "FinalStandWave1",
+						}),
+					},
+					ParamId = "TCE_FinalStandWaveEnded",
+					QuestId = "FinalStandWave1",
+				}),
+			},
+			Variables = {
+				PlaceObj('QuestVarNum', {
+					Name = "WaveNumber",
+					Value = 1,
+				}),
+				PlaceObj('QuestVarTCEState', {
+					Name = "TCE_FinalStandWaveScheduled",
+				}),
+				PlaceObj('QuestVarTCEState', {
+					Name = "TCE_FinalStandWaveStarted",
+				}),
+				PlaceObj('QuestVarTCEState', {
+					Name = "TCE_FinalStandWaveEnded",
+				}),
+				PlaceObj('QuestVarBool', {
+					Name = "NotStarted",
+					Value = true,
+				}),
+				PlaceObj('QuestVarBool', {
+					Name = "Given",
+				}),
+				PlaceObj('QuestVarBool', {
+					Name = "Completed",
+				}),
+				PlaceObj('QuestVarBool', {
+					Name = "Failed",
+				}),
+			},
+			campaign = "FinalStand",
+			group = "FinalStand",
+			id = "FinalStandWave1",
 		}),
 		}),
 	PlaceObj('ModItemFolder', {
@@ -4254,22 +4402,33 @@ return {
 			'name', "Editor Definitions",
 		}, {
 			PlaceObj('ModItemCode', {
-				'name', "CampaignConfigDefs",
-				'comment', "Elements used by the in-game editor",
-				'CodeFileName', "Code/CampaignConfigDefs.lua",
+				'name', "CampaignDefinitions",
+				'CodeFileName', "Code/CampaignDefinitions.lua",
 			}),
 			PlaceObj('ModItemCode', {
-				'name', "CampaignEffectDefs",
+				'name', "CampaignEffects",
 				'comment', "Effects for the Final Stand campaign",
-				'CodeFileName', "Code/CampaignEffectDefs.lua",
+				'CodeFileName', "Code/CampaignEffects.lua",
 			}),
 			PlaceObj('ModItemCode', {
-				'name', "FactionDefs",
-				'CodeFileName', "Code/FactionDefs.lua",
+				'name', "ConfigDefinitions",
+				'CodeFileName', "Code/ConfigDefinitions.lua",
 			}),
 			PlaceObj('ModItemCode', {
-				'name', "AppearanceDefs",
-				'CodeFileName', "Code/AppearanceDefs.lua",
+				'name', "SectorDefinitions",
+				'CodeFileName', "Code/SectorDefinitions.lua",
+			}),
+			PlaceObj('ModItemCode', {
+				'name', "LengthDefinitions",
+				'CodeFileName', "Code/LengthDefinitions.lua",
+			}),
+			PlaceObj('ModItemCode', {
+				'name', "FactionDefinitions",
+				'CodeFileName', "Code/FactionDefinitions.lua",
+			}),
+			PlaceObj('ModItemCode', {
+				'name', "AppearanceDefinitions",
+				'CodeFileName', "Code/AppearanceDefinitions.lua",
 			}),
 			}),
 		PlaceObj('ModItemFolder', {
@@ -4299,11 +4458,6 @@ return {
 		PlaceObj('ModItemFolder', {
 			'name', "Misc",
 		}, {
-			PlaceObj('ModItemCode', {
-				'name', "UI",
-				'comment', "Generated templates and handles logic for inserting into game menus",
-				'CodeFileName', "Code/UI.lua",
-			}),
 			PlaceObj('ModItemCode', {
 				'name', "Debugger",
 				'comment', "Message Listeners for debug purposes",
@@ -4543,6 +4697,1111 @@ return {
 			campaign = "FinalStand",
 			group = "StartingHelp",
 			id = "FinalStandGameOver",
+		}),
+		}),
+	PlaceObj('ModItemFolder', {
+		'name', "UI Templates",
+	}, {
+		PlaceObj('ModItemXTemplate', {
+			__is_kind_of = "NewGameCategory",
+			group = "Zulu",
+			id = "NewGameMenuFinalStandEntries",
+			PlaceObj('XTemplateTemplate', {
+				'comment', "Configs",
+				'__template', "NewGameCategory",
+				'IdNode', false,
+				'Name', T(190905765463, --[[ModItemXTemplate NewGameMenuFinalStandEntries Name]] "Final Stand - Configuration"),
+			}),
+			PlaceObj('XTemplateForEach', {
+				'array', function (parent, context) return FinalStandMainMenuUIHandler:GetFinalStandConfigs() end,
+				'condition', function (parent, context, item, i)
+					return true
+				end,
+				'__context', function (parent, context, item, i, n) return item end,
+				'run_after', function (child, context, item, i, n, last)
+					child:SetId("id"..item.id)
+				end,
+			}, {
+				PlaceObj('XTemplateTemplate', {
+					'__template', "NewGameMenuFinalStandEntryConfig",
+					'IdNode', false,
+				}),
+				}),
+			PlaceObj('XTemplateTemplate', {
+				'comment', "Sectors",
+				'__template', "NewGameCategory",
+				'IdNode', false,
+				'Name', T(503977142951, --[[ModItemXTemplate NewGameMenuFinalStandEntries Name]] "Final Stand - Sector"),
+			}),
+			PlaceObj('XTemplateForEach', {
+				'array', function (parent, context) return GetSortedCollection(FinalStandSectors) end,
+				'condition', function (parent, context, item, i)
+					return true
+				end,
+				'__context', function (parent, context, item, i, n) return item end,
+				'run_after', function (child, context, item, i, n, last)
+					child:SetId("id"..item.id)
+				end,
+			}, {
+				PlaceObj('XTemplateTemplate', {
+					'__template', "NewGameMenuFinalStandEntrySector",
+					'IdNode', false,
+				}),
+				}),
+			PlaceObj('XTemplateTemplate', {
+				'comment', "Length",
+				'__template', "NewGameCategory",
+				'IdNode', false,
+				'Name', T(718713204355, --[[ModItemXTemplate NewGameMenuFinalStandEntries Name]] "Final Stand - Length"),
+			}),
+			PlaceObj('XTemplateForEach', {
+				'array', function (parent, context) return GetSortedCollection(FinalStandLengths) end,
+				'condition', function (parent, context, item, i)
+					return true
+				end,
+				'__context', function (parent, context, item, i, n) return item end,
+				'run_after', function (child, context, item, i, n, last)
+					child:SetId("id"..item.id)
+				end,
+			}, {
+				PlaceObj('XTemplateTemplate', {
+					'__template', "NewGameMenuFinalStandEntryLength",
+					'IdNode', false,
+				}),
+				}),
+			PlaceObj('XTemplateTemplate', {
+				'comment', "Friendly Faction",
+				'__template', "NewGameCategory",
+				'IdNode', false,
+				'Name', T(165652523410, --[[ModItemXTemplate NewGameMenuFinalStandEntries Name]] "Final Stand - Player Faction"),
+			}),
+			PlaceObj('XTemplateForEach', {
+				'array', function (parent, context) return GetSortedCollection(FinalStandFriendlyFactions) end,
+				'condition', function (parent, context, item, i)
+					return true
+				end,
+				'__context', function (parent, context, item, i, n) return item end,
+				'run_after', function (child, context, item, i, n, last)
+					child:SetId("id"..item.id)
+				end,
+			}, {
+				PlaceObj('XTemplateTemplate', {
+					'__template', "NewGameMenuFinalStandEntryFriendlyFaction",
+					'IdNode', false,
+				}),
+				}),
+			PlaceObj('XTemplateTemplate', {
+				'comment', "EnemyFaction",
+				'__template', "NewGameCategory",
+				'IdNode', false,
+				'Name', T(462796803774, --[[ModItemXTemplate NewGameMenuFinalStandEntries Name]] "Final Stand - Enemy Faction"),
+			}),
+			PlaceObj('XTemplateForEach', {
+				'array', function (parent, context) return GetSortedCollection(FinalStandEnemyFactions) end,
+				'condition', function (parent, context, item, i)
+					return true
+				end,
+				'__context', function (parent, context, item, i, n) return item end,
+				'run_after', function (child, context, item, i, n, last)
+					child:SetId("id"..item.id)
+				end,
+			}, {
+				PlaceObj('XTemplateTemplate', {
+					'__template', "NewGameMenuFinalStandEntryEnemyFaction",
+					'IdNode', false,
+				}),
+				}),
+		}),
+		PlaceObj('ModItemXTemplate', {
+			__is_kind_of = "XButton",
+			group = "Zulu",
+			id = "NewGameMenuFinalStandEntryConfig",
+			PlaceObj('XTemplateWindow', {
+				'__class', "XButton",
+				'RolloverTemplate', "RolloverGenericFixedL",
+				'RolloverAnchor', "right",
+				'RolloverText', T(767578692088, --[[ModItemXTemplate NewGameMenuFinalStandEntryConfig RolloverText]] "<description>"),
+				'RolloverOffset', box(25, 0, 0, 0),
+				'RolloverTitle', T(694613079375, --[[ModItemXTemplate NewGameMenuFinalStandEntryConfig RolloverTitle]] "<display_name>"),
+				'UIEffectModifierId', "MainMenuMainBar",
+				'MinHeight', 64,
+				'MaxHeight', 64,
+				'LayoutMethod', "HList",
+				'FoldWhenHidden', true,
+				'BorderColor', RGBA(0, 0, 0, 0),
+				'Background', RGBA(255, 255, 255, 0),
+				'OnContextUpdate', function (self, context, ...)
+					if IsKindOf(self.context, "FinalStandConfigDef") then
+					    if not NewGameObj then return end
+					
+					    if self.context.id == NewGameObj[self.context.PreGameObjectName] then
+					        self.idCheckmark:SetColumn(2)
+					    else
+					        self.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'FXPress', "CheckBoxClick",
+				'FXPressDisabled', "activityAssignSelectDisabled",
+				'FocusedBorderColor', RGBA(0, 0, 0, 0),
+				'FocusedBackground', RGBA(128, 128, 128, 0),
+				'DisabledBorderColor', RGBA(0, 0, 0, 0),
+				'OnPress', function (self, gamepad)
+					if not GetUIStyleGamepad() then
+					    self.parent:SetFocus(true)
+					end
+					
+					for _, obj in ipairs(self.parent) do
+					    if IsKindOf(obj, "XButton") and obj == self then
+					        self.idCheckmark:SetColumn(2)
+					
+							if self.context:HasMember("PreGameObjectName") then
+								local currentValue = NewGameObj[self.context.PreGameObjectName]
+								if currentValue ~= self.context.id then
+						        	NewGameObj[self.context.PreGameObjectName] = self.context.id
+									Msg("PreGameMenuFinalStandConfigChanged", self.parent, self.context)
+								end
+							end
+							
+					        if netInGame and NetIsHost() then
+					            local context = GetDialog(self):ResolveId("node").idSubMenu.context
+					            local netCallFunc = function(invited_player_id)
+					                NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
+					                    { start_info = NewGameObj, no_scroll = true })
+					            end
+					
+					            if context and context.invited_player_id then
+					                CreateRealTimeThread(netCallFunc, context.invited_player_id)
+					            end
+					        end
+					    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandConfigDef") then
+					        obj.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'RolloverBackground', RGBA(255, 255, 255, 0),
+				'PressedBackground', RGBA(255, 255, 255, 0),
+			}, {
+				PlaceObj('XTemplateWindow', {
+					'__class', "XBlurRect",
+					'Margins', box(0, 5, 0, 5),
+					'Dock', "box",
+					'BlurRadius', 10,
+					'Mask', "UI/Common/mm_panel",
+					'FrameLeft', 15,
+					'FrameRight', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'Id', "idEffect",
+					'Margins', box(5, 5, 5, 5),
+					'Dock', "box",
+					'Transparency', 179,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/screen_effect",
+					'ImageScale', point(100000, 1000),
+					'TileFrame', true,
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuMainBar",
+					'Id', "idImg",
+					'Dock', "box",
+					'Transparency', 64,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuHighlight",
+					'Id', "idImgBcgr",
+					'Dock', "box",
+					'Transparency', 255,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel_selected",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "AutoFitText",
+					'Id', "idName",
+					'Margins', box(20, 0, 0, 0),
+					'HAlign', "left",
+					'VAlign', "center",
+					'MinWidth', 300,
+					'MaxWidth', 300,
+					'HandleKeyboard', false,
+					'HandleMouse', false,
+					'FocusedBorderColor', RGBA(0, 0, 0, 0),
+					'DisabledBorderColor', RGBA(0, 0, 0, 0),
+					'TextStyle', "MMOptionEntry",
+					'Translate', true,
+					'Text', T(875260622033, --[[ModItemXTemplate NewGameMenuFinalStandEntryConfig Text]] "<display_name>"),
+					'TextVAlign', "center",
+					'SafeSpace', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XImage",
+					'Id', "idCheckmark",
+					'Margins', box(0, 0, 50, 0),
+					'Dock', "right",
+					'HAlign', "center",
+					'VAlign', "center",
+					'MinWidth', 50,
+					'FoldWhenHidden', true,
+					'HandleKeyboard', false,
+					'Image', "UI/Hud/checkmark",
+					'Columns', 2,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnSetRollover(self, rollover)",
+					'func', function (self, rollover)
+						                self.idName:SetTextStyle(rollover and "MMOptionEntryHighlight" or "MMOptionEntry")
+						                if rollover then
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark_rollover")
+						                else
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark")
+						                end
+						                if rollover then
+						                    PlayFX("MainMenuButtonRollover")
+						                    self.idImgBcgr:SetTransparency(0, 150)
+						                else
+						                    self.idImgBcgr:SetTransparency(255, 150)
+						                end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnShortcut(self, shortcut, source, ...)",
+					'func', function (self, shortcut, source, ...)
+						                if shortcut == "ButtonA" then
+						                    self:Press()
+						                end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "SetSelected(self, selected)",
+					'func', function (self, selected)
+						                self:SetFocus(selected)
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "Open(self)",
+					'func', function (self)
+						                XButton.Open(self)
+					end,
+				}),
+				}),
+			PlaceObj('XTemplateProperty', {
+				'category', "General",
+				'id', "Name",
+				'editor', "text",
+				'Set', function (self, value)
+					self.idName:SetText(value)
+				end,
+				'Get', function (self)
+					return self.idName:GetText()
+				end,
+				'name', T(327625823605, --[[ModItemXTemplate NewGameMenuFinalStandEntryConfig name]] "Name"),
+			}),
+		}),
+		PlaceObj('ModItemXTemplate', {
+			__is_kind_of = "XButton",
+			group = "Zulu",
+			id = "NewGameMenuFinalStandEntrySector",
+			PlaceObj('XTemplateWindow', {
+				'__condition', function (parent, context)
+					return true
+				end,
+				'__class', "XButton",
+				'RolloverTemplate', "RolloverGenericFixedL",
+				'RolloverAnchor', "right",
+				'RolloverText', T(374183204810, --[[ModItemXTemplate NewGameMenuFinalStandEntrySector RolloverText]] "<description>"),
+				'RolloverOffset', box(25, 0, 0, 0),
+				'RolloverTitle', T(996309010050, --[[ModItemXTemplate NewGameMenuFinalStandEntrySector RolloverTitle]] "<display_name>"),
+				'UIEffectModifierId', "MainMenuMainBar",
+				'MinHeight', 64,
+				'MaxHeight', 64,
+				'LayoutMethod', "HList",
+				'FoldWhenHidden', true,
+				'BorderColor', RGBA(0, 0, 0, 0),
+				'Background', RGBA(255, 255, 255, 0),
+				'OnContextUpdate', function (self, context, ...)
+					if IsKindOf(self.context, "FinalStandSectorDef") then
+					    if not NewGameObj then return end
+					
+					    if self.context.id == NewGameObj[self.context.PreGameObjectName] then
+					        self.idCheckmark:SetColumn(2)
+					    else
+					        self.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'FXPress', "CheckBoxClick",
+				'FXPressDisabled', "activityAssignSelectDisabled",
+				'FocusedBorderColor', RGBA(0, 0, 0, 0),
+				'FocusedBackground', RGBA(128, 128, 128, 0),
+				'DisabledBorderColor', RGBA(0, 0, 0, 0),
+				'OnPress', function (self, gamepad)
+					if not GetUIStyleGamepad() then
+					    self.parent:SetFocus(true)
+					end
+					
+					for _, obj in ipairs(self.parent) do
+					    if IsKindOf(obj, "XButton") and obj == self then
+					        self.idCheckmark:SetColumn(2)
+					
+							if self.context:HasMember("PreGameObjectName") then
+					        	NewGameObj[self.context.PreGameObjectName] = self.context.id
+							end
+					
+					        if netInGame and NetIsHost() then
+					            local context = GetDialog(self):ResolveId("node").idSubMenu.context
+					            local netCallFunc = function(invited_player_id)
+					                NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
+					                    { start_info = NewGameObj, no_scroll = true })
+					            end
+					
+					            if context and context.invited_player_id then
+					                CreateRealTimeThread(netCallFunc, context.invited_player_id)
+					            end
+					        end
+					    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandSectorDef") then
+					        obj.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'RolloverBackground', RGBA(255, 255, 255, 0),
+				'PressedBackground', RGBA(255, 255, 255, 0),
+			}, {
+				PlaceObj('XTemplateWindow', {
+					'__class', "XBlurRect",
+					'Margins', box(0, 5, 0, 5),
+					'Dock', "box",
+					'BlurRadius', 10,
+					'Mask', "UI/Common/mm_panel",
+					'FrameLeft', 15,
+					'FrameRight', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'Id', "idEffect",
+					'Margins', box(5, 5, 5, 5),
+					'Dock', "box",
+					'Transparency', 179,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/screen_effect",
+					'ImageScale', point(100000, 1000),
+					'TileFrame', true,
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuMainBar",
+					'Id', "idImg",
+					'Dock', "box",
+					'Transparency', 64,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuHighlight",
+					'Id', "idImgBcgr",
+					'Dock', "box",
+					'Transparency', 255,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel_selected",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "AutoFitText",
+					'Id', "idName",
+					'Margins', box(20, 0, 0, 0),
+					'HAlign', "left",
+					'VAlign', "center",
+					'MinWidth', 300,
+					'MaxWidth', 300,
+					'HandleKeyboard', false,
+					'HandleMouse', false,
+					'FocusedBorderColor', RGBA(0, 0, 0, 0),
+					'DisabledBorderColor', RGBA(0, 0, 0, 0),
+					'TextStyle', "MMOptionEntry",
+					'Translate', true,
+					'Text', T(226870660733, --[[ModItemXTemplate NewGameMenuFinalStandEntrySector Text]] "<display_name>"),
+					'TextVAlign', "center",
+					'SafeSpace', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XImage",
+					'Id', "idCheckmark",
+					'Margins', box(0, 0, 50, 0),
+					'Dock', "right",
+					'HAlign', "center",
+					'VAlign', "center",
+					'MinWidth', 50,
+					'FoldWhenHidden', true,
+					'HandleKeyboard', false,
+					'Image', "UI/Hud/checkmark",
+					'Columns', 2,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnSetRollover(self, rollover)",
+					'func', function (self, rollover)
+						                self.idName:SetTextStyle(rollover and "MMOptionEntryHighlight" or "MMOptionEntry")
+						                if rollover then
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark_rollover")
+						                else
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark")
+						                end
+						                if rollover then
+						                    PlayFX("MainMenuButtonRollover")
+						                    self.idImgBcgr:SetTransparency(0, 150)
+						                else
+						                    self.idImgBcgr:SetTransparency(255, 150)
+						                end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnShortcut(self, shortcut, source, ...)",
+					'func', function (self, shortcut, source, ...)
+						if shortcut == "ButtonA" then
+							self:Press()
+						end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "SetSelected(self, selected)",
+					'func', function (self, selected)
+						self:SetFocus(selected)
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "Open(self)",
+					'func', function (self)
+						XButton.Open(self)
+					end,
+				}),
+				}),
+			PlaceObj('XTemplateProperty', {
+				'category', "General",
+				'id', "Name",
+				'editor', "text",
+				'Set', function (self, value)
+					self.idName:SetText(value)
+				end,
+				'Get', function (self)
+					return self.idName:GetText()
+				end,
+				'name', T(307743487757, --[[ModItemXTemplate NewGameMenuFinalStandEntrySector name]] "Name"),
+			}),
+		}),
+		PlaceObj('ModItemXTemplate', {
+			__is_kind_of = "XButton",
+			group = "Zulu",
+			id = "NewGameMenuFinalStandEntryLength",
+			PlaceObj('XTemplateWindow', {
+				'__condition', function (parent, context)
+					return true
+				end,
+				'__class', "XButton",
+				'RolloverTemplate', "RolloverGenericFixedL",
+				'RolloverAnchor', "right",
+				'RolloverText', T(194093206970, --[[ModItemXTemplate NewGameMenuFinalStandEntryLength RolloverText]] "<description>"),
+				'RolloverOffset', box(25, 0, 0, 0),
+				'RolloverTitle', T(913033401424, --[[ModItemXTemplate NewGameMenuFinalStandEntryLength RolloverTitle]] "<display_name>"),
+				'UIEffectModifierId', "MainMenuMainBar",
+				'MinHeight', 64,
+				'MaxHeight', 64,
+				'LayoutMethod', "HList",
+				'FoldWhenHidden', true,
+				'BorderColor', RGBA(0, 0, 0, 0),
+				'Background', RGBA(255, 255, 255, 0),
+				'OnContextUpdate', function (self, context, ...)
+					if IsKindOf(self.context, "FinalStandLengthDef") then
+					    if not NewGameObj then return end
+					
+					    if self.context.id == NewGameObj[self.context.PreGameObjectName] then
+					        self.idCheckmark:SetColumn(2)
+					    else
+					        self.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'FXPress', "CheckBoxClick",
+				'FXPressDisabled', "activityAssignSelectDisabled",
+				'FocusedBorderColor', RGBA(0, 0, 0, 0),
+				'FocusedBackground', RGBA(128, 128, 128, 0),
+				'DisabledBorderColor', RGBA(0, 0, 0, 0),
+				'OnPress', function (self, gamepad)
+					if not GetUIStyleGamepad() then
+					    self.parent:SetFocus(true)
+					end
+					
+					for _, obj in ipairs(self.parent) do
+					    if IsKindOf(obj, "XButton") and obj == self then
+					        self.idCheckmark:SetColumn(2)
+					
+							if self.context:HasMember("PreGameObjectName") then
+					        	NewGameObj[self.context.PreGameObjectName] = self.context.id
+							end
+					
+					        if netInGame and NetIsHost() then
+					            local context = GetDialog(self):ResolveId("node").idSubMenu.context
+					            local netCallFunc = function(invited_player_id)
+					                NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
+					                    { start_info = NewGameObj, no_scroll = true })
+					            end
+					
+					            if context and context.invited_player_id then
+					                CreateRealTimeThread(netCallFunc, context.invited_player_id)
+					            end
+					        end
+					    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandLengthDef") then
+					        obj.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'RolloverBackground', RGBA(255, 255, 255, 0),
+				'PressedBackground', RGBA(255, 255, 255, 0),
+			}, {
+				PlaceObj('XTemplateWindow', {
+					'__class', "XBlurRect",
+					'Margins', box(0, 5, 0, 5),
+					'Dock', "box",
+					'BlurRadius', 10,
+					'Mask', "UI/Common/mm_panel",
+					'FrameLeft', 15,
+					'FrameRight', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'Id', "idEffect",
+					'Margins', box(5, 5, 5, 5),
+					'Dock', "box",
+					'Transparency', 179,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/screen_effect",
+					'ImageScale', point(100000, 1000),
+					'TileFrame', true,
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuMainBar",
+					'Id', "idImg",
+					'Dock', "box",
+					'Transparency', 64,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuHighlight",
+					'Id', "idImgBcgr",
+					'Dock', "box",
+					'Transparency', 255,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel_selected",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "AutoFitText",
+					'Id', "idName",
+					'Margins', box(20, 0, 0, 0),
+					'HAlign', "left",
+					'VAlign', "center",
+					'MinWidth', 300,
+					'MaxWidth', 300,
+					'HandleKeyboard', false,
+					'HandleMouse', false,
+					'FocusedBorderColor', RGBA(0, 0, 0, 0),
+					'DisabledBorderColor', RGBA(0, 0, 0, 0),
+					'TextStyle', "MMOptionEntry",
+					'Translate', true,
+					'Text', T(567454013745, --[[ModItemXTemplate NewGameMenuFinalStandEntryLength Text]] "<display_name>"),
+					'TextVAlign', "center",
+					'SafeSpace', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XImage",
+					'Id', "idCheckmark",
+					'Margins', box(0, 0, 50, 0),
+					'Dock', "right",
+					'HAlign', "center",
+					'VAlign', "center",
+					'MinWidth', 50,
+					'FoldWhenHidden', true,
+					'HandleKeyboard', false,
+					'Image', "UI/Hud/checkmark",
+					'Columns', 2,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnSetRollover(self, rollover)",
+					'func', function (self, rollover)
+						                self.idName:SetTextStyle(rollover and "MMOptionEntryHighlight" or "MMOptionEntry")
+						                if rollover then
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark_rollover")
+						                else
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark")
+						                end
+						                if rollover then
+						                    PlayFX("MainMenuButtonRollover")
+						                    self.idImgBcgr:SetTransparency(0, 150)
+						                else
+						                    self.idImgBcgr:SetTransparency(255, 150)
+						                end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnShortcut(self, shortcut, source, ...)",
+					'func', function (self, shortcut, source, ...)
+						if shortcut == "ButtonA" then
+							self:Press()
+						end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "SetSelected(self, selected)",
+					'func', function (self, selected)
+						self:SetFocus(selected)
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "Open(self)",
+					'func', function (self)
+						XButton.Open(self)
+					end,
+				}),
+				}),
+			PlaceObj('XTemplateProperty', {
+				'category', "General",
+				'id', "Name",
+				'editor', "text",
+				'Set', function (self, value)
+					self.idName:SetText(value)
+				end,
+				'Get', function (self)
+					return self.idName:GetText()
+				end,
+				'name', T(277337658554, --[[ModItemXTemplate NewGameMenuFinalStandEntryLength name]] "Name"),
+			}),
+		}),
+		PlaceObj('ModItemXTemplate', {
+			__is_kind_of = "XButton",
+			group = "Zulu",
+			id = "NewGameMenuFinalStandEntryFriendlyFaction",
+			PlaceObj('XTemplateWindow', {
+				'__condition', function (parent, context)
+					return true
+				end,
+				'__class', "XButton",
+				'RolloverTemplate', "RolloverGenericFixedL",
+				'RolloverAnchor', "right",
+				'RolloverText', T(491105324236, --[[ModItemXTemplate NewGameMenuFinalStandEntryFriendlyFaction RolloverText]] "<description>"),
+				'RolloverOffset', box(25, 0, 0, 0),
+				'RolloverTitle', T(161513491506, --[[ModItemXTemplate NewGameMenuFinalStandEntryFriendlyFaction RolloverTitle]] "<display_name>"),
+				'UIEffectModifierId', "MainMenuMainBar",
+				'MinHeight', 64,
+				'MaxHeight', 64,
+				'LayoutMethod', "HList",
+				'FoldWhenHidden', true,
+				'BorderColor', RGBA(0, 0, 0, 0),
+				'Background', RGBA(255, 255, 255, 0),
+				'OnContextUpdate', function (self, context, ...)
+					if IsKindOf(self.context, "FinalStandFriendlyFactionDef") then
+					    if not NewGameObj then return end
+					
+					    if self.context.id == NewGameObj[self.context.PreGameObjectName] then
+					        self.idCheckmark:SetColumn(2)
+					    else
+					        self.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'FXPress', "CheckBoxClick",
+				'FXPressDisabled', "activityAssignSelectDisabled",
+				'FocusedBorderColor', RGBA(0, 0, 0, 0),
+				'FocusedBackground', RGBA(128, 128, 128, 0),
+				'DisabledBorderColor', RGBA(0, 0, 0, 0),
+				'OnPress', function (self, gamepad)
+					if not GetUIStyleGamepad() then
+					    self.parent:SetFocus(true)
+					end
+					
+					for _, obj in ipairs(self.parent) do
+					    if IsKindOf(obj, "XButton") and obj == self then
+					        self.idCheckmark:SetColumn(2)
+					
+							if self.context:HasMember("PreGameObjectName") then
+					        	NewGameObj[self.context.PreGameObjectName] = self.context.id
+							end
+					
+					        if netInGame and NetIsHost() then
+					            local context = GetDialog(self):ResolveId("node").idSubMenu.context
+					            local netCallFunc = function(invited_player_id)
+					                NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
+					                    { start_info = NewGameObj, no_scroll = true })
+					            end
+					
+					            if context and context.invited_player_id then
+					                CreateRealTimeThread(netCallFunc, context.invited_player_id)
+					            end
+					        end
+					    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandFriendlyFactionDef") then
+					        obj.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'RolloverBackground', RGBA(255, 255, 255, 0),
+				'PressedBackground', RGBA(255, 255, 255, 0),
+			}, {
+				PlaceObj('XTemplateWindow', {
+					'__class', "XBlurRect",
+					'Margins', box(0, 5, 0, 5),
+					'Dock', "box",
+					'BlurRadius', 10,
+					'Mask', "UI/Common/mm_panel",
+					'FrameLeft', 15,
+					'FrameRight', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'Id', "idEffect",
+					'Margins', box(5, 5, 5, 5),
+					'Dock', "box",
+					'Transparency', 179,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/screen_effect",
+					'ImageScale', point(100000, 1000),
+					'TileFrame', true,
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuMainBar",
+					'Id', "idImg",
+					'Dock', "box",
+					'Transparency', 64,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuHighlight",
+					'Id', "idImgBcgr",
+					'Dock', "box",
+					'Transparency', 255,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel_selected",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "AutoFitText",
+					'Id', "idName",
+					'Margins', box(20, 0, 0, 0),
+					'HAlign', "left",
+					'VAlign', "center",
+					'MinWidth', 300,
+					'MaxWidth', 300,
+					'HandleKeyboard', false,
+					'HandleMouse', false,
+					'FocusedBorderColor', RGBA(0, 0, 0, 0),
+					'DisabledBorderColor', RGBA(0, 0, 0, 0),
+					'TextStyle', "MMOptionEntry",
+					'Translate', true,
+					'Text', T(524506851158, --[[ModItemXTemplate NewGameMenuFinalStandEntryFriendlyFaction Text]] "<display_name>"),
+					'TextVAlign', "center",
+					'SafeSpace', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XImage",
+					'Id', "idCheckmark",
+					'Margins', box(0, 0, 50, 0),
+					'Dock', "right",
+					'HAlign', "center",
+					'VAlign', "center",
+					'MinWidth', 50,
+					'FoldWhenHidden', true,
+					'HandleKeyboard', false,
+					'Image', "UI/Hud/checkmark",
+					'Columns', 2,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnSetRollover(self, rollover)",
+					'func', function (self, rollover)
+						                self.idName:SetTextStyle(rollover and "MMOptionEntryHighlight" or "MMOptionEntry")
+						                if rollover then
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark_rollover")
+						                else
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark")
+						                end
+						                if rollover then
+						                    PlayFX("MainMenuButtonRollover")
+						                    self.idImgBcgr:SetTransparency(0, 150)
+						                else
+						                    self.idImgBcgr:SetTransparency(255, 150)
+						                end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnShortcut(self, shortcut, source, ...)",
+					'func', function (self, shortcut, source, ...)
+						if shortcut == "ButtonA" then
+							self:Press()
+						end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "SetSelected(self, selected)",
+					'func', function (self, selected)
+						self:SetFocus(selected)
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "Open(self)",
+					'func', function (self)
+						XButton.Open(self)
+					end,
+				}),
+				}),
+			PlaceObj('XTemplateProperty', {
+				'category', "General",
+				'id', "Name",
+				'editor', "text",
+				'Set', function (self, value)
+					self.idName:SetText(value)
+				end,
+				'Get', function (self)
+					return self.idName:GetText()
+				end,
+				'name', T(139973085188, --[[ModItemXTemplate NewGameMenuFinalStandEntryFriendlyFaction name]] "Name"),
+			}),
+		}),
+		PlaceObj('ModItemXTemplate', {
+			__is_kind_of = "XButton",
+			group = "Zulu",
+			id = "NewGameMenuFinalStandEntryEnemyFaction",
+			PlaceObj('XTemplateWindow', {
+				'__condition', function (parent, context)
+					return true
+				end,
+				'__class', "XButton",
+				'RolloverTemplate', "RolloverGenericFixedL",
+				'RolloverAnchor', "right",
+				'RolloverText', T(745405091763, --[[ModItemXTemplate NewGameMenuFinalStandEntryEnemyFaction RolloverText]] "<description>"),
+				'RolloverOffset', box(25, 0, 0, 0),
+				'RolloverTitle', T(619383200170, --[[ModItemXTemplate NewGameMenuFinalStandEntryEnemyFaction RolloverTitle]] "<display_name>"),
+				'UIEffectModifierId', "MainMenuMainBar",
+				'MinHeight', 64,
+				'MaxHeight', 64,
+				'LayoutMethod', "HList",
+				'FoldWhenHidden', true,
+				'BorderColor', RGBA(0, 0, 0, 0),
+				'Background', RGBA(255, 255, 255, 0),
+				'OnContextUpdate', function (self, context, ...)
+					if IsKindOf(self.context, "FinalStandEnemyFactionDef") then
+					    if not NewGameObj then return end
+					
+					    if self.context.id == NewGameObj[self.context.PreGameObjectName] then
+					        self.idCheckmark:SetColumn(2)
+					    else
+					        self.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'FXPress', "CheckBoxClick",
+				'FXPressDisabled', "activityAssignSelectDisabled",
+				'FocusedBorderColor', RGBA(0, 0, 0, 0),
+				'FocusedBackground', RGBA(128, 128, 128, 0),
+				'DisabledBorderColor', RGBA(0, 0, 0, 0),
+				'OnPress', function (self, gamepad)
+					if not GetUIStyleGamepad() then
+					    self.parent:SetFocus(true)
+					end
+					
+					for _, obj in ipairs(self.parent) do
+					    if IsKindOf(obj, "XButton") and obj == self then
+					        self.idCheckmark:SetColumn(2)
+					
+							if self.context:HasMember("PreGameObjectName") then
+					        	NewGameObj[self.context.PreGameObjectName] = self.context.id
+							end
+					
+					        if netInGame and NetIsHost() then
+					            local context = GetDialog(self):ResolveId("node").idSubMenu.context
+					            local netCallFunc = function(invited_player_id)
+					                NetCall("rfnPlayerMessage", invited_player_id, "lobby-info",
+					                    { start_info = NewGameObj, no_scroll = true })
+					            end
+					
+					            if context and context.invited_player_id then
+					                CreateRealTimeThread(netCallFunc, context.invited_player_id)
+					            end
+					        end
+					    elseif IsKindOf(obj, "XButton") and IsKindOf(obj.context, "FinalStandEnemyFactionDef") then
+					        obj.idCheckmark:SetColumn(1)
+					    end
+					end
+				end,
+				'RolloverBackground', RGBA(255, 255, 255, 0),
+				'PressedBackground', RGBA(255, 255, 255, 0),
+			}, {
+				PlaceObj('XTemplateWindow', {
+					'__class', "XBlurRect",
+					'Margins', box(0, 5, 0, 5),
+					'Dock', "box",
+					'BlurRadius', 10,
+					'Mask', "UI/Common/mm_panel",
+					'FrameLeft', 15,
+					'FrameRight', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'Id', "idEffect",
+					'Margins', box(5, 5, 5, 5),
+					'Dock', "box",
+					'Transparency', 179,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/screen_effect",
+					'ImageScale', point(100000, 1000),
+					'TileFrame', true,
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuMainBar",
+					'Id', "idImg",
+					'Dock', "box",
+					'Transparency', 64,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XFrame",
+					'UIEffectModifierId', "MainMenuHighlight",
+					'Id', "idImgBcgr",
+					'Dock', "box",
+					'Transparency', 255,
+					'HandleKeyboard', false,
+					'DisabledBackground', RGBA(255, 255, 255, 255),
+					'Image', "UI/Common/mm_panel_selected",
+					'SqueezeX', false,
+					'SqueezeY', false,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "AutoFitText",
+					'Id', "idName",
+					'Margins', box(20, 0, 0, 0),
+					'HAlign', "left",
+					'VAlign', "center",
+					'MinWidth', 300,
+					'MaxWidth', 300,
+					'HandleKeyboard', false,
+					'HandleMouse', false,
+					'FocusedBorderColor', RGBA(0, 0, 0, 0),
+					'DisabledBorderColor', RGBA(0, 0, 0, 0),
+					'TextStyle', "MMOptionEntry",
+					'Translate', true,
+					'Text', T(539429996010, --[[ModItemXTemplate NewGameMenuFinalStandEntryEnemyFaction Text]] "<display_name>"),
+					'TextVAlign', "center",
+					'SafeSpace', 10,
+				}),
+				PlaceObj('XTemplateWindow', {
+					'__class', "XImage",
+					'Id', "idCheckmark",
+					'Margins', box(0, 0, 50, 0),
+					'Dock', "right",
+					'HAlign', "center",
+					'VAlign', "center",
+					'MinWidth', 50,
+					'FoldWhenHidden', true,
+					'HandleKeyboard', false,
+					'Image', "UI/Hud/checkmark",
+					'Columns', 2,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnSetRollover(self, rollover)",
+					'func', function (self, rollover)
+						                self.idName:SetTextStyle(rollover and "MMOptionEntryHighlight" or "MMOptionEntry")
+						                if rollover then
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark_rollover")
+						                else
+						                    self.idCheckmark:SetImage("UI/Hud/checkmark")
+						                end
+						                if rollover then
+						                    PlayFX("MainMenuButtonRollover")
+						                    self.idImgBcgr:SetTransparency(0, 150)
+						                else
+						                    self.idImgBcgr:SetTransparency(255, 150)
+						                end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "OnShortcut(self, shortcut, source, ...)",
+					'func', function (self, shortcut, source, ...)
+						if shortcut == "ButtonA" then
+							self:Press()
+						end
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "SetSelected(self, selected)",
+					'func', function (self, selected)
+						self:SetFocus(selected)
+					end,
+				}),
+				PlaceObj('XTemplateFunc', {
+					'name', "Open(self)",
+					'func', function (self)
+						XButton.Open(self)
+					end,
+				}),
+				}),
+			PlaceObj('XTemplateProperty', {
+				'category', "General",
+				'id', "Name",
+				'editor', "text",
+				'Set', function (self, value)
+					self.idName:SetText(value)
+				end,
+				'Get', function (self)
+					return self.idName:GetText()
+				end,
+				'name', T(727027308545, --[[ModItemXTemplate NewGameMenuFinalStandEntryEnemyFaction name]] "Name"),
+			}),
 		}),
 		}),
 }

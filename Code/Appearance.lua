@@ -6,6 +6,10 @@
 --- @author Soundwave2142
 --- ===================================================================================================================
 
+function OnMsg.PreGameMenuOpen()
+    AppearanceHandler:ApplyToMainMenu()
+end
+
 function OnMsg.LoadSessionData()
     if not IsFinalStand() then
         return
@@ -28,10 +32,6 @@ function OnMsg.InventoryChange(unit)
     end
 
     AppearanceHandler:ApplyToUnit(unit)
-end
-
-function OnMsg.PreGameMenuOpen()
-    -- TODO: make mers wear their attire in pre game
 end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -146,11 +146,14 @@ function AppearanceHandler:ApplyToTeam()
     for _, unit in ipairs(units) do
         self:ApplyToUnit(unit)
     end
+
+    self:SaveToStorage()
 end
 
 --- Calls for Preset generation if possible, stops animations and applies preset.
 --- @param unit table
-function AppearanceHandler:ApplyToUnit(unit)
+--- @param presetId (string|nil)
+function AppearanceHandler:ApplyToUnit(unit, presetId)
     if not self:canBeAppliedToUnit(unit) then
         return
     end
@@ -160,10 +163,9 @@ function AppearanceHandler:ApplyToUnit(unit)
     unit:StopAnimMomentHook()
     local anim = unit:GetStateText()
     local phase = unit:GetAnimPhase()
+    presetId = presetId or self:GeneratePreset(unit)
 
-    local presetId = self:GeneratePreset(unit)
-    AppearanceObject.ApplyAppearance(unit, presetId)
-
+    unit:ApplyAppearance(presetId, true)
     unit:SetStateText(anim, const.eKeepComponentTargets)
     unit:SetAnimPhase(1, phase)
     unit:StartAnimMomentHook()
@@ -188,18 +190,7 @@ function AppearanceHandler:GeneratePreset(unit)
         return presetId
     end
 
-    local pickedParts = {}
-    if Game.FinalStand and Game.FinalStand.appearancePresets and Game.FinalStand.appearancePresets[presetId] then
-        -- lead preset from saved game otherwise create a new one
-        pickedParts = Game.FinalStand.appearancePresets[presetId]
-    else
-        AppearanceHandler:PickHeadParts(unit, pickedParts)
-        AppearanceHandler:PickBodyParts(unit, pickedParts)
-        AppearanceHandler:PickPantsParts(unit, pickedParts)
-
-        Game.FinalStand.appearancePresets[presetId] = pickedParts
-    end
-
+    local pickedParts = self:GetPickedParts(unit, defaultLook, presetId)
     self:PlacePreset(presetId, pickedParts, defaultLook)
 
     return presetId
@@ -215,6 +206,24 @@ function AppearanceHandler:GenerateId(unit)
         unit:GetGender(), '_',
         unit.unitdatadef_id
     })
+end
+
+function AppearanceHandler:GetPickedParts(unit, defaultLook, presetId)
+    if Game.FinalStand and Game.FinalStand.appearancePresets and Game.FinalStand.appearancePresets[presetId] then
+        return Game.FinalStand.appearancePresets[presetId]
+    end
+
+    local pickedParts = {
+        NativePreset = defaultLook.id
+    }
+
+    AppearanceHandler:PickHeadParts(unit, pickedParts)
+    AppearanceHandler:PickBodyParts(unit, pickedParts)
+    AppearanceHandler:PickPantsParts(unit, pickedParts)
+
+    Game.FinalStand.appearancePresets[presetId] = pickedParts
+
+    return pickedParts
 end
 
 --- Populates pickedParts param with head related items.
@@ -449,15 +458,88 @@ function AppearanceHandler:PlacePreset(presetId, pickedParts, defaultLook)
         id = presetId,
     }
 
-    for _, part in pairs(pickedParts) do
-        preset[_] = part
+    for partName, part in pairs(pickedParts) do
+        preset[partName] = part
     end
 
-    for _, defaultPart in pairs(defaultLook) do
-        if preset[_] == nil then
-            preset[_] = defaultPart
+    for partName, defaultPart in pairs(defaultLook) do
+        if preset[partName] == nil then
+            preset[partName] = defaultPart
         end
     end
 
     PlaceObj('AppearancePreset', preset)
+end
+
+--- @param key string
+--- @param value string
+local function SaveFinalStandStorage(key, value)
+    local storage = CurrentModStorageTable or {}
+
+    if storage[key] == value then
+        return
+    end
+
+    storage[key] = value
+    WriteModPersistentStorageTable()
+end
+
+--- @param key string
+local function GetFinalStandStorage(key)
+    local storage = CurrentModStorageTable or {}
+    return storage[key]
+end
+
+--- Saves currently loaded Final Stand appearance presets in storage, to be used in main menu.
+function AppearanceHandler:SaveToStorage()
+    local lastSavedPresets = GetFinalStandStorage("appearancePresets") or {}
+    local lastSavedPresetsList = {}
+    local presets = Game.FinalStand.appearancePresets or {}
+    local presetsList = {}
+
+    for preset, pickedItems in pairs(lastSavedPresets) do
+        table.insert(lastSavedPresetsList, preset)
+    end
+
+    for preset, pickedItems in pairs(presets) do
+        table.insert(presetsList, preset)
+    end
+
+    if not table.equal_values(lastSavedPresets, presetsList) then
+        SaveFinalStandStorage("appearancePresets", presets)
+    end
+end
+
+--- Applies unit presets to main menu DummyUnits if anything was saved in storage.
+function AppearanceHandler:ApplyToMainMenu()
+    local lastSavedPresets = GetFinalStandStorage("appearancePresets")
+
+    if not lastSavedPresets then
+        return
+    end
+
+    local availablePresets = {}
+
+    for presetId, pickedParts in pairs(lastSavedPresets) do
+        local defaultLook = AppearancePresets[pickedParts.NativePreset]
+
+        if not AppearancePresets[presetId] then
+            self:PlacePreset(presetId, pickedParts, defaultLook)
+        end
+
+        table.insert(availablePresets, presetId)
+    end
+
+    local presetPosition = 0
+    MapForEach("map", "DummyUnit", function(unit)
+        presetPosition = presetPosition + 1
+        local preset = availablePresets[presetPosition]
+
+        if preset then
+            unit:ApplyAppearance(preset, true)
+            unit:SetEnumFlags(const.efVisible)
+        else
+            unit:ClearEnumFlags(const.efVisible)
+        end
+    end)
 end

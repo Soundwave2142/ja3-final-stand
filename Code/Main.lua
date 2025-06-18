@@ -167,7 +167,6 @@ function FinalStandRewardProvider:GiveMoney()
         modifiers['loyalty'] = GetCityLoyalty(sector.City)
     end
 
-    print('FinalStandRewardMoney', baseValue, modifiers, flatBonuses)
     Msg('FinalStandRewardMoney', baseValue, modifiers, flatBonuses)
     local moneyReward = self:CalculateValue(baseValue, modifiers, flatBonuses);
 
