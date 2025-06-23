@@ -587,20 +587,6 @@
 		type = "Position",
 	},
 	{
-		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_PortCacao",
-		},
-		Groups = {
-			"AL_Main",
-		},
-		handle = 1567928999,
-		map = "FinalStandL8",
-		name = "AmbientZone#999 (AL_Main)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
-	},
-	{
 		Groups = {
 			"BarricadeDespawner",
 		},

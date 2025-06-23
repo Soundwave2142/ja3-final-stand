@@ -1,0 +1,355 @@
+--- ===================================================================================================================
+--- @author Soundwave2142
+--- ===================================================================================================================
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandFactionDef
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandFactionDef = {
+    __parents = {
+        "MsgReactionsPreset",
+        "DisplayPreset",
+        "FinalStandConfigSpecificPreset",
+        "FinalStandModifiersAwarePreset",
+        "FinalStandStarterLootAwarePreset",
+        "FinalStandWaveLootAwarePreset"
+    },
+    __generated_by_class = "PresetDef",
+
+    HasGroups = false,
+    HasSortKey = true,
+    HasParameters = true,
+    GlobalMap = "FinalStandFriendlyFactions",
+    EditorNestedObjCategory = "Final Stand",
+    EditorMenubarName = "Final Stand Faction",
+    EditorIcon = "CommonAssets/UI/Icons/bullet list.png",
+    EditorMenubar = "Editors.Lists",
+    Documentation = "Creates a friendly faction definition for Final Stand game-mode.",
+}
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandFriendlyFactionSelect
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandFriendlyFactionSelect = {
+    __parents = { "PropertyObject" },
+    __generated_by_class = "ClassDef",
+
+    properties = {
+        {
+            id = "Faction",
+            name = "Faction",
+            editor = "preset_id",
+            default = false,
+            template = true,
+            preset_class = "FinalStandFriendlyFactionDef",
+        }
+    },
+
+    EditorView = Untranslated("<Faction>"),
+}
+
+--- @return (string|void)
+function FinalStandFriendlyFactionSelect:GetError()
+    if not self:ResolveValue('Faction') then
+        return "Specify Final Stand Faction"
+    end
+end
+
+--- @param asObject boolean
+--- @return (string|Preset|nil)
+function FinalStandSectorSelector:GetSelectorValue(asObject)
+    local value = self:ResolveValue('Faction')
+
+    if asObject then
+        return FinalStandFriendlyFactions[value]
+    end
+
+    return value
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandFriendlyFactionDef
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandFriendlyFactionDef = {
+    __parents = { "FinalStandFactionDef" },
+    __generated_by_class = "PresetDef",
+
+    properties = {
+        {
+            category = "Attire",
+            id = "AttirePools",
+            name = "Attire Pools",
+            editor = "nested_list",
+            default = false,
+            base_class = "FinalStandFactionAttireSelector",
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHat",
+            name = "Roll for Hat chance",
+            editor = "number",
+            default = 80,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHat2",
+            name = "Roll for Hat 2 chance",
+            editor = "number",
+            default = 60,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHead",
+            name = "Roll for Head chance",
+            editor = "number",
+            default = 50,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForBody",
+            name = "Roll for Body chance",
+            editor = "number",
+            default = 100,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForShirt",
+            name = "Roll for Shirt chance",
+            editor = "number",
+            default = 100,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForArmor",
+            name = "Roll for Armor chance",
+            editor = "number",
+            default = 60,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForChest",
+            name = "Roll for Chest chance",
+            editor = "number",
+            default = 80,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForPants",
+            name = "Roll for Pants chance",
+            editor = "number",
+            default = 100,
+            scale = "%",
+            help = "From 0 to 100, defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHip",
+            name = "Roll for Pants chance",
+            editor = "number",
+            default = 80,
+            scale = "%",
+            help = "From 0 to 100, defines a chance for this item to be rolled upon attire generation."
+        },
+    },
+
+    HasGroups = false,
+    HasSortKey = true,
+    HasParameters = true,
+    GlobalMap = "FinalStandFriendlyFactions",
+    PreGameObjectName = "finalStandFriendlyFaction",
+    EditorNestedObjCategory = "Final Stand",
+    EditorMenubarName = "Final Stand Friendly Faction",
+    EditorIcon = "CommonAssets/UI/Icons/bullet list.png",
+    EditorMenubar = "Editors.Lists",
+    Documentation = "Creates a friendly faction definition for Final Stand game-mode.",
+}
+
+DefineModItemPreset(
+    "FinalStandFriendlyFactionDef",
+    { EditorName = "Final Stand Friendly Faction", EditorSubmenu = "Final Stand" }
+)
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandEnemyFactionSelector
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandEnemyFactionSelector = {
+    __parents = { "PropertyObject" },
+    __generated_by_class = "ClassDef",
+
+    properties = {
+        {
+            category = "General",
+            id = "Faction",
+            name = "Faction",
+            editor = "preset_id",
+            default = false,
+            template = true,
+            preset_class = "FinalStandEnemyFactionDef",
+        }
+    },
+
+    EditorView = Untranslated("<Faction>"),
+}
+
+--- @return (string|void)
+function FinalStandEnemyFactionSelector:GetError()
+    if not self:ResolveValue('Faction') then
+        return "Specify Final Stand Enemy Faction"
+    end
+end
+
+--- @param asObject boolean
+--- @return (string|Preset|nil)
+function FinalStandSectorSelector:GetSelectorValue(asObject)
+    local value = self:ResolveValue('Faction')
+
+    if asObject then
+        return FinalStandEnemyFactions[value]
+    end
+
+    return value
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandEnemyFactionDef
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandEnemyFactionDef = {
+    __parents = { "FinalStandFactionDef" },
+    __generated_by_class = "PresetDef",
+
+    -- TODO: power based
+    properties = {
+        {
+            id = "Squads",
+            name = "Squads",
+            editor = "nested_list",
+            default = false,
+            base_class = "FinalStandEnemyFactionSquad",
+        },
+        {
+            id = "ExtraSquads",
+            name = "Extra Squads",
+            editor = "nested_list",
+            default = false,
+            base_class = "FinalStandEnemyFactionSquad",
+        },
+    },
+
+    HasGroups = false,
+    HasSortKey = true,
+    HasParameters = true,
+    GlobalMap = "FinalStandEnemyFactions",
+    PreGameObjectName = "finalStandEnemyFaction",
+    EditorNestedObjCategory = "Final Stand",
+    EditorMenubarName = "Final Stand Enemy Faction",
+    EditorIcon = "CommonAssets/UI/Icons/bullet list.png",
+    EditorMenubar = "Editors.Lists",
+    Documentation = "Creates an enemy faction definition for Final Stand game-mode.",
+}
+
+--- @return (string|void)
+function FinalStandEnemyFactionDef:GetError()
+    if #self:ResolveValue('Squads') < 1 then
+        return "Specify at least one squad"
+    end
+end
+
+--- @param wave number
+--- @param isFromExtraPool boolean
+--- @return table
+function FinalStandEnemyFactionDef:GetPoolForWave(wave, isFromExtraPool)
+    local pool = {}
+
+    local enemySquads = self:ResolveValue('Squads')
+    if isFromExtraPool then
+        enemySquads = self:ResolveValue('ExtraSquads')
+    end
+
+    --- @param squad FinalStandEnemyFactionSquad
+    for _, squad in pairs(enemySquads) do
+        local isAllowed = squad:IsAllowedForWave(wave)
+
+        if isAllowed then
+            table.insert(pool, squad.Squad)
+        end
+    end
+
+    return pool
+end
+
+DefineModItemPreset(
+    "FinalStandEnemyFactionDef",
+    { EditorName = "Final Stand Enemy Faction", EditorSubmenu = "Final Stand" }
+)
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandEnemyFactionSquad
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandEnemyFactionSquad = {
+    __parents = { "PropertyObject" },
+    __generated_by_class = "ClassDef",
+
+    properties = {
+        {
+            id = "Squad",
+            name = "Squad ID",
+            editor = "preset_id",
+            default = false,
+            template = true,
+            preset_class = "EnemySquads",
+        },
+        {
+            category = "Limits",
+            id = "Waves",
+            name = "Limit to waves",
+            help = "You can limit these units to spawn only in certain waves, format should be like this:'5,6,7' ",
+            editor = "text",
+            default = "",
+        }
+    }
+}
+
+--- @return string
+function FinalStandEnemyFactionSquad:GetEditorView()
+    local power = self.Squad and EnemySquadDefs[self.Squad]:ResolveValue('SquadPowerRange') or ""
+    return string.format("%s | %s | %s", power, self.Waves, self.Squad)
+end
+
+--- @return (string|void)
+function FinalStandEnemyFactionSquad:GetError()
+    if not self:ResolveValue('Squad') then
+        return "Specify the squad"
+    end
+end
+
+--- @param wave number
+--- @return boolean
+function FinalStandEnemyFactionSquad:IsAllowedForWave(wave)
+    return self:GetAllowedWaves()[tostring(wave)]
+end
+
+--- @return table
+function FinalStandEnemyFactionSquad:GetAllowedWaves()
+    local limit = {}
+    local waves = string.split(self.Waves, ',')
+
+    for _, wave in pairs(waves) do
+        limit[tostring(wave)] = true
+    end
+
+    return limit
+end

@@ -43,7 +43,7 @@ function FinalStandSquadScheduler:Schedule()
     Game.FinalStand.scheduledStand = self:CalculateAttackTime()
     Game.FinalStand.scheduledStandSquads = FinalStandSquadSpawner:PickSquads()
 
-    Msg('FinalStandWaveScheduled', Game.FinalStand.scheduledStand, Game.FinalStand.currentWave)
+    Msg("FinalStandWaveScheduled", Game.FinalStand.scheduledStand, Game.FinalStand.currentWave)
 
     self:ScheduleTimeLineMarker()
 end
@@ -83,6 +83,7 @@ function FinalStandSquadScheduler:EndWave()
         FinalStandRewardProvider:GiveMoney()
         FinalStandRewardProvider:GiveXP()
         FinalStandRewardProvider:GiveLoyalty()
+        FinalStandRewardProvider:GiveWaveLoot()
 
         FinalStandSquadScheduler:Schedule()
         -- we need to restock bobby after the next wave has been scheduled,
@@ -167,8 +168,7 @@ function FinalStandRewardProvider:GiveMoney()
         modifiers['loyalty'] = GetCityLoyalty(sector.City)
     end
 
-    print('FinalStandRewardMoney', baseValue, modifiers, flatBonuses)
-    Msg('FinalStandRewardMoney', baseValue, modifiers, flatBonuses)
+    Msg("FinalStandRewardMoney", baseValue, modifiers, flatBonuses)
     local moneyReward = self:CalculateValue(baseValue, modifiers, flatBonuses);
 
     if moneyReward > 0 then
@@ -182,7 +182,12 @@ function FinalStandRewardProvider:GiveXP()
     local modifiers = self:GetModifiersForAttribute('xpModifier')
     local flatBonuses = {}
 
-    Msg('FinalStandRewardXP', baseValue, modifiers, flatBonuses, units)
+    if GetFinalStandConfigValue('loyaltyIncreasesXP') == true then
+        local sector = GetFinalStandSector(true)
+        modifiers['loyalty'] = GetCityLoyalty(sector.City)
+    end
+
+    Msg("FinalStandRewardXP", baseValue, modifiers, flatBonuses, units)
     local xpReward = self:CalculateValue(baseValue, modifiers, flatBonuses)
 
     if xpReward > 0 then
@@ -258,7 +263,7 @@ function FinalStandRewardProvider:GiveLoyalty()
     local modifiers = self:GetModifiersForAttribute('loyaltyModifier')
     local flatBonuses = {}
 
-    Msg('FinalStandRewardLoyalty', baseValue, modifiers, flatBonuses, sector)
+    Msg("FinalStandRewardLoyalty", baseValue, modifiers, flatBonuses, sector)
     local loyaltyReward = self:CalculateValue(baseValue, modifiers, flatBonuses)
 
     if loyaltyReward > 0 then
@@ -309,18 +314,17 @@ end
 
 --- Bobby restocks after the next wave has been scheduled, as we need to know when it's going to happen.
 function FinalStandRewardProvider:RestockBobby()
-    local unlockedTier = BobbyRayShopGetUnlockedTier()
+    local unlockedTier = BobbyRayShopGetUnlockedTier() or 0
+    local tierModifier = GetFinalStandLengthValue("tierModifier") or 1
 
     local bobbyRayValues = {
-        nextTier = (unlockedTier and unlockedTier or 0) + 1,
+        nextTier = unlockedTier + tierModifier,
         nextRestock = Game.FinalStand.scheduledStand + (20 * const.Scale.m),
         modifierStandard = 100,
         modifierUsed = 100
     }
 
-    Msg('FinalStandBobbyRayRestock', bobbyRayValues)
-
-    -- TODO: add tier per wave modifier
+    Msg("FinalStandBobbyRayRestock", bobbyRayValues)
     SetQuestVar(QuestGetState("BobbyRayQuest"), "UnlockedTier", bobbyRayValues.nextTier)
 
     if bobbyRayValues.nextTier > 0 then
@@ -329,5 +333,137 @@ function FinalStandRewardProvider:RestockBobby()
 
     if Game.FinalStand.scheduledStand >= Game.CampaignTime then
         SetQuestVar(QuestGetState("BobbyRayQuest"), "RestockTimer", bobbyRayValues.nextRestock)
+    end
+end
+
+function FinalStandRewardProvider:GiveWaveLoot()
+    local lootDefs = {}
+
+    GetFinalStandSector(true, true):AppendWaveEquipmentToList(lootDefs)
+    GetFinalStandLength(true):AppendWaveEquipmentToList(lootDefs)
+    GetFinalStandFriendlyFaction(true):AppendWaveEquipmentToList(lootDefs)
+    GetFinalStandEnemyFaction(true):AppendWaveEquipmentToList(lootDefs)
+
+    Msg("FinalStandWaveRewardLoot", lootDefs)
+    self:GiveLootDefs(lootDefs, "FinalStandWave" .. GetFinalStandCurrentWave() .. "Gear")
+end
+
+--- @param lootDefs table
+--- @param randIntType string
+function FinalStandRewardProvider:GiveLootDefs(lootDefs, randIntType)
+    for _, lootDef in ipairs(lootDefs) do
+        local items = {}
+        lootDef:GenerateLoot(nil, {}, InteractionRand(nil, randIntType), items)
+
+        local squadsOnMap = GetSquadsOnMap("references")
+
+        for _, squad in ipairs(squadsOnMap) do
+            AddItemsToSquadBag(squad.UniqueId, items)
+
+            for _, unit in ipairs(squad.units) do
+                if #items > 0 then
+                    unit = gv_UnitData[unit]
+                    unit:AddItemsToInventory(items)
+                end
+            end
+        end
+
+        if #items > 0 then
+            local stash = GetFinalStandSectorStash()
+
+            if stash then
+                AddItemsToInventory(stash, items, true)
+            end
+        end
+    end
+end
+
+local BaseRollForStatGaining = RollForStatGaining
+
+--- @param unit table
+--- @param stat table
+--- @param failChance number
+function RollForStatGaining(unit, stat, failChance)
+    if not IsFinalStand() then
+        return BaseRollForStatGaining(unit, stat, failChance)
+    end
+
+    local enabled = GetFinalStandConfigValue("statSystemUseFinalStand")
+
+    if not enabled then
+        return BaseRollForStatGaining(unit, stat, failChance)
+    end
+
+    return FinalStandUnitStatProvider:RollForStatGaining(unit, stat, failChance)
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandUnitStatProvider
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandUnitStatProvider = {}
+
+--- @param unit table
+--- @param stat table
+--- @param failChance number
+function FinalStandUnitStatProvider:RollForStatGaining(unit, stat, failChance)
+    local statGaining = GetMercStateFlag(unit.session_id, "StatGaining") or {}
+    local cooldowns = statGaining.Cooldowns or {}
+    local limits = statGaining.Limits or {}
+
+    if not self:CanGiveStat(limits) then
+        return
+    end
+
+    local roll = InteractionRand(100, "StatGaining")
+
+    if not failChance or roll >= failChance then
+        if not cooldowns[stat] or cooldowns[stat] < 1 then
+            if unit[stat] > 0 and unit[stat] < 100 then
+                self:GiveStatGain(unit, stat, statGaining, cooldowns, limits)
+            end
+        else
+            cooldowns[stat] = cooldowns[stat] - 1
+        end
+    end
+
+    SetMercStateFlag(unit.session_id, "StatGaining", statGaining)
+end
+
+--- @param limits table
+--- @return boolean
+function FinalStandUnitStatProvider:CanGiveStat(limits)
+    local currentWave = GetFinalStandCurrentWave()
+    local maxLimit = GetFinalStandConfigValue("statSystemPerWaveMax")
+
+    local isLimited = limits[currentWave] and
+        limits[currentWave]["stat"] and
+        limits[currentWave]["stat"] >= maxLimit
+
+    return not isLimited
+end
+
+--- @param unit table
+--- @param stat table
+--- @param failChance number
+--- @param cooldowns table
+--- @param limits table
+function FinalStandUnitStatProvider:GiveStatGain(unit, stat, statGaining, cooldowns, limits)
+    local threshold = unit[stat] - const.StatGaining.BonusToRoll
+    local roll = InteractionRand(100, "StatGaining") + 1
+
+    if roll >= threshold then
+        GainStat(unit, stat)
+
+        local rollCooldown = GetFinalStandConfigValue("statSystemPerRollCooldown")
+
+        cooldowns[stat] = rollCooldown
+        statGaining.Cooldowns = cooldowns
+
+        if not limits[GetFinalStandCurrentWave()] then
+            limits[GetFinalStandCurrentWave()] = {}
+        end
+
+        limits[GetFinalStandCurrentWave()][stat] = (limits[stat] or 0) + 1
+        statGaining.Limits = limits
     end
 end

@@ -1,13 +1,38 @@
 # Final Stand
 
-# 0.90  - 15.06.2025
+# 1.00 - 20.06.2025
+
+### Description
+
+### Detailed Changes
+
+###### New Features
+- Added ability for Mercs to wear their faction attire in main menu if last played campaign was Final Stand.
+- ~ Added Final Stand quest-line that will note player's different actions such as entering _Last Chance_ or loosing mercs for each wave.
+- ~ Added own system for stat gaining, units will now get stats more often.
+- ~ Added basic supplies (parts, meds, components) as a reward for completing a wave.
+- ~ Added post-game "thank you" popup.
+- ~ Reworked behind-the-scenes structure of entities to support extensions.
+
+_Reworking stracture was a lot of work with not a lot to show, but completely necessary in order achieve my vision of allowing anyone to create their Final Stand experiences._
+
+###### Balance Changes
+- Reduced price of A.I.M. Gold from 7500$ to 4000$.
+- ~ Reduced price of Smiley,
+- Increased defender deployment zones for all Sectors.
+
+###### Bug Fixes
+- Fixed an issue where player could leave sector by interacting with a "waypoint" poles.
+- ~ Fixed an issue where appearance of a merc could be reverted back to default on knife throw.
+
+# 0.90 - 15.06.2025
 
 ### Description
 This patch overall is focused on a player having better footing upon starting a new game and makes the gamemode feel more natural with better flow.
 
 A.I.M. Gold can now be purchased, and some "secret" mercs from Hot Diamonds can now be hired. 
 Different gear, supplies, and XP are now provided on game start. Better monetary and XP rewards for wave completion.
-On top of that, the player now will earn loyalty with the sector that will further increase rewards next wave and decrease sector operations cost. 
+The player now will earn loyalty with the sector that will further increase rewards next wave and decrease sector operations cost. 
 New Help pages, Militia Training tweaks, balancing tweaks and bug fixes.
 
 ### Detailed Changes

@@ -1,10 +1,10 @@
 --- ===================================================================================================================
---- Handles appearance of Mercs if faction has an attire pool.
----
---- Generates a dynamic AppearancePreset based on the player faction and attire pools and applies it to the mercenary.
----
 --- @author Soundwave2142
 --- ===================================================================================================================
+
+function OnMsg.PreGameMenuOpen()
+    AppearanceHandler:ApplyToMainMenu()
+end
 
 function OnMsg.LoadSessionData()
     if not IsFinalStand() then
@@ -30,39 +30,23 @@ function OnMsg.InventoryChange(unit)
     AppearanceHandler:ApplyToUnit(unit)
 end
 
-function OnMsg.PreGameMenuOpen()
-    -- TODO: make mers wear their attire in pre game
-end
-
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class AppearanceHandler
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.AppearanceHandler = {
     DefaultOptions = {
-        SupportedParts = {
-            Hat = 'HatColor',
-            Hat2 = 'Hat2Color',
-            Head = 'HeadColor',
-            Body = 'BodyColor',
-            Shirt = 'ShirtColor',
-            Armor = 'ArmorColor',
-            Chest = 'ChestColor',
-            Hip = 'HipColor',
-            Pants = 'PantsColor'
-        },
-
         BodyColors = {
             -- white
             Default = {
                 Color = RGBA(187, 64, 35, 255),
             },
             -- brown
-            {
+            Brown = {
                 Units = { 'Thor', 'Blood', 'Gus' },
                 Color = RGBA(91, 28, 18, 255),
             },
             -- black
-            {
+            Black = {
                 Units = { 'Ice', 'Vicki', 'Magic', 'Len', 'PierreMerc', 'Pierre_FS' },
                 Color = RGBA(20, 7, 5, 255),
             },
@@ -73,17 +57,6 @@ DefineClass.AppearanceHandler = {
             'EditableColor2', RGBA(11, 19, 8, 255),
             'EditableColor3', RGBA(11, 19, 8, 255),
         }),
-
-        -- TODO: let pool define roll chances
-        ChanceToRollForHat = 80,
-        ChanceToRollForHat2 = 60,
-        ChanceToRollForHead = 50,
-        ChanceToRollForBody = 100,
-        ChanceToRollForShirt = 100,
-        ChanceToRollForArmor = 60,
-        ChanceToRollForChest = 80,
-        ChanceToRollForPants = 100,
-        ChanceToRollForHip = 80,
 
         -- Always Roll tables
         AlwaysRollForHat = { 'Mouse', 'Livewire' },
@@ -112,12 +85,14 @@ DefineClass.AppearanceHandler = {
 }
 
 --- Iterates over default options and assigns them to self.
+--- Then takes values from current faction if possible.
 --- The idea is to allow other mods to insert their own values.
 function AppearanceHandler:LoadOptions()
     if self.OptionsLoaded then
         return
     end
 
+    -- load default options first
     for key, value in pairs(self.DefaultOptions) do
         if type(value) == "table" then
             if type(value.class) == "string" and value.class then
@@ -129,6 +104,18 @@ function AppearanceHandler:LoadOptions()
             self[key] = value
         end
     end
+
+    -- load faction values
+    self.Pools = GetFinalStandFriendlyFactionValue('AttirePools') or {}
+    self.ChanceToRollForHat = GetFinalStandFriendlyFactionValue('AttireChanceToRollForHat') or 80
+    self.ChanceToRollForHat2 = GetFinalStandFriendlyFactionValue('AttireChanceToRollForHat2') or 60
+    self.ChanceToRollForHead = GetFinalStandFriendlyFactionValue('AttireChanceToRollForHead') or 50
+    self.ChanceToRollForBody = GetFinalStandFriendlyFactionValue('AttireChanceToRollForBody') or 100
+    self.ChanceToRollForShirt = GetFinalStandFriendlyFactionValue('AttireChanceToRollForShirt') or 100
+    self.ChanceToRollForArmor = GetFinalStandFriendlyFactionValue('AttireChanceToRollForArmor') or 60
+    self.ChanceToRollForChest = GetFinalStandFriendlyFactionValue('AttireChanceToRollForChest') or 80
+    self.ChanceToRollForPants = GetFinalStandFriendlyFactionValue('AttireChanceToRollForPants') or 100
+    self.ChanceToRollForHip = GetFinalStandFriendlyFactionValue('AttireChanceToRollForHip') or 80
 
     Msg("FinalStandAppearanceOptionsLoaded", self)
     self.OptionsLoaded = true
@@ -146,24 +133,24 @@ function AppearanceHandler:ApplyToTeam()
     for _, unit in ipairs(units) do
         self:ApplyToUnit(unit)
     end
+
+    self:SaveToStorage()
 end
 
 --- Calls for Preset generation if possible, stops animations and applies preset.
 --- @param unit table
-function AppearanceHandler:ApplyToUnit(unit)
+--- @param presetId (string|nil)
+function AppearanceHandler:ApplyToUnit(unit, presetId)
     if not self:canBeAppliedToUnit(unit) then
         return
     end
 
-    self:LoadOptions()
-
     unit:StopAnimMomentHook()
     local anim = unit:GetStateText()
     local phase = unit:GetAnimPhase()
+    presetId = presetId or self:GeneratePreset(unit)
 
-    local presetId = self:GeneratePreset(unit)
-    AppearanceObject.ApplyAppearance(unit, presetId)
-
+    unit:ApplyAppearance(presetId, true)
     unit:SetStateText(anim, const.eKeepComponentTargets)
     unit:SetAnimPhase(1, phase)
     unit:StartAnimMomentHook()
@@ -188,18 +175,7 @@ function AppearanceHandler:GeneratePreset(unit)
         return presetId
     end
 
-    local pickedParts = {}
-    if Game.FinalStand and Game.FinalStand.appearancePresets and Game.FinalStand.appearancePresets[presetId] then
-        -- lead preset from saved game otherwise create a new one
-        pickedParts = Game.FinalStand.appearancePresets[presetId]
-    else
-        AppearanceHandler:PickHeadParts(unit, pickedParts)
-        AppearanceHandler:PickBodyParts(unit, pickedParts)
-        AppearanceHandler:PickPantsParts(unit, pickedParts)
-
-        Game.FinalStand.appearancePresets[presetId] = pickedParts
-    end
-
+    local pickedParts = self:GetPickedParts(unit, defaultLook, presetId)
     self:PlacePreset(presetId, pickedParts, defaultLook)
 
     return presetId
@@ -217,6 +193,26 @@ function AppearanceHandler:GenerateId(unit)
     })
 end
 
+function AppearanceHandler:GetPickedParts(unit, defaultLook, presetId)
+    if Game.FinalStand and Game.FinalStand.appearancePresets and Game.FinalStand.appearancePresets[presetId] then
+        return Game.FinalStand.appearancePresets[presetId]
+    end
+
+    self:LoadOptions() -- despite being called multiple times, options are only loaded once
+
+    local pickedParts = {
+        NativePreset = defaultLook.id
+    }
+
+    self:PickHeadParts(unit, pickedParts)
+    self:PickBodyParts(unit, pickedParts)
+    self:PickPantsParts(unit, pickedParts)
+
+    Game.FinalStand.appearancePresets[presetId] = pickedParts
+
+    return pickedParts
+end
+
 --- Populates pickedParts param with head related items.
 --- @param unit table
 --- @param pickedParts table collection of all picked parts so far, these are passed to the preset object
@@ -224,15 +220,15 @@ function AppearanceHandler:PickHeadParts(unit, pickedParts)
     local Hat = false
     local Hat2 = false
 
-    local shouldPickHat = AppearanceHandler:ShouldPickPart(
+    local shouldPickHat = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceHat', self.ChanceToRollForHat,
         self.AlwaysRollForHat, self.NeverRollForHat
     )
-    local shouldPickHat2 = AppearanceHandler:ShouldPickPart(
+    local shouldPickHat2 = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceHat2', self.ChanceToRollForHat2,
         self.AlwaysRollForHat2, self.NeverRollForHat2
     )
-    local shouldPickHead = AppearanceHandler:ShouldPickPart(
+    local shouldPickHead = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceHead', self.ChanceToRollForHead,
         self.AlwaysRollForHead, self.NeverRollForHead
     )
@@ -267,19 +263,19 @@ end
 --- @param unit table
 --- @param pickedParts table collection of all picked parts so far, these are passed to the preset object
 function AppearanceHandler:PickBodyParts(unit, pickedParts)
-    local shouldPickBody = AppearanceHandler:ShouldPickPart(
+    local shouldPickBody = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceBody', self.ChanceToRollForBody,
         self.AlwaysRollForBody, self.NeverRollForBody
     )
-    local shouldPickShirt = AppearanceHandler:ShouldPickPart(
+    local shouldPickShirt = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceShirt', self.ChanceToRollForShirt,
         self.AlwaysRollForShirt, self.NeverRollForShirt
     )
-    local shouldPickArmor = AppearanceHandler:ShouldPickPart(
+    local shouldPickArmor = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceArmor', self.ChanceToRollForArmor,
         self.AlwaysRollForArmor, self.NeverRollForArmor
     )
-    local shouldPickChest = AppearanceHandler:ShouldPickPart(
+    local shouldPickChest = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceChest', self.ChanceToRollForChest,
         self.AlwaysRollForChest, self.NeverRollForChest
     )
@@ -306,11 +302,11 @@ end
 --- @param unit table
 --- @param pickedParts table collection of all picked parts so far, these are passed to the preset object
 function AppearanceHandler:PickPantsParts(unit, pickedParts)
-    local shouldPickPants = AppearanceHandler:ShouldPickPart(
+    local shouldPickPants = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearancePants', self.ChanceToRollForPants,
         self.AlwaysRollForPants, self.NeverRollForPants
     )
-    local shouldPickHip = AppearanceHandler:ShouldPickPart(
+    local shouldPickHip = self:ShouldPickPart(
         unit.unitdatadef_id, 'FSAppearanceHip', self.ChanceToRollForHip,
         self.AlwaysRollForHip, self.NeverRollForHip
     )
@@ -363,22 +359,25 @@ end
 --- @param pickedParts table table containing parts and to which part and related fields will be appended.
 --- @return (FinalStandAttirePoolItem|nil)
 function AppearanceHandler:GetFromAllPools(partKey, partColorKey, unit, pickedParts)
-    local pools = GetFinalStandFriendlyFactionValue('AttirePools')
     local items = {}
     local colors = {}
 
     -- collect all items (for particular part, with matching gender) and colors of the item and pool
-    for _, pool in pairs(pools) do
-        local poolObj = FinalStandAttirePools[pool.AttirePool]
+    for _, pool in pairs(self.Pools) do
+        local poolObj = FinalStandAttirePools[pool:ResolveValue('AttirePool')]
 
-        if poolObj.Specialization == '' or poolObj.Specialization == unit.Specialization then
-            for _, item in pairs(poolObj[partKey]) do
-                if item.Gender == '' or item.Gender == unit:GetGender() then
+        if poolObj:IsPoolAllowedForUnit(unit) then
+            local poolItems = poolObj:ResolveValue(partKey)
+
+            for _, item in pairs(poolItems) do
+                if item:IsItemAllowedForUnit(unit) then
                     table.insert(items, item)
                 end
             end
 
-            for _, colorItem in pairs(poolObj.Colors) do
+            local poolColors = poolObj:ResolveValue('Colors');
+
+            for _, colorItem in pairs(poolColors) do
                 table.insert(colors, colorItem)
             end
         end
@@ -403,14 +402,7 @@ function AppearanceHandler:GetFromAllPools(partKey, partColorKey, unit, pickedPa
         end
     end
 
-    local pickedColor
-
-    if #colors > 0 then
-        pickedColor = colors[math.random(#colors)]:Clone()
-    else
-        pickedColor = self.DefaultItemColors:Clone()
-    end
-
+    local pickedColor = #colors > 0 and colors[math.random(#colors)]:Clone() or self.DefaultItemColors:Clone()
     local bodyColorKey = pickedItem:ResolveValue('BodyColorKey')
 
     if bodyColorKey ~= nil and bodyColorKey ~= "" then
@@ -426,8 +418,6 @@ end
 --- @param unit table
 function AppearanceHandler:FindBodyColor(unit)
     -- TODO: make support for modded mercs
-    local bodyColor = self.BodyColors.Default.Color
-
     for _, color in pairs(self.BodyColors) do
         for _, unitId in pairs(color.Units) do
             if unitId == unit.unitdatadef_id then
@@ -436,7 +426,7 @@ function AppearanceHandler:FindBodyColor(unit)
         end
     end
 
-    return bodyColor
+    return self.BodyColors.Default.Color
 end
 
 --- Merges pickedParts and defaultLook and places a preset inside AppearancePreset collection.
@@ -449,15 +439,117 @@ function AppearanceHandler:PlacePreset(presetId, pickedParts, defaultLook)
         id = presetId,
     }
 
-    for _, part in pairs(pickedParts) do
-        preset[_] = part
+    for partName, part in pairs(pickedParts) do
+        preset[partName] = part
     end
 
-    for _, defaultPart in pairs(defaultLook) do
-        if preset[_] == nil then
-            preset[_] = defaultPart
+    -- additionally, iterate over original preset and place items from it
+    -- include item only if in new preset there's no mention of it (aka not false, but nil)
+    for partName, defaultPart in pairs(defaultLook) do
+        if preset[partName] == nil then
+            preset[partName] = defaultPart
         end
     end
 
     PlaceObj('AppearancePreset', preset)
+end
+
+--- @param key string
+--- @param value string
+local function SaveFinalStandStorage(key, value)
+    local storage = CurrentModStorageTable or {}
+
+    if storage[key] == value then
+        return
+    end
+
+    storage[key] = value
+    WriteModPersistentStorageTable()
+end
+
+--- @param key string
+local function GetFinalStandStorage(key)
+    local storage = CurrentModStorageTable or {}
+    return storage[key]
+end
+
+--- Saves currently loaded Final Stand appearance presets in storage, to be used in main menu.
+function AppearanceHandler:SaveToStorage()
+    local lastSavedPresets = GetFinalStandStorage("appearancePresets") or {}
+    local lastSavedPresetsList = {}
+    local presets = Game.FinalStand.appearancePresets or {}
+    local presetsList = {}
+
+    for preset, pickedItems in pairs(lastSavedPresets) do
+        table.insert(lastSavedPresetsList, preset)
+    end
+
+    for preset, pickedItems in pairs(presets) do
+        table.insert(presetsList, preset)
+    end
+
+    if not table.equal_values(lastSavedPresets, presetsList) then
+        SaveFinalStandStorage("appearancePresets", presets)
+    end
+end
+
+--- Applies unit presets to main menu DummyUnits if anything was saved in storage.
+function AppearanceHandler:ApplyToMainMenu()
+    local lastSavedPresets = GetFinalStandStorage("appearancePresets")
+
+    if not lastSavedPresets then
+        return
+    end
+
+    local availablePresets = {}
+
+    for presetId, pickedParts in pairs(lastSavedPresets) do
+        local defaultLook = AppearancePresets[pickedParts.NativePreset]
+
+        if not AppearancePresets[presetId] then
+            self:PlacePreset(presetId, pickedParts, defaultLook)
+        end
+
+        table.insert(availablePresets, presetId)
+    end
+
+    local presetPosition = 0
+    MapForEach("map", "DummyUnit", function(unit)
+        presetPosition = presetPosition + 1
+        local preset = availablePresets[presetPosition]
+
+        if preset then
+            unit:ApplyAppearance(preset, true)
+            unit:SetEnumFlags(const.efVisible)
+        else
+            unit:ClearEnumFlags(const.efVisible)
+        end
+    end)
+end
+
+--- Deletes Final Stand appearance presets in storage when new non-Final Stand set of mercs created in AccountStorage.
+--- @param unit_data table
+--- @param old_status string(?)
+--- @param new_status string(?)
+function OnMsg.MercHireStatusChanged(unit_data, old_status, new_status)
+    if IsFinalStand() or not IsMerc(unit_data) then
+        return
+    end
+
+    SaveFinalStandStorage("appearancePresets", nil)
+end
+
+--- Deletes Final Stand appearance presets in storage when new non-Final Stand set of mercs created in AccountStorage.
+function OnMsg.EnterSector()
+    if IsFinalStand() then
+        return
+    end
+
+    local team = table.find_value(g_Teams, "control", "UI")
+
+    if not team or not team.units then
+        return
+    end
+
+    SaveFinalStandStorage("appearancePresets", nil)
 end

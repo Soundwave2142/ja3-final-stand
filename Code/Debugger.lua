@@ -6,20 +6,15 @@ end
 --- ====================================================================================================
 --- New Game / Loading Game
 --- ====================================================================================================
-function OnMsg.FinalStandUIInserted()
-    print("Final Stand: UI elements inserted")
-end
-
-function OnMsg.FinalStandUIInserted()
-    print("Final Stand: UI elements removed")
-end
-
 function OnMsg.NewGame(game)
     if not IsFinalStandDebugger() then
         return
     end
 
-    print("Final Stand: New game values loaded:", game.FinalStand)
+    print("Final Stand: New game values loaded. Values are:")
+    for key, value in pairs(game.FinalStand) do
+        print(key, ':', value)
+    end
 end
 
 function OnMsg.CampaignStarted()
@@ -91,5 +86,5 @@ function OnMsg.FinalStandCampaignEnding()
         return
     end
 
-    print("Final Stand: Game ended, playing finale. Game Config:", Game.FinalStand)
+    print("Final Stand: Game ended, playing finale.")
 end
