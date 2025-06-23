@@ -30,7 +30,7 @@ end
 --- @return boolean
 function IsFinalStand(campaignId)
     local isFinalStandChecks = {}
-    Msg('isFinalStand', isFinalStandChecks, campaignId)
+    Msg("isFinalStand", isFinalStandChecks, campaignId)
 
     for _, check in pairs(isFinalStandChecks) do
         if check == true then
@@ -74,11 +74,12 @@ function GetFinalStandConfig()
         return FinalStandConfigs[Game.FinalStand.config]
     end
 
-    for _, config in pairs(FinalStandConfigs) do
+    local allConfigs = GetSortedCollection(FinalStandConfigs)
+    for _, config in ipairs(allConfigs) do
         return config
     end
 
-    return FinalStandConfigDef
+    return nil
 end
 
 --- Get FinalStandConfig value, some values need to be taken from Game.FinalStand object
@@ -156,10 +157,12 @@ end
 
 --- @param asObject boolean
 --- @return (string|FinalStandSectorDef|table)
-function GetFinalStandSector(asObject)
+function GetFinalStandSector(asObject, asFinalStandObject)
     local sector = GetFinalStandConfigValue('sector')
 
-    if asObject then
+    if asObject and asFinalStandObject then
+        return FinalStandSectors[sector]
+    elseif asObject then
         sector = FinalStandSectors[sector].Sector
         return gv_Sectors[sector]
     end
@@ -247,6 +250,8 @@ function GetFinalStandMaxWaves()
     return false
 end
 
+--- @param waveNumber (number|nil)
+--- @return boolean
 function HasFinalStandWaveScheduled(waveNumber)
     if not Game or not Game.FinalStand then
         return
@@ -261,6 +266,8 @@ function HasFinalStandWaveScheduled(waveNumber)
     return correctWaveNumber and Game.FinalStand.scheduledStand > Game.CampaignTime
 end
 
+--- @param waveNumber (number|nil)
+--- @return boolean
 function HasFinalStandWaveStarted(waveNumber)
     if not Game or not Game.FinalStand then
         return
@@ -275,6 +282,8 @@ function HasFinalStandWaveStarted(waveNumber)
     return correctWaveNumber and Game.FinalStand.currentWaveStarted
 end
 
+--- @param waveNumber number
+--- @return boolean
 function HasFinalStandWaveEnded(waveNumber)
     if not Game or not Game.FinalStand then
         return

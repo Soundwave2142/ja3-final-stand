@@ -21,7 +21,7 @@ return PlaceObj('ModDef', {
 	'id', "FinalStand",
 	'author', "Soundwave2142",
 	'version_minor', 90,
-	'version', 838,
+	'version', 880,
 	'lua_revision', 233360,
 	'saved_with_revision', 366685,
 	'code', {
@@ -46,8 +46,8 @@ return PlaceObj('ModDef', {
 	},
 	'default_options', {},
 	'has_data', true,
-	'saved', 1750243589,
-	'code_hash', -3123396842428282970,
+	'saved', 1750615002,
+	'code_hash', 2722384372853249336,
 	'affected_resources', {
 		PlaceObj('ModResourcePreset', {
 			'Class', "CampaignPreset",
@@ -283,6 +283,11 @@ return PlaceObj('ModDef', {
 			'Class', "FinalStandLengthDef",
 			'Id', "SevenWaves",
 			'ClassDisplayName', "Final Stand Length",
+		}),
+		PlaceObj('ModResourcePreset', {
+			'Class', "LootDef",
+			'Id', "FinalStandWaveLoot",
+			'ClassDisplayName', "Loot definition",
 		}),
 		PlaceObj('ModResourcePreset', {
 			'Class', "QuestsDef",

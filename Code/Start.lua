@@ -15,34 +15,6 @@ if FirstLoad then
     end
 end
 
---- @return boolean
-function IsFinalStandSelectedInMainMenu()
-    return CampaignPresets[NewGameObj.campaignId]:ResolveValue('IsFinalStand')
-end
-
---- @param mode string
---- @param mode_param table(?)
---- @param old_mode string
-function OnMsg:DialogSetMode(mode, mode_param, old_mode)
-    if mode == 'newgame02' and old_mode == 'newgame01' and IsFinalStandSelectedInMainMenu() then
-        Msg('FinalStandSelected', NewGameObj)
-    end
-end
-
---- @param newGameObj table
-function OnMsg.FinalStandSelected(newGameObj)
-    newGameObj.campaign_name = 'Final Stand'
-
-    local campaign = CampaignPresets[newGameObj.campaignId]
-    FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
-end
-
---- @param parent table
---- @param config FinalStandConfigDef
-function OnMsg.PreGameMenuFinalStandConfigChanged(parent, config)
-    FinalStandMainMenuUIHandler:HandleConfigChanged(parent, config)
-end
-
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandMainMenuUIHandler
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -57,7 +29,7 @@ DefineClass.FinalStandMainMenuUIHandler = {
 
 --- @param templateId string
 function FinalStandMainMenuUIHandler:InsertIntoNewGame(templateId)
-    Msg('FinalStandBeforeUIInsert', templateId)
+    Msg("FinalStandBeforeUIInsert", templateId)
 
     local _, parent1, idx1 = UIFindControl("MainMenu", { __template = "NewGameMenuGameRules" })
 
@@ -135,6 +107,34 @@ function FinalStandMainMenuUIHandler:EnsureCorrectOptionsAreChecked(parent)
             end
         end
     end
+end
+
+--- @return boolean
+function IsFinalStandSelectedInMainMenu()
+    return CampaignPresets[NewGameObj.campaignId]:ResolveValue('IsFinalStand')
+end
+
+--- @param mode string
+--- @param mode_param table(?)
+--- @param old_mode string
+function OnMsg:DialogSetMode(mode, mode_param, old_mode)
+    if mode == 'newgame02' and old_mode == 'newgame01' and IsFinalStandSelectedInMainMenu() then
+        Msg("FinalStandSelected", NewGameObj)
+    end
+end
+
+--- @param newGameObj table
+function OnMsg.FinalStandSelected(newGameObj)
+    newGameObj.campaign_name = 'Final Stand'
+
+    local campaign = CampaignPresets[newGameObj.campaignId]
+    FinalStandConfigurator:EnsureDefaultsAreAssigned(campaign, newGameObj)
+end
+
+--- @param parent table
+--- @param config FinalStandConfigDef
+function OnMsg.PreGameMenuFinalStandConfigChanged(parent, config)
+    FinalStandMainMenuUIHandler:HandleConfigChanged(parent, config)
 end
 
 --- @param game table
@@ -269,72 +269,28 @@ function FinalStandConfigurator:ResetPerWaveFlags(config)
     Msg("FinalStandGamePerWaveFlagsReset", config)
 end
 
+--- Give out starting gear
 function OnMsg.StartSatelliteGameplay()
-    if not IsFinalStand() then
+    if not IsFinalStand() or Game.FinalStand.starterGearGiven then
         return
     end
 
-    FinalStandStarterGearGenerator:GiveStarterGear()
-end
+    local lootDefs = {}
 
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
---- @class FinalStandStarterGearGenerator
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DefineClass.FinalStandStarterGearGenerator = {}
+    GetFinalStandSector(true, true):AppendStartingEquipmentToList(lootDefs)
+    GetFinalStandLength(true):AppendStartingEquipmentToList(lootDefs)
+    GetFinalStandFriendlyFaction(true):AppendStartingEquipmentToList(lootDefs)
+    GetFinalStandEnemyFaction(true):AppendStartingEquipmentToList(lootDefs)
 
-function FinalStandStarterGearGenerator:GiveStarterGear()
-    if Game.FinalStand.starterGearGiven then
-        return;
-    end
-
-    local lootDefs = self:GatherLootDefs()
-
-    for _, lootDef in ipairs(lootDefs) do
-        local items = {}
-        lootDef:GenerateLoot(nil, {}, InteractionRand(nil, "FinalStandStartingGear"), items)
-
-        local squadsOnMap = GetSquadsOnMap("references")
-
-        for _, squad in ipairs(squadsOnMap) do
-            AddItemsToSquadBag(squad.UniqueId, items)
-
-            for _, unit in ipairs(squad.units) do
-                if #items > 0 then
-                    unit = gv_UnitData[unit]
-                    unit:AddItemsToInventory(items)
-                end
-            end
-        end
-
-        if #items > 0 then
-            local stash = GetFinalStandSectorStash()
-
-            if stash then
-                AddItemsToInventory(stash, items, true)
-            end
-        end
-    end
+    Msg("FinalStandStarterLoot", lootDefs)
+    FinalStandRewardProvider:GiveLootDefs(lootDefs, "FinalStandStartingGear")
 
     Game.FinalStand.starterGearGiven = true
 end
 
---- @return table
-function FinalStandStarterGearGenerator:GatherLootDefs()
-    local lootDefIds = {}
-
-    GetFinalStandFriendlyFaction(true):AppendStartingEquipmentToList(lootDefIds)
-    GetFinalStandEnemyFaction(true):AppendStartingEquipmentToList(lootDefIds)
-
-    local lootDefs = {}
-
-    for _, lootDefId in ipairs(lootDefIds) do
-        if LootDefs[lootDefId] then
-            lootDefs[#lootDefs + 1] = LootDefs[lootDefId]
-        end
-    end
-
-    return lootDefs
-end
+--- ===================================================================================================================
+--- Override AIM popup logic
+--- ===================================================================================================================
 
 local BasePremiumPopupLogic = PremiumPopupLogic
 

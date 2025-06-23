@@ -1,8 +1,10 @@
 --- ===================================================================================================================
---- Responsible for all ending related functionality.
----
 --- @author Soundwave2142
 --- ===================================================================================================================
+
+local ShowFinalChancePopup = false
+local ShowPostGameVictoryPopup = false
+local ShowPostGameFailurePopup = false
 
 --- If on conflict end player does not control the sector:
 --- A) Initiate Final Chance.
@@ -16,18 +18,10 @@ function OnMsg.ConflictEnd()
         return
     end
 
-    if not FinalStandFinale:IsFinalChance() then
+    if not FinalStandFinale:IsFinalChance() and FinalStandFinale:CanStartFinalChance() then
         FinalStandFinale:StartFinalChance()
     else
         FinalStandFinale:StartGameOver()
-    end
-end
-
---- If player opens SatView and has previously entered Final Chance, then show popup but only once per Final Chance.
-function OnMsg.StartSatelliteGameplay()
-    if FinalStandFinale:IsFinalChance() and not Game.FinalStand.finalChancePopup then
-        CreateRealTimeThread(FinalStandFinale.ShowFinalChancePopup)
-        Game.FinalStand.finalChancePopup = true
     end
 end
 
@@ -57,9 +51,10 @@ function FinalStandFinale:PlayOutro()
 
     Sleep(2000)
 
-    local duration = ReadDurationFromText(_InternalTranslate(self.OutroMsg))
+    local text = GetFinalStandLengthValue("endVictoryText") or self.OutroMsg
+    local duration = ReadDurationFromText(_InternalTranslate(text))
 
-    g_DisclaimerSplashScreen = SplashText(self.OutroMsg, "DisclaimerOnStart", 600, 1500, duration * 4)
+    g_DisclaimerSplashScreen = SplashText(text, "DisclaimerOnStart", 600, 1500, duration * 4)
     g_DisclaimerSplashScreen:SetMouseCursor("UI/Cursors/Hand.tga")
 
     local res = g_DisclaimerSplashScreen:Wait()
@@ -67,12 +62,36 @@ function FinalStandFinale:PlayOutro()
 
     Msg("CampaignEnd", "FinalStand")
 
+    ShowPostGameVictoryPopup = true
     CloseDialog(dlg)
     OpenPreGameMainMenu()
 end
 
+--- @return boolean
+function FinalStandFinale:IsFinalChance()
+    return Game.FinalStand.finalChance
+end
+
+--- @return boolean
+function FinalStandFinale:CanStartFinalChance()
+    -- GetMercPrice(unitData, 1)
+end
+
 function FinalStandFinale:StartFinalChance()
+    ShowFinalChancePopup = true
     Game.FinalStand.finalChance = true
+end
+
+--- If player opens SatView and has previously entered Final Chance, then show popup but only once per Final Chance.
+function OnMsg.StartSatelliteGameplay()
+    if not IsFinalStand() then
+        return
+    end
+
+    if FinalStandFinale:IsFinalChance() and ShowFinalChancePopup then
+        CreateRealTimeThread(FinalStandFinale.ShowFinalChancePopup)
+        ShowFinalChancePopup = false
+    end
 end
 
 function FinalStandFinale:ShowFinalChancePopup()
@@ -87,10 +106,6 @@ function FinalStandFinale:ShowFinalChancePopup()
             "This is your <em>Last Chance</em>, gather all your resources and create a new squad. Take that sector back at all cost!")
     )
     dlg:Wait()
-end
-
-function FinalStandFinale:IsFinalChance()
-    return Game.FinalStand.finalChance
 end
 
 function FinalStandFinale:StartGameOver()
@@ -111,9 +126,10 @@ function FinalStandFinale:PlayGameOverOutro()
 
     Sleep(2000)
 
-    local duration = ReadDurationFromText(_InternalTranslate(self.GameOverMsg))
+    local text = GetFinalStandLengthValue("endFailureText") or self.OutroMsg
+    local duration = ReadDurationFromText(_InternalTranslate(text))
 
-    g_DisclaimerSplashScreen = SplashText(self.GameOverMsg, "DisclaimerOnStart", 600, 1500, duration * 4)
+    g_DisclaimerSplashScreen = SplashText(text, "DisclaimerOnStart", 600, 1500, duration * 4)
     g_DisclaimerSplashScreen:SetMouseCursor("UI/Cursors/Hand.tga")
 
     local res = g_DisclaimerSplashScreen:Wait()
@@ -121,6 +137,32 @@ function FinalStandFinale:PlayGameOverOutro()
 
     Msg("CampaignEnd", "FinalStand")
 
+    ShowPostGameFailurePopup = true
     CloseDialog(dlg)
     OpenPreGameMainMenu()
+end
+
+function OnMsg.PreGameMenuOpen()
+    if ShowPostGameVictoryPopup or ShowPostGameFailurePopup then
+        if not CanYield() then
+            CreateRealTimeThread(FinalStandFinale.ShowPostGamePopup, ShowPostGameVictoryPopup)
+        end
+
+        ShowPostGameVictoryPopup = false
+        ShowPostGameFailurePopup = false
+    end
+end
+
+--- @param isSuccess boolean
+function FinalStandFinale:ShowPostGamePopup(isSuccess)
+    local dlg = GetPreGameMainMenu()
+
+    if dlg then
+        local title = T(214200009905, "Final Stand Game Completed!")
+        local text = isSuccess
+            and T(214200009906, "It would be greatly appreciated if you liked the mod")
+            or T(214200009907, "You might have failed, but do not give up, try again!")
+
+        WaitMessage(dlg, title, text, T(6900, "OK"))
+    end
 end

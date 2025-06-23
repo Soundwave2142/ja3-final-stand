@@ -1,22 +1,26 @@
 --- ===================================================================================================================
---- This file holds defs and functions for the editor. Based on these defs Appearance.lua generates presets for
---- characters to use.
----
 --- @author Soundwave2142
 --- ===================================================================================================================
 
-local function GetEntityClassInherits(entity_class, skip_none, filter)
-    local inherits = ClassLeafDescendantsList(entity_class, function(class)
+--- @param entityClass string
+--- @param skipNone boolean
+--- @param filter function
+--- @return table
+local function GetEntityClassInherits(entityClass, skipNone, filter)
+    local inherits = ClassLeafDescendantsList(entityClass, function(class)
         return not table.find(filter, class)
     end)
 
-    if not skip_none then
+    if not skipNone then
         table.insert(inherits, 1, "")
     end
 
     return inherits
 end
 
+--- @param part string
+--- @param gender string
+--- @return table
 function GetFinalStandAttirePoolItems(part, gender)
     return GetEntityClassInherits(part .. gender)
 end
@@ -65,16 +69,16 @@ DefineClass.FinalStandAttirePoolDef = {
             editor = "combo",
             default = "",
             items = function(self) return PresetGroupCombo("MercSpecializations", "Default") end,
+            help = "Will limit this attire pool to particular Merc Specialization"
         },
         {
             category = "Limits",
-            id = "ChanceToRollForHead",
-            name = "Chance to roll for head item",
-            editor = "number",
-            default = 0,
-            scale = "%",
-            min = 0,
-            max = 100
+            id = "Tier",
+            name = "Tier",
+            editor = "combo",
+            default = "",
+            items = function(self) return PresetGroupCombo("MercTiers", "Default") end,
+            help = "Will limit this attire pool to particular Merc Tier"
         },
         -- Group - Attire - Head
         {
@@ -170,6 +174,25 @@ DefineClass.FinalStandAttirePoolDef = {
     Documentation = "Creates a attire definition to be used in factions for Final Stand game-mode.",
 }
 
+--- @param unitSpecialization string
+--- @param unitTier string
+--- @return boolean
+function FinalStandAttirePoolDef:IsPoolAllowed(unitSpecialization, unitTier)
+    local allowedSpecialization = self:ResolveValue('Specialization')
+    local allowedTier = self:ResolveValue('Tier')
+
+    local allowedBySpecialization = allowedSpecialization == '' or allowedSpecialization == unitSpecialization
+    local allowedByTier = allowedTier == '' or allowedTier == unitTier
+
+    return allowedBySpecialization and allowedByTier
+end
+
+--- @param unit table
+--- @return boolean
+function FinalStandAttirePoolDef:IsPoolAllowedForUnit(unit)
+    return self:IsPoolAllowed(unit.Specialization, unit.Tier)
+end
+
 DefineModItemPreset(
     "FinalStandAttirePoolDef",
     { EditorName = "Final Stand Attire Pool", EditorSubmenu = "Final Stand" }
@@ -208,6 +231,20 @@ DefineClass.FinalStandAttirePoolItem = {
         }
     }
 }
+
+--- @param gender string
+--- @return boolean
+function FinalStandAttirePoolItem:IsItemAllowed(gender)
+    local allowedGender = self:ResolveValue('Gender')
+
+    return allowedGender == '' or allowedGender == gender
+end
+
+--- @param unit table
+--- @return boolean
+function FinalStandAttirePoolItem:IsItemAllowedForUnit(unit)
+    return self:IsItemAllowed(unit:GetGender())
+end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandAttirePoolHat

@@ -1,6 +1,4 @@
 --- ===================================================================================================================
---- Holds all faction related definitions for the editor.
----
 --- @author Soundwave2142
 --- ===================================================================================================================
 
@@ -13,7 +11,8 @@ DefineClass.FinalStandFactionDef = {
         "DisplayPreset",
         "FinalStandConfigSpecificPreset",
         "FinalStandModifiersAwarePreset",
-        "FinalStandStarterLootAwarePreset"
+        "FinalStandStarterLootAwarePreset",
+        "FinalStandWaveLootAwarePreset"
     },
     __generated_by_class = "PresetDef",
 
@@ -83,7 +82,88 @@ DefineClass.FinalStandFriendlyFactionDef = {
             editor = "nested_list",
             default = false,
             base_class = "FinalStandFactionAttireSelector",
-        }
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHat",
+            name = "Roll for Hat chance",
+            editor = "number",
+            default = 80,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHat2",
+            name = "Roll for Hat 2 chance",
+            editor = "number",
+            default = 60,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHead",
+            name = "Roll for Head chance",
+            editor = "number",
+            default = 50,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForBody",
+            name = "Roll for Body chance",
+            editor = "number",
+            default = 100,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForShirt",
+            name = "Roll for Shirt chance",
+            editor = "number",
+            default = 100,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForArmor",
+            name = "Roll for Armor chance",
+            editor = "number",
+            default = 60,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForChest",
+            name = "Roll for Chest chance",
+            editor = "number",
+            default = 80,
+            scale = "%",
+            help = "Defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForPants",
+            name = "Roll for Pants chance",
+            editor = "number",
+            default = 100,
+            scale = "%",
+            help = "From 0 to 100, defines a chance for this item to be rolled upon attire generation."
+        },
+        {
+            category = "Attire",
+            id = "AttireChanceToRollForHip",
+            name = "Roll for Pants chance",
+            editor = "number",
+            default = 80,
+            scale = "%",
+            help = "From 0 to 100, defines a chance for this item to be rolled upon attire generation."
+        },
     },
 
     HasGroups = false,
@@ -151,6 +231,7 @@ DefineClass.FinalStandEnemyFactionDef = {
     __parents = { "FinalStandFactionDef" },
     __generated_by_class = "PresetDef",
 
+    -- TODO: power based
     properties = {
         {
             id = "Squads",
@@ -182,7 +263,7 @@ DefineClass.FinalStandEnemyFactionDef = {
 
 --- @return (string|void)
 function FinalStandEnemyFactionDef:GetError()
-    if #self:ResolveValue('Squads') == 0 then
+    if #self:ResolveValue('Squads') < 1 then
         return "Specify at least one squad"
     end
 end

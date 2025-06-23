@@ -49,7 +49,7 @@ return {
 			OpenAIMAndSelectMerc()
 			g_PDALoadingFlavor = true
 		end,
-		InitialSector = "L8",
+		InitialSector = "H4",
 		Initialize = function (self)
 			AllowRevealSectors({ "H4", "I9", "L8", "D7", "D17" })
 		end,
@@ -211,7 +211,7 @@ return {
 		underground_file = "UI/SatelliteView/SatView_Underground",
 	}),
 	PlaceObj('ModItemFinalStandConfigDef', {
-		AimGoldPrice = 5000,
+		AimGoldPrice = 4000,
 		NameColor = 4292643868,
 		Parameters = {
 			PlaceObj('PresetParamPercent', {
@@ -260,6 +260,7 @@ return {
 				param_bindings = false,
 			}),
 		},
+		statSystemPerRollCooldown = 4,
 	}),
 	PlaceObj('ModItemFolder', {
 		'name', "Friendly Factions",
@@ -267,7 +268,7 @@ return {
 		PlaceObj('ModItemFinalStandFriendlyFactionDef', {
 			AttireHead = {},
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -323,7 +324,7 @@ return {
 				}),
 			},
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -452,7 +453,7 @@ return {
 				}),
 			},
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -732,7 +733,7 @@ return {
 				}),
 			},
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -860,7 +861,7 @@ return {
 				}),
 			},
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -982,7 +983,7 @@ return {
 				}),
 			},
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -1076,7 +1077,7 @@ return {
 				}),
 			},
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -4133,7 +4134,7 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -4147,7 +4148,7 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -4163,7 +4164,7 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -4179,7 +4180,7 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -4196,7 +4197,7 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandSectorDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
@@ -4217,12 +4218,15 @@ return {
 	}, {
 		PlaceObj('ModItemFinalStandLengthDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
 			NameColor = 4291018156,
 			SortKey = 10,
+			WaveEquipment = {
+				"FinalStandWaveLoot",
+			},
 			description = T(469065984286, --[[ModItemFinalStandLengthDef ThreeWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you wish for the full experience, it is recommended to <em>choose 7 waves</em>."),
 			display_name = T(400364955478, --[[ModItemFinalStandLengthDef ThreeWaves display_name]] "3 Waves"),
 			display_name_caps = T(442614194967, --[[ModItemFinalStandLengthDef ThreeWaves display_name_caps]] "3 WAVES"),
@@ -4231,12 +4235,15 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandLengthDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
 			NameColor = 4291018156,
 			SortKey = 20,
+			WaveEquipment = {
+				"FinalStandWaveLoot",
+			},
 			description = T(286294288316, --[[ModItemFinalStandLengthDef FiveWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves. If you wish for the full experience, it is recommended to <em>choose 7 waves</em>."),
 			display_name = T(845045912590, --[[ModItemFinalStandLengthDef FiveWaves display_name]] "5 Waves"),
 			display_name_caps = T(329343893497, --[[ModItemFinalStandLengthDef FiveWaves display_name_caps]] "5 WAVES"),
@@ -4246,18 +4253,65 @@ return {
 		}),
 		PlaceObj('ModItemFinalStandLengthDef', {
 			FinalStandConfigs = {
-				PlaceObj('FinalStandConfigSelect', {
+				PlaceObj('FinalStandConfigSelector', {
 					'Config', "Default",
 				}),
 			},
 			NameColor = 4291018156,
 			SortKey = 30,
+			WaveEquipment = {
+				"FinalStandWaveLoot",
+			},
 			description = T(367987529496, --[[ModItemFinalStandLengthDef SevenWaves description]] "Survival <maxWaves> waves in order to win.<newline><newline><em>Attention:</em> The game is balanced around the amount of waves, this is the <em>recommended</em>, full experience of the game-mode."),
 			display_name = T(880015722679, --[[ModItemFinalStandLengthDef SevenWaves display_name]] "7 Waves"),
 			display_name_caps = T(467155438678, --[[ModItemFinalStandLengthDef SevenWaves display_name_caps]] "7 WAVES"),
 			group = "Default",
 			id = "SevenWaves",
 			maxWaves = 7,
+		}),
+		PlaceObj('ModItemLootDef', {
+			group = "Default",
+			id = "FinalStandWaveLoot",
+			PlaceObj('LootEntryInventoryItem', {
+				drop_chance_mod = 50,
+				generate_chance = 50,
+				item = "TinyDiamonds",
+				stack_max = 2,
+				stack_min = 1,
+			}),
+			PlaceObj('LootEntryInventoryItem', {
+				guaranteed = true,
+				item = "Meds",
+				stack_max = 20,
+				stack_min = 10,
+			}),
+			PlaceObj('LootEntryInventoryItem', {
+				guaranteed = true,
+				item = "Parts",
+				stack_max = 40,
+				stack_min = 30,
+			}),
+			PlaceObj('LootEntryInventoryItem', {
+				drop_chance_mod = 300,
+				generate_chance = 15,
+				item = "Microchip",
+				stack_max = 2,
+				stack_min = 1,
+			}),
+			PlaceObj('LootEntryInventoryItem', {
+				drop_chance_mod = 500,
+				generate_chance = 25,
+				item = "OpticalLens",
+				stack_max = 2,
+				stack_min = 1,
+			}),
+			PlaceObj('LootEntryInventoryItem', {
+				drop_chance_mod = 700,
+				generate_chance = 35,
+				item = "FineSteelPipe",
+				stack_max = 3,
+				stack_min = 1,
+			}),
 		}),
 		}),
 	PlaceObj('ModItemFolder', {

@@ -1,6 +1,4 @@
 --- ===================================================================================================================
---- Holds campaign effects.
----
 --- @author Soundwave2142
 --- ===================================================================================================================
 
@@ -103,7 +101,7 @@ PlaceObj('SatelliteTimelineEventDef', {
 local SharePresetsWithBase = { SectorOperation = true }
 local BaseForEachPresetInCampaign = ForEachPresetInCampaign
 
---- Overriden to make the game detect vanilla operations.
+--- @OVERRIDE to make the game detect vanilla operations.
 --- @param class string
 --- @param func function
 function ForEachPresetInCampaign(class, func, ...)

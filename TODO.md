@@ -5,24 +5,24 @@
 ---
 ## TO DO:
 #### 1.00
-- Final Stand wave and description is now also shown in quests.
-- Scrapping weapons provides all possible parts + more scrap.
-- Training mercs provide more points to the stat, mercs naturally get stats faster.
-- Broader Spawn Zones + More Spawn Zones.
-- Scouting the sector will reveal the enemies for the next wave, scouting takes more time.
+- V Give a little bit of supplies on wave completion.
+- ~ Final Stand wave and description is now also shown in quests.
+- ~ Training mercs provide more points to the stat, mercs naturally get stats faster.
+- V Broader Spawn Zones + More Spawn Zones.
+- V Remove map switch points.
 - End the game if player has entered Last Chance with not sufficient funds to hire any mercs.
 - Rework appearance changer class (better hip/chest attachables offset for females).
-- Rework extendability support.
+- ~ Rework extendability support.
 - Prepare guide on extendability.
 #### 1.10
-- Give a little bit of supplies on wave completion.
 - Legion Player Faction, Militia Enemy Faction.
+- Scouting the sector will reveal the enemies for the next wave, scouting takes more time.
 - Fix Translations IDs + Translate to other languages.
 
 ---
 ## IDEAS:
+- Scrapping weapons provides all possible parts + more scrap.
 - Add unique main menu map.
-- Mercs wear their cloth in main menu.
 - Add rest of Enemy Factions as Playable (Legion, Adonis, Army, Super Soldiers).
 - Add Boss Enemies for each faction.
 - New Faction PMC (M.E.R.C?).

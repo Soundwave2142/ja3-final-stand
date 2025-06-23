@@ -1,23 +1,31 @@
 # Final Stand
 
-# 1.00  - 20.06.2025
+# 1.00 - 20.06.2025
 
 ### Description
 
 ### Detailed Changes
 
 ###### New Features
-- Added Final Stand quest-line that will note player's different actions such as entering _Last Chance_ or loosing mercs for each wave.
-- Reworked behind-the-scenes structure of entities to support extensions.
+- Added ability for Mercs to wear their faction attire in main menu if last played campaign was Final Stand.
+- ~ Added Final Stand quest-line that will note player's different actions such as entering _Last Chance_ or loosing mercs for each wave.
+- ~ Added own system for stat gaining, units will now get stats more often.
+- ~ Added basic supplies (parts, meds, components) as a reward for completing a wave.
+- ~ Added post-game "thank you" popup.
+- ~ Reworked behind-the-scenes structure of entities to support extensions.
 
-_This was a lot of work with not a lot to show, but completely necessary in order achieve my vision of allowing anyone to create their Final Stand experiences._
+_Reworking stracture was a lot of work with not a lot to show, but completely necessary in order achieve my vision of allowing anyone to create their Final Stand experiences._
 
 ###### Balance Changes
-- Reduced price of A.I.M. Gold from 7500$ to 5000$.
+- Reduced price of A.I.M. Gold from 7500$ to 4000$.
+- ~ Reduced price of Smiley,
+- Increased defender deployment zones for all Sectors.
 
 ###### Bug Fixes
+- Fixed an issue where player could leave sector by interacting with a "waypoint" poles.
+- ~ Fixed an issue where appearance of a merc could be reverted back to default on knife throw.
 
-# 0.90  - 15.06.2025
+# 0.90 - 15.06.2025
 
 ### Description
 This patch overall is focused on a player having better footing upon starting a new game and makes the gamemode feel more natural with better flow.

@@ -2240,15 +2240,6 @@ PlaceObj('Collection', {
 	'Index', 935,
 }, nil, 1898546381)
 SetNextSyncHandle(2000000001)
-PlaceObj('ExitZoneInteractable', {
-	'Pos', point(111021, 129047),
-	'Angle', 5400,
-	'Groups', {
-		"West",
-	},
-	'AllowedMask', 4294966497,
-	'entity', "TravelMarker_04",
-}, nil, 1508197539)
 PlaceObj('GridMarker', {
 	'Pos', point(112200, 130200),
 	'Groups', {
@@ -3236,6 +3227,25 @@ PlaceObj('WaypointMarker', {
 		}),
 	},
 }, nil, 1057838663)
+PlaceObj('GridMarker', {
+	'Pos', point(153000, 161400, 42000),
+	'Groups', {
+		"CourtyardEnemies",
+		"CourtyardDefender",
+	},
+	'AllowedMask', 4294966497,
+	'Type', "Defender",
+	'AreaWidth', 22,
+	'AreaHeight', 33,
+	'EnabledConditions', {
+		PlaceObj('QuestIsVariableBool', {
+			QuestId = "04_Betrayal",
+			Vars = set({
+	TriggerWorldFlip = false,
+}),
+		}),
+	},
+}, nil, 1158531544)
 PlaceObj('WaypointMarker', {
 	'Pos', point(154200, 161400),
 	'Groups', {
@@ -3252,25 +3262,6 @@ PlaceObj('WaypointMarker', {
 		}),
 	},
 }, nil, 1720237037)
-PlaceObj('GridMarker', {
-	'Pos', point(155400, 162600, 42000),
-	'Groups', {
-		"CourtyardEnemies",
-		"CourtyardDefender",
-	},
-	'AllowedMask', 4294966497,
-	'Type', "Defender",
-	'AreaWidth', 15,
-	'AreaHeight', 15,
-	'EnabledConditions', {
-		PlaceObj('QuestIsVariableBool', {
-			QuestId = "04_Betrayal",
-			Vars = set({
-	TriggerWorldFlip = false,
-}),
-		}),
-	},
-}, nil, 1158531544)
 PlaceObj('GridMarker', {
 	'Pos', point(159000, 155400),
 	'Groups', {
@@ -4624,6 +4615,24 @@ PlaceObj('GridMarker', {
 	'FightArea3d', true,
 }, nil, 1448599101)
 PlaceObj('GridMarker', {
+	'Pos', point(178200, 168600, 44100),
+	'Groups', {
+		"FortDefender",
+	},
+	'AllowedMask', 4294966497,
+	'Type', "Defender",
+	'AreaWidth', 20,
+	'AreaHeight', 25,
+	'EnabledConditions', {
+		PlaceObj('QuestIsVariableBool', {
+			QuestId = "04_Betrayal",
+			Vars = set({
+	TriggerWorldFlip = false,
+}),
+		}),
+	},
+}, nil, 1478401806)
+PlaceObj('GridMarker', {
 	'Pos', point(178200, 169800, 51800),
 	'Groups', {
 		"Adonis",
@@ -4789,24 +4798,6 @@ PlaceObj('GridMarker', {
 		"Marksman",
 	},
 }, nil, 1503663774)
-PlaceObj('GridMarker', {
-	'Pos', point(180600, 169800, 44100),
-	'Groups', {
-		"FortDefender",
-	},
-	'AllowedMask', 4294966497,
-	'Type', "Defender",
-	'AreaWidth', 16,
-	'AreaHeight', 16,
-	'EnabledConditions', {
-		PlaceObj('QuestIsVariableBool', {
-			QuestId = "04_Betrayal",
-			Vars = set({
-	TriggerWorldFlip = false,
-}),
-		}),
-	},
-}, nil, 1478401806)
 PlaceObj('WaypointMarker', {
 	'Pos', point(186600, 166200),
 	'Groups', {

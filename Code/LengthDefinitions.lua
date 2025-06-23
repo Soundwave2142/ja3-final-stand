@@ -50,17 +50,47 @@ DefineClass.FinalStandLengthDef = {
         "MsgReactionsPreset",
         "DisplayPreset",
         "FinalStandConfigSpecificPreset",
-        "FinalStandModifiersAwarePreset"
+        "FinalStandModifiersAwarePreset",
+        "FinalStandStarterLootAwarePreset",
+        "FinalStandWaveLootAwarePreset"
     },
     __generated_by_class = "PresetDef",
 
     properties = {
+        {
+            category = "General",
+            id = "endVictoryText",
+            name = "End Victory Text",
+            editor = "text",
+            default = false,
+            translate = true,
+            lines = 3,
+            max_lines = 20,
+        },
+        {
+            category = "General",
+            id = "endFailureText",
+            name = "End Failure Text",
+            editor = "text",
+            default = false,
+            translate = true,
+            lines = 3,
+            max_lines = 20,
+        },
         {
             category = "Length",
             id = "maxWaves",
             name = "Waves",
             editor = "number",
             default = 3
+        },
+        {
+            category = "Length",
+            id = "tierModifier",
+            name = "BobbyRays's Tier Modifier",
+            editor = "number",
+            default = 1,
+            help = "Defines by how much BobbyRay's tier will be increased each wave."
         },
     },
 
@@ -88,9 +118,12 @@ function FinalStandLengthDef:GetError()
         return "Wave amount needs to be bigger than 1"
     end
 
-    if maxWaves > 100 then
-        return "You cannot define more than 100 waves"
+    if maxWaves > 255 then
+        return "You cannot define more than 255 waves"
     end
 end
 
-DefineModItemPreset("FinalStandLengthDef", { EditorName = "Final Stand Length", EditorSubmenu = "Final Stand" })
+DefineModItemPreset(
+    "FinalStandLengthDef",
+    { EditorName = "Final Stand Length", EditorSubmenu = "Final Stand" }
+)

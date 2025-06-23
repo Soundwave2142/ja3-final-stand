@@ -11,20 +11,6 @@
 		type = "InventoryItemSpawn",
 	},
 	{
-		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_IlleMorat",
-		},
-		Groups = {
-			"AmbietLife_North",
-		},
-		handle = 1040227347,
-		map = "FinalStandD17",
-		name = "AmbientZone#347 (AmbietLife_North)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
-	},
-	{
 		BanterTriggerEffects = {
 			PlaceObj('PlayBanterEffect', {
 				Banters = {
@@ -98,20 +84,6 @@
 		name = "Position#165 (Overheard_Civilian)",
 		path = "Position ",
 		type = "Position",
-	},
-	{
-		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_IlleMorat",
-		},
-		Groups = {
-			"AmbietLife_Trashpit",
-		},
-		handle = 1120387543,
-		map = "FinalStandD17",
-		name = "AmbientZone#543 (AmbietLife_Trashpit)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
 	},
 	{
 		BanterTriggerEffects = {
@@ -510,19 +482,5 @@
 		name = 'CustomInteractable#779 "Buy Gunpowder for $300"',
 		path = "CustomInteractable ",
 		type = "CustomInteractable",
-	},
-	{
-		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_IlleMorat",
-		},
-		Groups = {
-			"AmbietLife_Shacks",
-		},
-		handle = 1890051478,
-		map = "FinalStandD17",
-		name = "AmbientZone#478 (AmbietLife_Shacks)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
 	},
 }

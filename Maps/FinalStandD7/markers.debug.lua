@@ -118,48 +118,6 @@
 	},
 	{
 		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_Pantagruel",
-		},
-		Groups = {
-			"AL_RedLights",
-		},
-		handle = 1112550129,
-		map = "FinalStandD7",
-		name = "AmbientZone#129 (AL_RedLights)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
-	},
-	{
-		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_Pantagruel",
-		},
-		Groups = {
-			"AL_TestZone",
-		},
-		handle = 1114804448,
-		map = "FinalStandD7",
-		name = "AmbientZone#448 (AL_TestZone)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
-	},
-	{
-		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_Pantagruel",
-		},
-		Groups = {
-			"AL_Square",
-		},
-		handle = 1163028035,
-		map = "FinalStandD7",
-		name = "AmbientZone#035 (AL_Square)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
-	},
-	{
-		BanterGroups = {
 			"SharedOverheard_Civilians",
 		},
 		Groups = {
@@ -248,20 +206,6 @@
 		name = 'CustomInteractable#886 "Examine"',
 		path = "CustomInteractable ",
 		type = "CustomInteractable",
-	},
-	{
-		BanterGroups = {
-			"Banters_Civilians",
-			"Banters_Local_Pantagruel",
-		},
-		Groups = {
-			"AL_RedLights",
-		},
-		handle = 1589065312,
-		map = "FinalStandD7",
-		name = "AmbientZone#312 (AL_RedLights)",
-		path = "AmbientZone ",
-		type = "AmbientZone",
 	},
 	{
 		BanterGroups = {

@@ -8,7 +8,7 @@
 AppendClass.CampaignPreset = {
     properties = {
         {
-            category = "FinalStand",
+            category = "Final Stand",
             id = 'IsFinalStand',
             name = "Is Final Stand",
             editor = "bool",
@@ -73,14 +73,15 @@ DefineClass.FinalStandCampaignSpecific = {
 --- @return (string|boolean)
 function FinalStandCampaignSpecific:GetError()
     if not self:ResolveValue('Campaign') then
-        return "Specify Final Stand Config"
+        return "Specify Final Stand Campaign"
     end
 end
 
+--- @param campaignId string
 --- @return boolean
-function FinalStandCampaignSpecific:IsRelatedToCampaign(campaign)
+function FinalStandCampaignSpecific:IsRelatedToCampaign(campaignId)
     local presetCampaign = self:ResolveValue('Campaign')
-    return presetCampaign == "<all>" or presetCampaign == campaign
+    return presetCampaign == "<all>" or presetCampaign == campaignId
 end
 
 --- @return boolean
@@ -107,7 +108,7 @@ AppendClass.UnitProperties = {
 
 local BaseIsMetAIMMerc = IsMetAIMMerc
 
---- Overriden in order to hide duplicated+altered versions of Secret Mercs for FS in Non-FS campaigns.
+--- @OVERRIDE in order to hide duplicated+altered versions of Secret Mercs for FS in Non-FS campaigns.
 --- @param merc table
 function IsMetAIMMerc(merc)
     local showMerc = BaseIsMetAIMMerc(merc)

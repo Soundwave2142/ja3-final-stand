@@ -50,7 +50,9 @@ DefineClass.FinalStandSectorDef = {
         "MsgReactionsPreset",
         "DisplayPreset",
         "FinalStandConfigSpecificPreset",
-        "FinalStandModifiersAwarePreset"
+        "FinalStandModifiersAwarePreset",
+        "FinalStandStarterLootAwarePreset",
+        "FinalStandWaveLootAwarePreset"
     },
     __generated_by_class = "PresetDef",
 

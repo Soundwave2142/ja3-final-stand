@@ -7074,15 +7074,6 @@ PlaceObj('SalvageMarker', {
 	'range_in_tiles', 1,
 	'Difficulty', "Medium",
 }, nil, 1496861742)
-PlaceObj('ExitZoneInteractable', {
-	'Pos', point(93671, 157284),
-	'Angle', 5400,
-	'Groups', {
-		"West",
-	},
-	'AllowedMask', 4294966497,
-	'entity', "TravelMarker_03",
-}, nil, 1782250955)
 PlaceObj('GridMarker', {
 	'Pos', point(96600, 157800),
 	'Groups', {
@@ -7183,20 +7174,23 @@ PlaceObj('WaypointMarker', {
 	'AllowedMask', 4294966497,
 	'ID', "1",
 }, nil, 1355507417)
+PlaceObj('GridMarker', {
+	'Pos', point(130200, 172200, 9100),
+	'Groups', {
+		"Defender Spawn Zone",
+	},
+	'AllowedMask', 4294966497,
+	'Type', "Defender",
+	'ID', "2",
+	'AreaWidth', 36,
+	'AreaHeight', 52,
+}, nil, 1085818952)
 PlaceObj('HerbMarker', {
 	'Pos', point(126600, 187800),
 	'CollectionIndex', 588,
 	'AllowedMask', 4294966497,
 	'range_in_tiles', 1,
 }, nil, 1253821098)
-PlaceObj('ExitZoneInteractable', {
-	'Pos', point(121745, 212838),
-	'Groups', {
-		"South",
-	},
-	'AllowedMask', 4294966497,
-	'entity', "TravelMarker_01",
-}, nil, 1088887563)
 PlaceObj('GridMarker', {
 	'Pos', point(125400, 211800),
 	'Angle', 16200,
@@ -7208,15 +7202,6 @@ PlaceObj('GridMarker', {
 	'AreaWidth', 22,
 	'AreaHeight', 6,
 }, nil, 1080142175)
-PlaceObj('ExitZoneInteractable', {
-	'Pos', point(145709, 113241),
-	'Angle', 10800,
-	'Groups', {
-		"North",
-	},
-	'AllowedMask', 4294966497,
-	'entity', "TravelMarker_08",
-}, nil, 1034082477)
 PlaceObj('GridMarker', {
 	'Pos', point(142200, 115800),
 	'Angle', 5400,
@@ -7262,6 +7247,17 @@ PlaceObj('ContainerMarker', {
 		}),
 	},
 }, nil, 512483328)
+PlaceObj('GridMarker', {
+	'Pos', point(141000, 137400, 9100),
+	'Groups', {
+		"Defender Spawn Zone",
+	},
+	'AllowedMask', 4294966497,
+	'Type', "Defender",
+	'ID', "1",
+	'AreaWidth', 18,
+	'AreaHeight', 6,
+}, nil, 1640165157)
 PlaceObj('GridMarker', {
 	'Pos', point(136200, 163800),
 	'AllowedMask', 4294966497,
@@ -7357,13 +7353,6 @@ PlaceObj('HackMarker', {
 	'AllowedMask', 4294966497,
 	'range_in_tiles', 1,
 }, nil, 1110299816)
-PlaceObj('GridMarker', {
-	'Pos', point(142200, 173400, 14000),
-	'AllowedMask', 4294966497,
-	'Type', "Defender",
-	'AreaWidth', 10,
-	'AreaHeight', 10,
-}, nil, 1085818952)
 PlaceObj('ContainerMarker', {
 	'Pos', point(137400, 180600, 9800),
 	'Angle', 5400,
@@ -7468,15 +7457,6 @@ PlaceObj('GridMarker', {
 	'AreaWidth', 5,
 	'AreaHeight', 10,
 }, nil, 1477896616)
-PlaceObj('ExitZoneInteractable', {
-	'Pos', point(171000, 148200),
-	'Angle', 16200,
-	'Groups', {
-		"East",
-	},
-	'AllowedMask', 4294966497,
-	'entity', "TravelMarker_06",
-}, nil, 1397778171)
 -- end of objects of class GridMarker
 PlaceObj('TropicalPlant_04_Tree_01', {
 	'Pos', point(31863, 32004),
@@ -92570,7 +92550,7 @@ p("TropicalPlant_Flowers_01",110602,187712,9100,19641,88,96,4033,2097477)
 p("TropicalPlant_Grass_04",111951,187317,893,120,2436,2097412)
 p("TropicalPlant_Grass_04",112621,187008,4376,120,2436,2097412)
 p("TropicalPlant_Flowers_01",111631,187799,9100,6158,95,96,4033,2097477)
-p("TropicalPlant_Grass_04",113300,185727,16679,120,2436,2097412)
+p("TropicalPlant_Grass_04",113272,185729,16679,120,2436,2097412)
 p("TropicalPlant_Grass_04",113381,186340,5214,120,2436,2097412)
 p("TropicalPlant_Grass_04",113829,184376,1443,120,2436,2097412)
 p("TropicalPlant_Grass_04",113670,184882,19683,120,2436,2097412)

@@ -3,10 +3,43 @@
 --- ===================================================================================================================
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandConfigSelector
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandConfigSelector = {
+    __parents = { "PropertyObject" },
+    __generated_by_class = "ClassDef",
+
+    properties = {
+        {
+            category = "General",
+            id = "Config",
+            name = "Config",
+            editor = "preset_id",
+            default = false,
+            template = true,
+            preset_class = "FinalStandConfigDef",
+        }
+    },
+
+    EditorView = Untranslated("<Config>"),
+}
+
+--- @return (string|void)
+function FinalStandConfigSelector:GetError()
+    if not self:ResolveValue('Config') then
+        return "Specify Final Stand Config"
+    end
+end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandConfigDef
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 DefineClass.FinalStandConfigDef = {
-    __parents = { "FinalStandCampaignSpecific", "MsgReactionsPreset", "DisplayPreset" },
+    __parents = {
+        "FinalStandCampaignSpecific",
+        "MsgReactionsPreset",
+        "DisplayPreset"
+    },
     __generated_by_class = "PresetDef",
 
     properties = {
@@ -114,7 +147,43 @@ DefineClass.FinalStandConfigDef = {
             "Money reward will additionally be increased on current loyalty. Calculated before loyalty reward given to the player.",
             editor = "bool",
             default = true
-        }
+        },
+        {
+            category = "Rewards",
+            id = "loyaltyIncreasesXP",
+            name = "Loyalty Increases XP",
+            help =
+            "XP reward will additionally be increased on current loyalty. Calculated before loyalty reward given to the player.",
+            editor = "bool",
+            default = true
+        },
+        {
+            category = "Merc Stats Gaining System",
+            id = "statSystemUseFinalStand",
+            name = "Use Final Stand Stat System",
+            help =
+            "If ticked, stat gaining system will be calculated differently from the base game.",
+            editor = "bool",
+            default = true
+        },
+        {
+            category = "Merc Stats Gaining System",
+            id = "statSystemPerRollCooldown",
+            name = "Per Roll Cooldown",
+            help =
+            "Amount of successful rolls that will be ignored until finally granting the stat gain.",
+            editor = "number",
+            default = 5
+        },
+        {
+            category = "Merc Stats Gaining System",
+            id = "statSystemPerWaveMax",
+            name = "Per Wave Limit",
+            help =
+            "Amount of times stat can be gained per wave.",
+            editor = "number",
+            default = 10
+        },
     },
 
     HasGroups = false,
@@ -153,12 +222,14 @@ function FinalStandConfigDef:GetError()
     end
 end
 
+--- @return boolean
 function FinalStandConfigDef:IsValidConfig()
     return not self:GetError()
 end
 
 --- @param class string
 --- @param asObjects boolean
+--- @param configPropertyName string
 --- @return table
 function FinalStandConfigDef:GetAllRelated(class, asObjects, configPropertyName)
     local items = {}
@@ -169,23 +240,21 @@ function FinalStandConfigDef:GetAllRelated(class, asObjects, configPropertyName)
         end
     end, self.id)
 
-    local relations = self:ResolveValue(configPropertyName)
+    if configPropertyName then
+        local relations = self:ResolveValue(configPropertyName)
 
-    if relations and #relations > 0 then
-        for _, relation in pairs(relations) do
-            local related = relation:GetSelectorValue(asObjects)
+        if relations and #relations > 0 then
+            for _, relation in pairs(relations) do
+                local related = relation:GetSelectorValue(asObjects)
 
-            if related then
-                items[#items + 1] = relation:GetSelectorValue(asObjects)
+                if related then
+                    items[#items + 1] = relation:GetSelectorValue(asObjects)
+                end
             end
         end
     end
 
-    if asObjects then
-        return GetSortedCollection(items)
-    end
-
-    return items
+    return asObjects and GetSortedCollection(items) or items
 end
 
 --- @param asObjects boolean
@@ -212,7 +281,10 @@ function FinalStandConfigDef:GetAllEnemyFactions(asObjects)
     return self:GetAllRelated("FinalStandEnemyFactionDef", asObjects, "EnemyFactions")
 end
 
-DefineModItemPreset("FinalStandConfigDef", { EditorName = "Final Stand Config", EditorSubmenu = "Final Stand" })
+DefineModItemPreset(
+    "FinalStandConfigDef",
+    { EditorName = "Final Stand Config", EditorSubmenu = "Final Stand" }
+)
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 --- @class FinalStandConfigSpecificPreset
@@ -224,11 +296,11 @@ DefineClass.FinalStandConfigSpecificPreset = {
     properties = {
         {
             category = "General",
-            id = 'FinalStandConfigs',
+            id = "FinalStandConfigs",
             name = "Configs",
             editor = "nested_list",
             default = false,
-            base_class = "FinalStandConfigSelect",
+            base_class = "FinalStandConfigSelector",
             help = "Defines to which Final Stand configs this preset belongs to"
         },
     },
@@ -236,19 +308,20 @@ DefineClass.FinalStandConfigSpecificPreset = {
 
 --- @return (string|void)
 function FinalStandConfigSpecificPreset:GetError()
-    local configs = self:ResolveValue('FinalStandConfigs')
+    local configs = self:ResolveValue("FinalStandConfigs")
 
     if #configs < 1 then
         return "At least one Final Stand Config is required"
     end
 end
 
+--- @param configId string
 --- @return boolean
-function FinalStandConfigSpecificPreset:IsRelatedToConfig(config)
-    local configs = self:ResolveValue('FinalStandConfigs')
+function FinalStandConfigSpecificPreset:IsRelatedToConfig(configId)
+    local configs = self:ResolveValue("FinalStandConfigs")
 
     for _, supportedConfig in pairs(configs) do
-        if config == supportedConfig:ResolveValue('Config') then
+        if configId == supportedConfig:ResolveValue("Config") then
             return true
         end
     end
@@ -258,36 +331,13 @@ end
 
 --- @return boolean
 function FinalStandConfigSpecificPreset:IsRelatedToCurrentConfig()
-    return self:IsRelatedToConfig(GetFinalStandConfig().id)
-end
+    local config = GetFinalStandConfig()
 
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
---- @class FinalStandConfigSelect
---- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-DefineClass.FinalStandConfigSelect = {
-    __parents = { "PropertyObject" },
-    __generated_by_class = "ClassDef",
-
-    properties = {
-        {
-            category = "General",
-            id = "Config",
-            name = "Config",
-            editor = "preset_id",
-            default = false,
-            template = true,
-            preset_class = "FinalStandConfigDef",
-        }
-    },
-
-    EditorView = Untranslated("<Config>"),
-}
-
---- @return (string|void)
-function FinalStandConfigSelect:GetError()
-    if not self:ResolveValue('Config') then
-        return "Specify Final Stand Config"
+    if not config then
+        return false
     end
+
+    return self:IsRelatedToConfig(config.id)
 end
 
 --- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -340,7 +390,7 @@ DefineClass.FinalStandStarterLootAwarePreset = {
             editor = "combo",
             default = "All",
             items = function(self) return { "All", "Random" } end,
-            help = "Full list or random loot def from the list will be provided to player"
+            help = "Full list or random loot def from the list will be provided to player."
         },
         {
             category = "Equipment",
@@ -352,7 +402,7 @@ DefineClass.FinalStandStarterLootAwarePreset = {
             editor_preview = true,
             preset_class = "LootDef",
             item_default = "",
-            help = "Will be generated for player squad upon start of the game if player is fighting this faction"
+            help = "Will be generated for player squad upon start of the game."
         }
     }
 }
@@ -362,15 +412,79 @@ function FinalStandStarterLootAwarePreset:AppendStartingEquipmentToList(list)
     local startingEquipment = self:ResolveValue('StartingEquipment')
     local startingEquipmentGenMethod = self:ResolveValue('StartingEquipmentGeneration')
 
-    if #startingEquipment == 0 then
+    if #startingEquipment < 1 then
         return
     end
 
     if startingEquipmentGenMethod == "Random" then
-        list[#list + 1] = startingEquipment[math.random(#startingEquipment)]
+        local randomEquipmentId = startingEquipment[math.random(#startingEquipment)]
+
+        if LootDefs[randomEquipmentId] then
+            list[#list + 1] = LootDefs[randomEquipmentId]
+        end
     else
         for _, startingEquipmentItem in ipairs(startingEquipment) do
-            list[#list + 1] = startingEquipmentItem
+            if LootDefs[startingEquipmentItem] then
+                list[#list + 1] = LootDefs[startingEquipmentItem]
+            end
         end
     end
 end
+
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+--- @class FinalStandWaveLootAwarePreset
+--- ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+DefineClass.FinalStandWaveLootAwarePreset = {
+    __parents = { "Preset", },
+    __generated_by_class = "PresetDef",
+
+    properties = {
+        {
+            category = "Equipment",
+            id = "WaveEquipmentGeneration",
+            name = "Wave Completion Equipment Generation",
+            editor = "combo",
+            default = "All",
+            items = function(self) return { "All", "Random" } end,
+            help = "Full list or random loot def from the list will be provided to player."
+        },
+        {
+            category = "Equipment",
+            id = "WaveEquipment",
+            name = "Wave Completion Equipment",
+            editor = "preset_id_list",
+            default = {},
+            template = true,
+            editor_preview = true,
+            preset_class = "LootDef",
+            item_default = "",
+            help = "Will be generated for player upon beating a wave."
+        }
+    }
+}
+
+--- @param list table
+function FinalStandWaveLootAwarePreset:AppendWaveEquipmentToList(list)
+    local waveEquipment = self:ResolveValue('WaveEquipment')
+    local waveEquipmentGenMethod = self:ResolveValue('WaveEquipmentGeneration')
+
+    if #waveEquipment < 1 then
+        return
+    end
+
+    if waveEquipmentGenMethod == "Random" then
+        local randomEquipmentId = waveEquipment[math.random(#waveEquipment)]
+
+        if LootDefs[randomEquipmentId] then
+            list[#list + 1] = LootDefs[randomEquipmentId]
+        end
+    else
+        for _, waveEquipmentItem in ipairs(waveEquipment) do
+            if LootDefs[waveEquipmentItem] then
+                list[#list + 1] = LootDefs[waveEquipmentItem]
+            end
+        end
+    end
+end
+
+-- TODO: add FinalStandQuestLine with priority to trigger different quests depending on chose settings
